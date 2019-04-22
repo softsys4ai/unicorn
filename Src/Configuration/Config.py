@@ -1,0 +1,103 @@
+#!/usr/bin/python
+sys_id_dict={
+                 "64": "TK1",
+                 "33": "TX1",
+                 "24": "TX2"
+    }
+sys_id_file="/sys/module/tegra_fuse/parameters/tegra_chip_id"
+mode={"core_status":True,
+                "core_frequency":True,
+                "gpu_status":True,
+                "gpu_frequency":True,
+                "emc_status":True,
+                "emc_frequency":True,
+                "power_state":False,
+                "fan_control":False
+}
+systems={
+                  "TX1":{
+                         "cpu":
+                               {
+                                "cores":
+                                        {
+                                         "core0":"cpu0",
+                                         "core1":"cpu1",
+                                         "core2":"cpu2",
+                                         "core3":"cpu3"
+                                },
+                                "frequency":
+                                           {
+                                            "available":"/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies"
+                                }
+                         },
+                         "gpu":{
+                                "frequency":{
+                                             "available":"/sys/kernel/debug/clock/gbus/possible_rates",
+                                             "current":"/sys/kernel/debug/clock/gbus/rate"
+                                },
+                                "status":"/sys/kernel/debug/clock/gbus/state"
+                         },
+                         "emc":{
+                                "frequency":{
+                                             "available":"/sys/kernel/debug/clock/emc/possible_rates",
+                                             "current":"/sys/kernel/debug/clock/emc/rate"
+                                },
+                                "status":"/sys/kernel/debug/clock/emc/state"
+                         },
+                         "power_state":{},
+                         "fan":{},
+                         "power":{
+                                  "total":"/sys/devices/platform/7000c400.i2c/i2c-1/1-0040/iio_device/in_power0_input",
+                                  "gpu":"/sys/devices/platform/7000c400.i2c/i2c-1/1-0040/iio_device/in_power1_input",
+                                  "cpu":"/sys/devices/platform/7000c400.i2c/i2c-1/1-0040/iio_device/in_power2_input"
+                         }
+                         
+                  },
+                  "TX2":{
+                         "cpu":
+                               {
+                                "cores":
+                                        {
+                                         "core0":"cpu0",
+                                         "core1":"cpu3",
+                                         "core2":"cpu4",
+                                         "core3":"cpu5"
+                                },
+                                "frequency":
+                                           {
+                                            "available":"/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies"
+                                }
+                         },
+                         "gpu":{
+                                "frequency":{
+                                             "available":"/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/available_frequencies",
+                                             "current":"/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/cur_freq"
+                                },
+                                "status":"/sys/kernel/debug/bpmp/debug/clk/gpu/state"
+                         },
+                         "emc":{
+                                "frequency":{
+                                             "available":"/sys/kernel/debug/bpmp/debug/emc/possible_rates",
+                                             "current":"/sys/kernel/debug/clk/emc/clk_rate"
+                                },
+                                "status":"/sys/kernel/debug/bpmp/debug/clk/emc/state"
+                         },
+                         "power_state":{},
+                         "fan":{},
+                         "power":{
+                                  "total":"/sys/devices/3160000.i2c/i2c-0/0-0040/iio:device0/in_power0_input",
+                                  "gpu":"/sys/devices/3160000.i2c/i2c-0/0-0040/iio:device0/in_power1_input",
+                                  "cpu":"/sys/devices/3160000.i2c/i2c-0/0-0040/iio:device0/in_power2_input"
+                         }
+                         
+                  }
+}
+log_dir="/Logs/"
+util_dir="/Utils/"
+input_dir="/Data/Input/TestData/"
+tx1_output_dir="/Data/Output/TX1/"
+tx2_output_dir="/Data/Output/TX2/"
+tx1_config_file="/TX1/Params.py"
+tx2_config_file="/TX2/Params.py"
+tx2_invalid_file="/TX2/"  
+tx1_config_file="/TX2/"    
