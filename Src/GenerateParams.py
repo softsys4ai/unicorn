@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os 
 import sys
+import json
 import commands
 import itertools 
 import subprocess
@@ -14,6 +15,7 @@ from Configuration import Config as cfg
 from TuneKernelParameters import TuneKernelParameters
 from ComputePerformance import ComputePerformance
 
+
 class GenerateParams(object):
     """This class is used to generate parameters for running inference
     """
@@ -25,7 +27,7 @@ class GenerateParams(object):
         self.perf_obj=Perf()
         self.tkp=TuneKernelParameters()
         self.KERNEL_PARAMS=self.tkp.get_kernel_params()
-        print self.KERNEL_PARAMS
+        
         # constants
         self.ENABLE="1"
         self.DISABLE="0"
@@ -34,6 +36,17 @@ class GenerateParams(object):
         # determine current system
         self.sys_name=self.get_sys_name()
         self.logger.info("[SYSTEM ID]: {0}".format(self.sys_name))
+        self.columns=["core0_status",
+                      "core1_status",
+                      "core2_status",
+                      "core3_status",
+                      "core_freq",
+                      "gpu_status",
+                      "gpu_freq",
+                      "emc_status",
+                      "emc_freq",              
+                      "inference_time",
+                      "energy_consumption"]
         
         # get list of big cores 
         self.big_cores=cfg.systems[self.sys_name]["cpu"]["cores"]
@@ -42,17 +55,15 @@ class GenerateParams(object):
                 from TX1.Params import params
                 self.params=params
                 self.output_file=os.getcwd()+cfg.tx1_output_dir
-                self.file_name_output=self.output_file+"output_"+".csv"
-                self.file_name_conf=self.output_file+"output_conf_"+exp_id+".csv"
-                self.file_name_invalid=self.output_file+"invalid_config_"+exp_id+".csv"
+                self.file_name_output=self.output_file+"output_"+str(exp_id)+".csv"
+                self.file_name_invalid=self.output_file+"invalid_config_"+str(exp_id)+".csv"
             
             elif self.sys_name=="TX2":
                 from TX2.Params import params
                 self.params=params
                 self.output_file=os.getcwd()+cfg.tx2_output_dir
-                self.file_name_output=self.output_file+"output_"+".csv"
-                self.file_name_conf=self.output_file+"output_conf_"+exp_id+".csv"
-                self.file_name_invalid=self.output_file+"invalid_config_"+exp_id+".csv"
+                self.file_name_output=self.output_file+"output_"+str(exp_id)+".csv"
+                self.file_name_invalid=self.output_file+"invalid_config_"+str(exp_id)+".csv"
              
             else:
                 return
@@ -73,45 +84,7 @@ class GenerateParams(object):
             # generate all possible combinations 
             self.generate_params_combination()
             self.get_valid_params()
-        
-            
-        # output data for single config
-        self.df=pd.DataFrame(columns=(
-                                      "model_name",
-                                      "sample",
-                                      "size",
-                                      "system_name",
-                                      "config_name",
-                                      "core0_status",
-                                      "core1_status",
-                                      "core2_status",
-                                      "core3_status",
-                                      "core_freq",
-                                      "gpu_status",
-                                      "gpu_freq",
-                                      "emc_status",
-                                      "emc_freq",              
-                                      "inference_time",
-                                      "power_consumption"))
-        
-        # output data for single config
-        self.dfc=pd.DataFrame(columns=(
-                                      "model_name",
-                                      "sample",
-                                      "size",
-                                      "system_name",
-                                      "config_name",
-                                      "core0_status",
-                                      "core1_status",
-                                      "core2_status",
-                                      "core3_status",
-                                      "core_freq",
-                                      "gpu_status",
-                                      "gpu_freq",
-                                      "emc_status",
-                                      "emc_freq",   
-                                      "mean_inference_time",
-                                      "mean_power_consumption"))       
+             
         # set config 
         for conf in xrange(0,len(self.params)):                             
             cur_conf=self.params[conf]
@@ -121,21 +94,23 @@ class GenerateParams(object):
                          cur_conf,
                          self.sys_name,
                          self.big_cores)
-            """
-            # output param initialization
-            cur_conf_inference_time=[ _ for _ in xrange(self.NUM_TEST)]
-            cur_conf_power=[ _ for _ in xrange(self.NUM_TEST)]                            
+            """                         
             for iteration in xrange(self.NUM_TEST):
-                os.system('/usr/src/linux-headers-4.4.38-tegra/tools/perf/perf stat -e block:*,ext4:*,sched:* -o cur python /home/nvidia/Shahriar/ASE2019/KernelConfig/Src/ComputePerformance.py')
+                os.system('/usr/src/linux-headers-4.4.38-tegra/tools/perf/perf stat -e block:*,ext4:*,sched:*,cycles,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,context-switches,migrations,page-faults,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses -o cur python /home/nvidia/Shahriar/ASE2019/KernelConfig/Src/ComputePerformance.py')
                 perf_output=self.perf_obj.parse_perf()    
-                print perf_output   
-            # build output dataframe
-           
+                with open ('measurement','r') as f:
+                    data=json.load(f)
+                cur=cur_conf[:]
+                cur.append(data['cur_inference'])
+                cur.append(data['cur_power'])
+                self.df=pd.DataFrame(np.array(cur).reshape(1,11))
+                self.df.columns=self.columns
+                self.df=self.df.join(self.KERNEL_PARAMS)
+                self.df=self.df.join(perf_output)
+                self.df.to_csv(self.file_name_output, header=False,mode="a")
+                        
             break
                                   
-        self.df.to_csv(self.file_name_output, header=False,mode="a")
-        self.dfc.to_csv(self.file_name_conf, header=False, mode="a")
- 
     def get_sys_name(self):
         """This function is used to determine the system id
         @returns: 

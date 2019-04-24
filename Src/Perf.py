@@ -1,5 +1,6 @@
 import os
-import sys 
+import sys
+import pandas as pd 
 
 class Perf:
     """This class is used to perform Perf parsing
@@ -27,6 +28,7 @@ class Perf:
                     processed_output[line].append(elem)
         
         for line in processed_output:
-            perf_output[line[self.EVENT]]=line[self.VALUE]
+            perf_output[line[self.EVENT]]=[line[self.VALUE]]
+            
         
-        return perf_output
+        return pd.DataFrame(perf_output)

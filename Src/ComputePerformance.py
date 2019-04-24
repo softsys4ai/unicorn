@@ -73,7 +73,7 @@ class ComputePerformance(object):
         self.total_power=[int(i) if i is not None else 0 for i in self.total_power ]    
         self.total_power=np.sum(self.total_power)
         output={'cur_power':self.total_power,
-                'cur_inferenece':self.inference_time}
+                'cur_inference':self.inference_time}
         
         with open('measurement','w') as f:
             json.dump(output,f)
