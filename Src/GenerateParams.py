@@ -84,19 +84,21 @@ class GenerateParams(object):
             # generate all possible combinations 
             self.generate_params_combination()
             self.get_valid_params()
-             
+        
+        self.params=self.random_config_select()   
+        
         # set config 
         for conf in xrange(0,len(self.params)):                             
             cur_conf=self.params[conf]
             cur_conf_name="{0}{1}".format("Config",conf)
-            """
+            
             ConfigParams(self.logger,
                          cur_conf,
                          self.sys_name,
                          self.big_cores)
-            """                         
+                                   
             for iteration in xrange(self.NUM_TEST):
-                os.system('/usr/src/linux-headers-4.4.38-tegra/tools/perf/perf stat -e block:*,ext4:*,sched:*,cycles,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,context-switches,migrations,page-faults,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses -o cur python /home/nvidia/Shahriar/ASE2019/KernelConfig/Src/ComputePerformance.py')
+                os.system('/usr/src/linux-headers-4.4.38-tegra/tools/perf/perf stat -e cycles,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,context-switches,migrations,page-faults,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,block:*,ext4:*,sched:* -o cur python /home/nvidia/Shahriar/ASE2019/KernelConfig/Src/ComputePerformance.py')
                 perf_output=self.perf_obj.parse_perf()    
                 with open ('measurement','r') as f:
                     data=json.load(f)
@@ -108,9 +110,15 @@ class GenerateParams(object):
                 self.df=self.df.join(self.KERNEL_PARAMS)
                 self.df=self.df.join(perf_output)
                 self.df.to_csv(self.file_name_output, header=False,mode="a")
-                        
-            break
-                                  
+                         
+    def random_config_select(self):
+        """This function is to select 800 configurations randomly
+        """
+        from random import randint
+        from operator import itemgetter
+        index=[randint(0,len(self.params)) for p in range(0,800)]
+        return itemgetter(*index)(self.params) 
+                                 
     def get_sys_name(self):
         """This function is used to determine the system id
         @returns: 

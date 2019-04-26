@@ -30,5 +30,4 @@ class Perf:
         for line in processed_output:
             perf_output[line[self.EVENT]]=[line[self.VALUE]]
             
-        
         return pd.DataFrame(perf_output)
