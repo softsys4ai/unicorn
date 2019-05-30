@@ -20,13 +20,14 @@ def process_input():
     '''
     options={}
     options['experiment_id']=raw_input('enter experiment id: ')
+    options['mode']=raw_input('enter experiment mode: ')
     options['software_system']=raw_input('select software system: ')
     # Deep Neural Network Systems
     if options['software_system']=='DNN':
        options['properties']={}
        options['properties']['model']=raw_input('select model: ')
        options['properties']['height']=input('select image height: ')
-       options['properties']['width']=input('select image height: ')
+       options['properties']['width']=input('select image width: ')
     
     return options
 
@@ -63,6 +64,7 @@ if __name__=='__main__':
     options=process_input()
     GP=GenerateParams(logger,
                       options['experiment_id'],
+                      options['mode']
                       )
    
               

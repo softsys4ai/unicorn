@@ -25,7 +25,7 @@ def process_input():
        options['properties']={}
        options['properties']['model']=raw_input('select model: ')
        options['properties']['height']=input('select image height: ')
-       options['properties']['width']=input('select image height: ')
+       options['properties']['width']=input('select image width: ')
     
     return options
 

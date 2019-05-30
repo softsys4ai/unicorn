@@ -46,12 +46,19 @@ class Workload(object):
                 self.preprocess=preprocess_input
                 self.model=Xception()
            
-             # inceptionv3
+            # inceptionv3
             elif self.model_name=="inceptionv3":
                 from keras.applications import InceptionV3
                 from keras.applications.inception_v3 import preprocess_input
                 self.preprocess=preprocess_input
                 self.model=InceptionV3()
+            
+            # mobilenetv2
+            elif self.model_name=="mobilenet":
+                from keras.applications.mobilenetv2 import MobileNetV2
+                from keras.applications.mobilenetv2 import preprocess_input
+                self.preprocess=preprocess_input
+                self.model=MobileNetV2()
             else:
                 self.logger.error("[ERROR]: invalid model")
                
