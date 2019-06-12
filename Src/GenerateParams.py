@@ -26,15 +26,13 @@ class GenerateParams(object):
                  mode):
         self.logger=logger
         self.logger.info("[STATUS]: Initializing GenerateParams Class")
-        self.perf_obj=Perf()
-        self.tkp=TuneKernelParameters()
-        self.KERNEL_PARAMS=self.tkp.get_kernel_params()
+        self.perf_obj=Perf()       
         self.exp_id=exp_id
         self.mode=mode
         # constants
         self.ENABLE="1"
         self.DISABLE="0"
-        self.NUM_TEST=5
+        self.NUM_TEST=3
         self.invalid_configs=[]
         # determine current system
         self.sys_name=self.get_sys_name()
@@ -49,13 +47,15 @@ class GenerateParams(object):
                       "emc_status",
                       "emc_freq",              
                       "inference_time",
-                      "energy_consumption",
-                      "cpu_utilization",
-                      "memory_utilization"]
-        self.cpu_util=random.randint(80,100)
-        self.mem_util=random.randint(10,60)
+                      "total_energy_consumption",
+                      "gpu_energy_consumption",
+                      "cpu_energy_consumption",
+                      "total_temp",
+                      "gpu_temp",
+                      "cpu_temp",
+                      "cpu_utilization"]
+        
         self.initialize()
-        self.params=self.random_config_select()
         if self.mode=="no-intervention": 
            self.run_experiment()
         else:
@@ -68,6 +68,7 @@ class GenerateParams(object):
         self.big_cores=cfg.systems[self.sys_name]["cpu"]["cores"]
         try:
             if self.sys_name=="TX1":
+                print 'TX1'
                 from TX1.Params import params
                 self.params=params
                 self.output_file=os.getcwd()+cfg.tx1_output_dir
@@ -75,13 +76,15 @@ class GenerateParams(object):
                 self.file_name_invalid=self.output_file+"invalid_config_"+str(self.exp_id)+".csv"
             
             elif self.sys_name=="TX2":
-                from TX2.Params import params
-                self.params=params
+                
+                from TX2.CausalConfig import configs
+                print 'TX2'
+                self.params=configs
                 self.output_file=os.getcwd()+cfg.tx2_output_dir
                 self.file_name_output=self.output_file+"output_"+str(self.exp_id)+".csv"
                 self.file_name_invalid=self.output_file+"invalid_config_"+str(self.exp_id)+".csv"
              
-            else:
+            else:              
                 return
         
         except ImportError:
@@ -105,7 +108,8 @@ class GenerateParams(object):
     def run_experiment(self):
         """This function is used to run experiments
         """
-        # set config 
+        # set config
+        
         for conf in xrange(0,len(self.params)):                             
             cur_conf=self.params[conf]
             cur_conf_name="{0}{1}".format("Config",conf)
@@ -114,24 +118,32 @@ class GenerateParams(object):
                          cur_conf,
                          self.sys_name,
                          self.big_cores)
-                                  
-            for iteration in xrange(self.NUM_TEST):
-                os.system('/usr/src/linux-headers-4.4.38-tegra/tools/perf/perf stat -e cycles,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,context-switches,migrations,page-faults,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,block:*,ext4:*,sched:* -o cur python /home/nvidia/Shahriar/ASE2019/KernelConfig/Src/ComputePerformance.py')
-                perf_output=self.perf_obj.parse_perf()    
-                with open ('measurement','r') as f:
-                    data=json.load(f)
-                cur=cur_conf[:]
-                cur.append(data['cur_inference'])
-                cur.append(data['cur_power'])
-                cur.append(self.cpu_util)
-                cur.append(self.mem_util)
-                self.df=pd.DataFrame(np.array(cur).reshape(1,13))
-                self.df.columns=self.columns
-                self.df=self.df.join(self.KERNEL_PARAMS)
-                self.df=self.df.join(perf_output)
-                self.df.to_csv(self.file_name_output, header=False,mode="a")
-                
-                               
+            
+            for k_counter in xrange(8):
+                self.tkp=TuneKernelParameters(k_counter)
+                self.KERNEL_PARAMS=self.tkp.get_kernel_params()
+                if self.mode=='no-intervention':
+                    self.cpu_util=random.randint(80,100)                   
+                for iteration in xrange(self.NUM_TEST):
+                    os.system('/usr/src/linux-headers-4.4.38-tegra/tools/perf/perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python /home/nvidia/Shahriar/ASE2019/KernelConfig/Src/ComputePerformance.py')
+                    perf_output=self.perf_obj.parse_perf()    
+                    with open ('measurement','r') as f:
+                        data=json.load(f)
+                    cur=cur_conf[:]
+                    cur.append(data['cur_inference'])
+                    cur.append(data['cur_total_power'])
+                    cur.append(data['cur_gpu_power'])
+                    cur.append(data['cur_cpu_power'])
+                    cur.append(data['cur_total_temp'])
+                    cur.append(data['cur_gpu_temp'])
+                    cur.append(data['cur_cpu_temp'])
+                    cur.append(self.cpu_util)
+                    self.df=pd.DataFrame(np.array(cur).reshape(1,17))
+                    self.df.columns=self.columns
+                    self.df=self.df.join(self.KERNEL_PARAMS)
+                    self.df=self.df.join(perf_output)
+                    self.df.to_csv(self.file_name_output, header=False,mode="a")
+                                                                                  
     def random_config_select(self):
         """This function is to select 400 configurations randomly
         """
@@ -266,7 +278,7 @@ class GenerateParams(object):
         self.params=list(itertools.product(status_var,self.params))
         for i in range(len(self.params)):
             self.params[i]=self.params[i][0]+self.params[i][1]
-        print (self.params)
+        
         
     def get_valid_params(self):
         """This function is used to extract the valid params from all the combination of params

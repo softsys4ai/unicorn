@@ -8,55 +8,19 @@ import pandas as pd
 class TuneKernelParameters(object):
     """This class is used to tune linux kernel parameters
     """
-    def __init__(self):
+    def __init__(self,
+                counter):
         print ("Initializing Tune Kernel Parameter Class")
-    
+        self.counter=counter
+        self.kernel_params={}
+        self.tune_io_scheduler_parameters()
+        self.tune_memory_subsystem_parameters()
     def get_kernel_params(self):
         """This function is used to get all kernel parameters include in experimental design
         """
-        kernel_params={'kernel.cpu_time_max_percent':[25],
-                       'kernel.random.read_wakeup_threshold':[64],
-                       'kernel.random.write_wakeup_threshold':[896],
-                       'kernel.sched_cfs_bandwith_slice_us':[5000],
-                       'kernel.sched_child_runs_first':[0],
-                       'kernel.sched_rr_timeslice_ms':[25],
-                       'kernel.sched_rt_period_us':[1000000],
-                       'kernel.sched_rt_runtime_us':[950000],
-                       'kernel.timer_migration':[1],
-                       'vm.block_dump':[0],
-                       'vm.compact_unevictable_allowed':[1],
-                       'vm.dirty_background_bytes':[0],
-                       'vm.dirty_background_ratio':[10],
-                       'vm.dirty_bytes':[0],
-                       'vm.dirty_expire_centisecs':[3000],
-                       'vm.dirty_ratio':[20],
-                       'vm.dirty_writeback_centisecs': [500],
-                       'vm.dirtytime_expire_seconds': [43200],
-                       'vm.drop_caches':[0],
-                       'vm.extfrag_threshold':[500],
-                       'vm.extra_free_kbytes':[0],
-                       'vm.lazy_vfree_pages':[8192],
-                       'vm.lazy_vfree_tlb_flush_all_threshold':[536870912],               
-                       'vm.max_map_count':[65530],
-                       'vm.min_free_kbytes':[11337],
-                       'vm.mmap_min_addr':[32768],
-                       'vm.nr_pdflush_threads':[0],
-                       'vm.oom_dump_tasks':[1],
-                       'vm.oom_kill_allocating_task':[0],
-                       'vm.overcommit_kbytes':[0],
-                       'vm.overcommit_memory':[0],
-                       'vm.overcommit_ratio':[50],
-                       'vm.page-cluster':[3],
-                       'vm.percpu_pagelist_fraction':[0],
-                       'vm.stat_interval':[1],
-                       'vm.swappiness': [60],
-                       'vm.user_reserve_kbytes':[1310],
-                       'vm.vfs_cache_pressure':[100]                    
-                       }
-       
-        return pd.DataFrame(kernel_params)
+        return pd.DataFrame(self.kernel_params)
         
-    def tune_io_scheduler_parameters(io_sched_param):
+    def tune_io_scheduler_parameters(self):
         """This function is used to tune io scheduler kernel parameters
         Parameters:
         ---------------------------------------------------------------
@@ -65,12 +29,12 @@ class TuneKernelParameters(object):
         1. CFQ
         2. NOOP           
         """
-        if io_sched_param=="cfq":
+        if self.counter % 2==0:
             os.system ("echo cfq > /sys/block/mmcblk0/queue/scheduler")
-        if io_sched_param=="noop":
-            os.system ("echo cfq > /sys/block/mmcblk0/queue/scheduler")
+        else:
+            os.system ("echo noop > /sys/block/mmcblk0/queue/scheduler")
     
-    def tune_task_scheduler_parameters():
+    def tune_task_scheduler_parameters(self):
         """This function is used to tune task scheduler kernel parameters
         ---------------------------------------------------------------
         | Task Scheduler:                                             |
@@ -94,17 +58,17 @@ class TuneKernelParameters(object):
         17. sched_time_avg_ms     
         """
     
-    def tune_block_device_parameters():
+    def tune_block_device_parameters(self):
         """This function is used to tune block device kernel parameters
         """
         print "tune block device params"
     
-    def tune_network_parameters():
+    def tune_network_parameters(self):
         """This function is used to tune io network kernel parameters
         """
         print "tune network params"
     
-    def tune_memory_subsystem_parameters():
+    def tune_memory_subsystem_parameters(self):
         """This function is used to tune io memory kernel parameters
          ---------------------------------------------------------------
         | Memory Subsystem:                                            |
@@ -119,7 +83,86 @@ class TuneKernelParameters(object):
         8. vm.dirty_bytes
         9. vm.dirty_expire_centisecs
         """
-        print "tune memory subsystem params"
+        ## 0-100 | 0-500
+        if self.counter==0:
+            os.system ("sysctl vm.swappiness=0")
+            self.kernel_params['vm.swappiness']=[0]
+            os.system ("sysctl vm.vfs_cache_pressure=100")
+            self.kernel_params['vm.vfs_cache_pressure']=[100]
+        if self.counter==1:
+            os.system ("sysctl vm.swappiness=0")
+            self.kernel_params['vm.swappiness']=[0]
+            os.system ("sysctl vm.vfs_cache_pressure=100")
+            self.kernel_params['vm.vfs_cache_pressure']=[100]
+        if self.counter==2:
+            os.system ("sysctl vm.swappiness=0")
+            self.kernel_params['vm.swappiness']=[0]
+            os.system ("sysctl vm.vfs_cache_pressure=500")
+            self.kernel_params['vm.vfs_cache_pressure']=[500]
+        if self.counter==3:
+            os.system ("sysctl vm.swappiness=0")
+            self.kernel_params['vm.swappiness']=[0]
+            os.system ("sysctl vm.vfs_cache_pressure=500")
+            self.kernel_params['vm.vfs_cache_pressure']=[500]
+        ## 60-100 | 60-500
+        if self.counter==4:
+            os.system ("sysctl vm.swappiness=60")
+            self.kernel_params['vm.swappiness']=[60]
+            os.system ("sysctl vm.vfs_cache_pressure=100")
+            self.kernel_params['vm.vfs_cache_pressure']=[100]
+        if self.counter==5:
+            os.system ("sysctl vm.swappiness=60")
+            self.kernel_params['vm.swappiness']=[60]
+            os.system ("sysctl vm.vfs_cache_pressure=100")
+            self.kernel_params['vm.vfs_cache_pressure']=[100]
+        if self.counter==6:
+            os.system ("sysctl vm.swappiness=60")
+            self.kernel_params['vm.swappiness']=[60]
+            os.system ("sysctl vm.vfs_cache_pressure=500")
+            self.kernel_params['vm.vfs_cache_pressure']=[500]
+        if self.counter==7:
+            os.system ("sysctl vm.swappiness=60")
+            self.kernel_params['vm.swappiness']=[60]
+            os.system ("sysctl vm.vfs_cache_pressure=500")
+            self.kernel_params['vm.vfs_cache_pressure']=[500]
+        ## 100-100 | 100-500
+        if self.counter==4:
+            os.system ("sysctl vm.swappiness=100")
+            self.kernel_params['vm.swappiness']=[100]
+            os.system ("sysctl vm.vfs_cache_pressure=100")
+            self.kernel_params['vm.vfs_cache_pressure']=[100]
+        if self.counter==5:
+            os.system ("sysctl vm.swappiness=1000")
+            self.kernel_params['vm.swappiness']=[100]
+            os.system ("sysctl vm.vfs_cache_pressure=100")
+            self.kernel_params['vm.vfs_cache_pressure']=[100]
+        if self.counter==6:
+            os.system ("sysctl vm.swappiness=100")
+            self.kernel_params['vm.swappiness']=[100]
+            os.system ("sysctl vm.vfs_cache_pressure=500")
+            self.kernel_params['vm.vfs_cache_pressure']=[500]
+        if self.counter==7:
+            os.system ("sysctl vm.swappiness==100")
+            self.kernel_params['vm.swappiness']=[100]
+            os.system ("sysctl vm.vfs_cache_pressure=500")
+            self.kernel_params['vm.vfs_cache_pressure']=[500]
+        
+        self.kernel_params['kernel.cpu_time_max_percent']=[25]
+        self.kernel_params['kernel.random.read_wakeup_threshold']=[64]
+        self.kernel_params['kernel.random.write_wakeup_threshold']=[896]
+        self.kernel_params['kernel.sched_cfs_bandwith_slice_us']=[5000]
+        self.kernel_params['kernel.sched_child_runs_first']=[0]
+        self.kernel_params['kernel.sched_rr_timeslice_ms']=[25]
+        self.kernel_params['kernel.sched_rt_period_us']=[1000000]
+        self.kernel_params['kernel.sched_rt_runtime_us']=[950000]
+        self.kernel_params['kernel.timer_migration']=[1]
+        self.kernel_params['scheduler.policy']=[self.counter % 2]
+        self.kernel_params['vm.dirty_background_bytes']=[0]
+        self.kernel_params['vm.dirty_background_ratio']=[10]
+        self.kernel_params['vm.dirty_bytes']=[0]
+        self.kernel_params['vm.drop_caches']=[0]                    
+                       
+        
 
 
 

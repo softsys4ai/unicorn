@@ -45,7 +45,7 @@ systems={
                                 "status":"/sys/kernel/debug/clock/emc/state"
                          },
                          "power_state":{},
-                         "fan":{},
+                         "temperature":{},
                          "power":{
                                   "total":"/sys/devices/platform/7000c400.i2c/i2c-1/1-0040/iio_device/in_power0_input",
                                   "gpu":"/sys/devices/platform/7000c400.i2c/i2c-1/1-0040/iio_device/in_power1_input",
@@ -83,11 +83,14 @@ systems={
                                 "status":"/sys/kernel/debug/bpmp/debug/clk/emc/state"
                          },
                          "power_state":{},
-                         "fan":{},
+                         "temperature":{
+                                  "total":"/sys/devices/virtual/thermal/thermal_zone5/temp",
+                                  "gpu":"/sys/devices/virtual/thermal/thermal_zone2/temp",
+                                  "cpu":"/sys/devices/virtual/thermal/thermal_zone1/temp"},
                          "power":{
-                                  "total":"/sys/devices/3160000.i2c/i2c-0/0-0040/iio:device0/in_power0_input",
-                                  "gpu":"/sys/devices/3160000.i2c/i2c-0/0-0040/iio:device0/in_power1_input",
-                                  "cpu":"/sys/devices/3160000.i2c/i2c-0/0-0040/iio:device0/in_power2_input"
+                                  "total":"/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power0_input",
+                                  "gpu":"/sys/bus/i2c/drivers/ina3221x/0-0040/iio:device0/in_power0_input",
+                                  "cpu":"/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power1_input",
                          }
                          
                   }

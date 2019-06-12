@@ -23,6 +23,11 @@ class ComputePerformance(object):
         self.cur_sys=self.get_sys_name()
         self.url='http://localhost:5000/api'
         self.total_power=list()
+        self.gpu_power=list()
+        self.cpu_power=list()
+        self.total_temp=list()
+        self.gpu_temp=list()
+        self.cpu_temp=list()
         
         # create scheduler
         job_defaults= {"coalesce":False,
@@ -31,7 +36,8 @@ class ComputePerformance(object):
         self.sched=BackgroundScheduler(job_defaults=job_defaults)
         # add background job
         self.sched.start()
-        self.sched.add_job(self.compute_power,"interval",seconds=.01)       
+        self.sched.add_job(self.compute_power,"interval",seconds=.05)
+        self.sched.add_job(self.compute_temp,"interval",seconds=.05)        
         # start        
         self.inference_time=self.compute_inference_time()
         # end
@@ -50,12 +56,31 @@ class ComputePerformance(object):
     def compute_power(self):
         """This function is used to read power consumption using from INA monitor 
         """
-        filename=cfg.systems[self.cur_sys]["power"]["total"]
+        tot=cfg.systems[self.cur_sys]["power"]["total"]
+        gpu=cfg.systems[self.cur_sys]["power"]["gpu"]
+        cpu=cfg.systems[self.cur_sys]["power"]["cpu"]
         try:
             
-            self.total_power.append(commands.getstatusoutput("cat {0}".format(filename))[1])
+            self.total_power.append(commands.getstatusoutput("cat {0}".format(tot))[1])
+            self.gpu_power.append(commands.getstatusoutput("cat {0}".format(gpu))[1])
+            self.cpu_power.append(commands.getstatusoutput("cat {0}".format(cpu))[1])
         except AttributeError:
             self.logger.error("[ERROR]: invalid power file ")
+    
+    def compute_temp(self):
+        """This function is used to read power consumption using from INA monitor 
+        """
+        tot=cfg.systems[self.cur_sys]["temperature"]["total"]
+        gpu=cfg.systems[self.cur_sys]["temperature"]["gpu"]
+        cpu=cfg.systems[self.cur_sys]["temperature"]["cpu"]
+        #try:
+            
+        self.total_temp.append(commands.getstatusoutput("cat {0}".format(tot))[1])
+        self.gpu_temp.append(commands.getstatusoutput("cat {0}".format(gpu))[1])
+        self.cpu_temp.append(commands.getstatusoutput("cat {0}".format(cpu))[1])
+            
+        #except AttributeError:
+        #    self.logger.error("[ERROR]: invalid temperature file ")
     
     def compute_inference_time(self):
         """This function is used to compute inference time
@@ -69,11 +94,34 @@ class ComputePerformance(object):
     def store_output_metrics(self):
         """This file is used to return output data 
         """
-        
-        self.total_power=[int(i) if i is not None else 0 for i in self.total_power ]    
+        # total power
+        self.total_power=[int(i) if i is not None else 0 for i in self.total_power]    
         self.total_power=np.sum(self.total_power)
-        output={'cur_power':self.total_power,
-                'cur_inference':self.inference_time}
+        # gpu power
+        self.gpu_power=[int(i) if i is not None else 0 for i in self.gpu_power]    
+        self.gpu_power=np.sum(self.gpu_power)
+        # cpu power
+        self.cpu_power=[int(i) if i is not None else 0 for i in self.cpu_power]    
+        self.cpu_power=np.sum(self.cpu_power)
+        
+        # total temp
+        self.total_temp=[int(i) if i is not None else 0 for i in self.total_temp]    
+        self.total_temp=np.mean(self.total_temp)
+        # gpu temp
+        self.gpu_temp=[int(i) if i is not None else 0 for i in self.gpu_temp]    
+        self.gpu_temp=np.mean(self.gpu_temp)
+        # cpu temp
+        self.cpu_temp=[int(i) if i is not None else 0 for i in self.cpu_temp]    
+        self.cpu_temp=np.mean(self.cpu_temp)
+        
+        # output
+        output={'cur_total_power':self.total_power,
+                'cur_gpu_power':self.gpu_power,
+                'cur_cpu_power':self.cpu_power,
+                'cur_inference':self.inference_time,
+                'cur_total_temp':self.total_temp,
+                'cur_gpu_temp':self.gpu_temp,
+                'cur_cpu_temp':self.cpu_temp}
         
         with open('measurement','w') as f:
             json.dump(output,f)
