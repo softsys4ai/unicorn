@@ -1,1 +1,12 @@
 # causal-config-labyrinth
+## Dependencies
+* pandas
+* flask
+* Keras 
+* PyTorch
+* Tensorflow
+* numpy 
+* json 
+* causalgraphicalmodels
+* causalnex
+* graphviz 
