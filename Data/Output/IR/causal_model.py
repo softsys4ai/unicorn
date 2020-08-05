@@ -1,4 +1,6 @@
+import sys
 import pandas as pd
+import pydot
 from causalnex.structure.notears import from_pandas
 from causalnex.network import BayesianNetwork
 
@@ -23,22 +25,41 @@ def visualize(nodes, edges, fname):
     """This function is used to visualize the causal model using graphviz"""
     from causalgraphicalmodels import CausalGraphicalModel
     import graphviz
+    try:
+        graph=CausalGraphicalModel(nodes=nodes, edges=edges)
+        graph.draw().render(filename=fname)
+    except AssertionError:
+        print ("[ERROR]: cycles in NOTEARS dag")
+        print("Edges: {0}".format(edges))
 
-    graph=CausalGraphicalModel(nodes=nodes, edges=edges)
-    graph.draw().render(filename=fname)
-
-
+def learn_tetrad(df, fname):
+    """This function is used to learn model using tetrad runner"""
+    from pycausal.pycausal import pycausal as pc
+    from pycausal import search as s
+    pc=pc()
+    pc.start_vm()
+    tetrad=s.tetradrunner()
+    tetrad.getAlgorithmParameters(algoId = 'fci', testId = 'fisher-z-test')
+    tetrad.run(algoId = 'fci', dfs = df, testId = 'fisher-z-test', 
+               depth = -1, maxPathLength = -1, completeRuleSetUsed = False, 
+               verbose = True)
+    
+    dot_str = pc.tetradGraphToDot(tetrad.getTetradGraph())
+    graph = pydot.graph_from_dot_data(dot_str)
+    graph[0].write_pdf(fname) 
 
 if __name__=="__main__":
    
     # get data 
-    df=pd.read_csv("ir_xavier.csv")
+    df=pd.read_csv(sys.argv[1])
     columns = ["core_freq", "gpu_freq", "emc_freq","inference_time",
                "scheduler.policy","vm.swappiness","total_energy_consumption", 
                "cpu_utilization","migrations","context-switches",
                "cache-misses","cache-references","branch-misses",
                "branch-load-misses"]
+    print (df.columns)
     df=df[columns]
+    
     options = ["core_freq", "gpu_freq", "emc_freq",
                "scheduler.policy", "vm.swappiness"] 
     objectives = ["total_energy_consumption", "inference_time"]
@@ -47,10 +68,17 @@ if __name__=="__main__":
     # causal model hyperparmas
     thres = 0.05 # between 0 and 1
     sm=from_pandas(df,tabu_edges=tabu_edges,w_threshold=thres)
-    print (sm.edges)
     #bn = BayesianNetwork(sm)
     # save causal graph 
-    fname = "g.pdf"
-    visualize (columns, sm.edges, fname)
+    fname = str(sys.argv[2])+ "_" + str(sys.argv[3])
+    visualize (columns, sm.edges, fname+"_nt.pdf")
+    learn_tetrad(df, fname+"_t.pdf")
     
+    
+
+
+
+
+
+
     
