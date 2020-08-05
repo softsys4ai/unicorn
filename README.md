@@ -12,8 +12,6 @@
 * graphviz 
 * py-causal 
 
-## Dependencies
-
 ## Run
 To run experiment please use the following two commands:
 ```python
@@ -31,6 +29,6 @@ command: python causal_model.py  datafile softwaresystem hardwaresystem
 ```
 For example, to build causal models using NOTEARS and fci for image recognition software 
 system and TX1 hardware with observational datafile irtx1.csv use the following: 
-``python
+```python
 command: python causal_model.py  irtx1.csv IR TX1
 ```
