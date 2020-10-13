@@ -1,18 +1,23 @@
 import sys
 import pandas as pd 
-from Configuration import Config as cfg
-from Src.CausalModel import CausalModel
-from Src.GenerateParams import GenerateParams
+from cadet.utils.config_parser import Config
+from cadet.causal_model import CausalModel
+from cadet.generate_params import GenerateParams
 from ananke.graphs import ADMG
 from causalnex.structure.notears import from_pandas
 from causalnex.network import BayesianNetwork
 from optparse import OptionParser
 
 def config_option_parser():
-    """This function is used to configure option parser 
-    @returns:
-        options: option parser handle"""
-    usage="""USAGE: %python3 RunCausalModel.py -o [objectives] -d [init_data] -s [software] -k [hardware]
+    """
+    This function is used to configure option parser 
+    Returns
+    -------
+        options: option parser handle
+    """
+    
+    usage = """
+    USAGE: %python3 RunCausalModel.py -o [objectives] -d [init_data] -s [software] -k [hardware]
     """
     parser=OptionParser(usage=usage)
     parser.add_option('-o', '--objective', dest='obj', 
@@ -27,9 +32,11 @@ def config_option_parser():
     (options, args)=parser.parse_args()
     return options
 
-def run_cauper_loop(CM, df, tabu_edges, 
+def run_cadet_loop(CM, df, tabu_edges, 
                    columns, options, NUM_PATHS):
-    """This function is used to run cauper in a loop"""
+    """
+    This function is used to run cadet in a loop
+    """
     # NOTEARS causal model hyperparmas
     _, notears_edges = CM.learn_notears(df, tabu_edges, 0.75)
     # get bayesian etowrk from DAG obtained by NOTEARS
@@ -42,8 +49,10 @@ def run_cauper_loop(CM, df, tabu_edges,
     G = ADMG(columns, di_edges = di_edges, bi_edges = bi_edges)
     
 if __name__=="__main__":
-    NUM_PATHS =  5
-    query = 0.8
+    cfg = Config("./etc/config.yml")
+    cfg = cfg.load_config()
+    NUM_PATHS =  cfg.num_paths
+    query = cfg.query
     options = config_option_parser()
     # Initialization
     init_dir = cfg.init_dir 
@@ -67,7 +76,7 @@ if __name__=="__main__":
     # edge constraints
     tabu_edges = CM.get_tabu_edges(columns, conf_opt, objectives)
     # initialize
-    run_cauper_loop(CM, df, tabu_edges, 
+    run_cadet_loop(CM, df, tabu_edges, 
                     columns, options, NUM_PATHS)
     # Get Bug and update df 
     bug_dir = cfg.bug_dir
@@ -92,7 +101,7 @@ if __name__=="__main__":
                 bug_exists = False
             else: 
                 # run loop
-                run_cauper_loop(CM, df, tabu_edges, 
+                run_cadet_loop(CM, df, tabu_edges, 
                                 columns, options, NUM_PATHS) 
 
         

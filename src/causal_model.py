@@ -3,7 +3,7 @@ import pandas as pd
 import pydot
 import traceback
 import numpy as np
-from Src.Configurations import Config as cfg
+from cadet.Configurations import Config as cfg
 from collections import defaultdict
 from causalnex.structure.notears import from_pandas
 from causalnex.network import BayesianNetwork

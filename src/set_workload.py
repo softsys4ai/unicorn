@@ -1,7 +1,7 @@
 import time
 import json
 from flask import Flask, request, jsonify
-from Src.Workload import Workload
+from cadet.workload import Workload
             
 class SetWorkload():
     """This class is used to set workload and run as a flask app

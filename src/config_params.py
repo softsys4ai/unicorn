@@ -1,11 +1,11 @@
 import os 
 import sys
 import subprocess
-import subprocess
-from Src.Configuration import Config as cfg
+from cadet.Configuration import Config as cfg
 
 class ConfigParams(object):
-    """This class is used to create different confiuration space for jetson  tx1
+    """
+    This class is used to create different configuration space for jetson  tx1
     """
     def __init__(self, cur_config, cur_sys, big_cores, 
                  columns):     
@@ -35,9 +35,12 @@ class ConfigParams(object):
                
     def set_big_core_status(self, cpu_name, status):
         """This function is used set core status (enable or disable)
-        @input:
+        Parameters
+        ----------
+
              cpu_name: cpu that will be enabled or disabled
-        @returns:
+        Returns
+        -------
         boolean: whether the operation was successful or not  
         """
         if cpu_name!="cpu0":
@@ -47,7 +50,7 @@ class ConfigParams(object):
                                        )
             cur_status=subprocess.getstatusoutput("cat {0}".format(filename))[1]   
             if cur_status!=status:
-                res=subprocess.call(["sudo","sh","./Utils/change_core_status.sh",str(cpu_name),str(status)])
+                res=subprocess.call(["sudo","sh","./shells/change_core_status.sh",str(cpu_name),str(status)])
                 if res!=0:
                     err="subprocess command failed"
                     print("[CPU STATUS ERROR]: {0}".format(err))
@@ -65,11 +68,13 @@ class ConfigParams(object):
 
     def set_big_core_freq(self, cpu_name, frequency):
         """This function is used to set core frequency of one or more cores
-        @input:
+        Parameters
+        ----------
+
             frequency: clockspeed at what the cpu will be set 
             cpu_name: cpu number which will be set
-        @returns:
-            @returns:
+        Returns
+        -------
             boolean: status of operation
         """
         #print ("cpu frequency")
@@ -79,7 +84,7 @@ class ConfigParams(object):
                                         "/cpufreq/scaling_cur_freq")
             
             cur_freq=subprocess.getstatusoutput("cat {0}".format(filename))[1]
-            res=subprocess.call(["sudo","sh","./Utils/change_core_frequency.sh",str(self.cur_sys),str(frequency),str(cur_freq)])
+            res=subprocess.call(["sudo","sh","./shells/change_core_frequency.sh",str(self.cur_sys),str(frequency),str(cur_freq)])
             if res!=0:
                     err="subprocess command failed"
                     print("[CPU FREQUENCY ERROR]: {0}".format(err))
@@ -96,9 +101,12 @@ class ConfigParams(object):
    
     def set_gpu_freq(self, frequency):
         """This function is used to change gpu clockspeeds
-        @input:
+        Parameters
+        ----------
+
            frequency: the clockspeed at which the gpu will be set
-        @returns:
+        Returns
+        -------
             boolean: status of operation
         """
         if frequency is not None:
@@ -106,7 +114,7 @@ class ConfigParams(object):
             try:
                 if frequency is not None:
                     cur_freq=subprocess.getstatusoutput("cat {0}".format(filename))[1]
-                    res=subprocess.call(["sudo","sh","./Utils/change_gpu_frequency.sh",str(self.cur_sys),str(frequency),str(cur_freq)])
+                    res=subprocess.call(["sudo","sh","./shells/change_gpu_frequency.sh",str(self.cur_sys),str(frequency),str(cur_freq)])
                     if res!=0:
                         err="subprocess command failed"
                         print("[GPU FREQUENCY ERROR]: {0}".format(err))
@@ -126,9 +134,12 @@ class ConfigParams(object):
       
     def set_emc_freq(self, frequency):
         """This function is used to change emmc clockspeeds
-        @input:
+        Parameters
+        ----------
+
             frequency: the clockspeed at which the emmc will be set
-        @returns:
+        Returns
+        -------
             boolean: status of operation
         """
         #print ("emc frequency")
@@ -138,7 +149,7 @@ class ConfigParams(object):
                 if frequency is not None:
                     cur_freq=subprocess.getstatusoutput("cat {0}".format(filename))[1]
                     
-                    res=subprocess.call(["sudo","sh","./Utils/change_emc_frequency.sh",str(self.cur_sys),str(frequency)])
+                    res=subprocess.call(["sudo","sh","./shells/change_emc_frequency.sh",str(self.cur_sys),str(frequency)])
                     if res!=0:
                         err="subprocess command failed"
                         print("[EMC FREQUENCY ERROR]: {0}".format(err))

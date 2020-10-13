@@ -7,10 +7,10 @@ import itertools
 import numpy as np
 import pandas as pd
 
-from Src.Perf import Perf
-from Src.ConfigParams import ConfigParams 
-from Src.Configuration import Config as cfg
-from Src.ComputePerformance import ComputePerformance
+from cadet.perf import Perf
+from cadet.config_params import ConfigParams 
+from cadet.Configuration import Config as cfg
+from cadet.compute_performance import ComputePerformance
 
 random.seed(288)
 
@@ -45,10 +45,10 @@ class GenerateParams(object):
         self.big_cores = cfg.systems[self.sys_name]["cpu"]["cores"]
         try:
             if self.sys_name == "TX1":
-                from Src.TX1.Params import params
+                from cadet.TX1.Params import params
                 self.params = params
             elif self.sys_name == "TX2":       
-                from Src.TX2.Params import configs
+                from cadet.TX2.Params import configs
                 self.params = configs      
             else:              
                 return
@@ -79,7 +79,7 @@ class GenerateParams(object):
             ConfigParams(cur_conf, self.sys_name, self.big_cores, 
                          self.columns)
             for iteration in range(self.NUM_TEST):
-                    os.system('perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/CAUPER/Src/ComputePerformance.py')
+                    os.system('perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/CADET/cadet/compute_performance.py')
                     perf_output = self.perf_obj.parse_perf()    
                     with open ('measurement','r') as f:
                         data = json.load(f)
@@ -115,7 +115,8 @@ class GenerateParams(object):
     
     def freq_conversion(self,array):
         """This function is is used to convert frequency from KHz to Hz
-        @returns: 
+        Returns
+    ------- 
             array: array where each element is converted to Hz from KHz """
         if not array[-1].isdigit():
             array.pop()
@@ -124,7 +125,8 @@ class GenerateParams(object):
 
     def get_big_core_freqs(self):
         """This function is used to get available frequencies for all the big cores
-        @returns:
+        Returns
+        -------
             freq: list of available frequencies for big cores"""
         try:
             filename = cfg.systems[self.sys_name]["cpu"]["frequency"]["available"]
@@ -137,7 +139,8 @@ class GenerateParams(object):
 
     def get_gpu_freqs(self):
         """This function is used to get available gpu frequencies
-        @returns:
+        Returns
+        -------
             freq: list of available frequencies for gpus"""
         try:
             filename = cfg.systems[self.sys_name]["gpu"]["frequency"]["available"]
@@ -150,7 +153,8 @@ class GenerateParams(object):
 
     def get_emc_freqs(self):
         """This function is used to get available emmc frequencies
-        @returns:
+        Returns
+        -------
             freq: list of available frequencies for emmc controller"""
         try:
             filename = cfg.systems[self.sys_name]["emc"]["frequency"]["available"]
