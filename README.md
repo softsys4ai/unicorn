@@ -54,3 +54,7 @@ command: python RunCausalModel.py  -o inference_time -o total_energy_consumption
 |---------------|------------------|      
 |Shahriar Iqbal|miqbal@email.sc.edu|      
 |Rahul Krishna|i.m.ralk@gmail.com|
+
+
+## 📘&nbsp; License
+CAUPER is released under the under terms of the [MIT License](LICENSE).
