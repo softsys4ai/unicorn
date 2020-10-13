@@ -1,18 +1,14 @@
 # CAUPER
+This paper proposes CAUPER(short for Causal Performance Debugging) that enables users toidentify, explain, and 
+fix the root cause of non-functional faults early and in a principled fashion. CAUPER builds a causal model by 
+observing the performance of the system under different configurations. Then, it uses casual path extraction 
+followed by counterfactual reasoning over the causal model to:  (a) identify the root causes of non-functional faults, 
+(b) estimate the effects of various configurable parameters on the performance objective(s), and (c) prescribe candidate 
+repairs to the relevant configuration options to fix the non-functional fault. 
 ## Dependencies
-* pandas
-* flask
-* Keras 
-* PyTorch
-* Tensorflow
-* numpy 
-* json 
-* causalgraphicalmodels
-* causalnex
-* graphviz 
-* py-causal
-* causality 
-* python 3.6
+* pandas  * flask * Keras * PyTorch * Tensorflow
+* numpy  * json  * causalgraphicalmodels * causalnex * graphviz 
+* py-causal * causality  * python 3.6
 ## Run
 To run experiment please use the following two commands:
 ```python
