@@ -1,4 +1,4 @@
-# causal-config-labyrinth
+# CAUPER
 ## Dependencies
 * pandas
 * flask
