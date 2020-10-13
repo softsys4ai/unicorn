@@ -1,4 +1,5 @@
 # CADET
+<<<<<<< HEAD
 
 ![image](https://user-images.githubusercontent.com/1433964/95892741-f6905480-0d54-11eb-82cb-140254d844c5.png)
 
@@ -14,6 +15,14 @@ Modern computing platforms are highly-configurable with thousands of interacting
 ## License
 CADET is released under the under terms of the [MIT License](LICENSE).
 
+=======
+This paper proposes CAUPER(short for Causal Performance Debugging) that enables users toidentify, explain, and 
+fix the root cause of non-functional faults early and in a principled fashion. CAUPER builds a causal model by 
+observing the performance of the system under different configurations. Then, it uses casual path extraction 
+followed by counterfactual reasoning over the causal model to:  (a) identify the root causes of non-functional faults, 
+(b) estimate the effects of various configurable parameters on the performance objective(s), and (c) prescribe candidate 
+repairs to the relevant configuration options to fix the non-functional fault. 
+>>>>>>> 7822847dd1c31de0b9f42300c5656b86667ac745
 ## Dependencies
 * pandas    
 * flask 
