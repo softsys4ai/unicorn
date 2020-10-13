@@ -40,7 +40,8 @@ class ComputePerformance(object):
     
     def get_sys_name(self):
         """This function is used to determine the system id
-        @returns: 
+        Returns
+        ------- 
             sys_name: TX1/TX2/TK1
         """
         sys_id=subprocess.getstatusoutput("cat {}".format(str(cfg.sys_id_file)))[1]
