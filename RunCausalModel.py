@@ -71,7 +71,7 @@ if __name__=="__main__":
                     columns, options, NUM_PATHS)
     # Get Bug and update df 
     bug_dir = cfg.bug_dir
-    bug_exists = true
+    bug_exists = True
     for bug in bug_dir
         while bug_exists:
             # identify causal paths 
