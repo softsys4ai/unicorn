@@ -6,9 +6,19 @@ followed by counterfactual reasoning over the causal model to:  (a) identify the
 (b) estimate the effects of various configurable parameters on the performance objective(s), and (c) prescribe candidate 
 repairs to the relevant configuration options to fix the non-functional fault. 
 ## Dependencies
-* pandas  * flask * Keras * PyTorch * Tensorflow
-* numpy  * json  * causalgraphicalmodels * causalnex * graphviz 
-* py-causal * causality  * python 3.6
+* pandas    
+* flask 
+* Keras 
+* PyTorch 
+* Tensorflow
+* numpy  
+* json  
+* causalgraphicalmodels 
+* causalnex 
+* graphviz 
+* py-causal 
+* causality  
+* python 3.6
 ## Run
 To run experiment please use the following two commands:
 ```python
@@ -39,3 +49,9 @@ system in TX1 with initial datafile irtx1.csv use the following for a latency an
 ```python
 command: python RunCausalModel.py  -o inference_time -o total_energy_consumption -d irtx1.csv -s Image -k TX1
 ```
+## Contacts
+|Name|Email|     
+|---------------|------------------|      
+|Shahriar Iqbal|miqbal@email.sc.edu|
+|---------------|------------------|      
+|Rahul Krishna|i.m.ralk@gmail.com|
