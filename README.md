@@ -13,7 +13,6 @@ Modern computing platforms are highly-configurable with thousands of interacting
 ## License
 CADET is released under the under terms of the [MIT License](LICENSE).
 
-=======
 This paper proposes CAUPER(short for Causal Performance Debugging) that enables users toidentify, explain, and 
 fix the root cause of non-functional faults early and in a principled fashion. CAUPER builds a causal model by 
 observing the performance of the system under different configurations. Then, it uses casual path extraction 
