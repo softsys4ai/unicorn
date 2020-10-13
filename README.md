@@ -19,13 +19,19 @@ repairs to the relevant configuration options to fix the non-functional fault.
 * py-causal 
 * causality  
 * python 3.6
-## Run
-To run experiment please use the following two commands:
+## Run Instructions
+To run experiments on NVIDIA Jetson TX1 or TX2 Xavier devices please use the 
+following command to launch a flask on localhost:
 ```python
 command: python RunService.py softwaresystem
 ```
-Once the flask app is running and modelserver is ready use the following command: 
-For example, to run optimization with GP in online with measurements.csv as initial data use: 
+For example to initialize a flask app with image recogntion softwrae system please use:
+```python
+command: python RunService.py Image
+```
+
+Once the flask app is running and modelserver is ready then please use the following command
+to collect performance measurments for different configurations: 
 ```python
 command: python RunParams.py softwaresystem
 ```
