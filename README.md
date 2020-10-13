@@ -52,6 +52,5 @@ command: python RunCausalModel.py  -o inference_time -o total_energy_consumption
 ## Contacts
 |Name|Email|     
 |---------------|------------------|      
-|Shahriar Iqbal|miqbal@email.sc.edu|
-|---------------|------------------|      
+|Shahriar Iqbal|miqbal@email.sc.edu|      
 |Rahul Krishna|i.m.ralk@gmail.com|
