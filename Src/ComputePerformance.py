@@ -121,6 +121,4 @@ class ComputePerformance(object):
 
 if __name__=="__main__":
     ComputePerformance()
-        
-        
-          
+               

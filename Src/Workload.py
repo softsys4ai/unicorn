@@ -18,5 +18,4 @@ class Workload(object):
         except Exception as e:
             print("[ERROR]: Xception model load failed due to {0}".format(str(e)))    
     
-    
-        
+         
