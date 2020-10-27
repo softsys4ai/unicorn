@@ -8,7 +8,6 @@ Modern computing platforms are highly-configurable with thousands of interacting
 |---|---|      
 |Shahriar Iqbal|miqbal@email.sc.edu|      
 |Rahul Krishna|i.m.ralk@gmail.com|
-|Pooyan Jamshidi|pjamshid@cse.sc.edu|
 
 ## License
 CADET is released under the under terms of the [MIT License](LICENSE).
