@@ -1,4 +1,21 @@
+<<<<<<< HEAD
 # CAUPER
+=======
+# CADET
+![image](https://user-images.githubusercontent.com/1433964/95892741-f6905480-0d54-11eb-82cb-140254d844c5.png)
+
+Modern computing platforms are highly-configurable with thousands of interacting configurations. However, configuring these systems is challenging. Erroneous configurations can cause unexpected non-functional faults. This paper proposes CADET (short for Causal Debugging Toolkit) that enables users to identify, explain, and fix the root cause of non-functional faults early and in a principled fashion. CADET builds a causal model by observing the performance of the system under different configurations. Then, it uses casual path extraction followed by counterfactual reasoning over the causal model to: (a) identify the root causes of non-functional faults, (b) estimate the effects of various configurable parameters on the performance objective(s), and (c) prescribe candidate repairs to the relevant configuration options to fix the non-functional fault. We evaluated CADET on 5 highly-configurable systems deployed on 3 NVIDIA Jetson systems-on-chip. We compare CADET with state-of-the-art configuration optimization and ML-based debugging approaches. The experimental results indicate that CADET can find effective repairs for faults in multiple non-functional properties with (at most) 17% more accuracy, 28% higher gain, and 40× speed-up than other ML-based performance debugging methods. Compared to multi-objective optimization approaches, CADET can find fixes (at most) 9× faster with comparable or better performance gain. Our case study of non-functional faults reported in NVIDIA's forum show that CADET can find 14× better repairs than the experts' advice in less than 30 minutes.
+
+## Contacts
+|Name|Email|     
+|---|---|      
+|Shahriar Iqbal|miqbal@email.sc.edu|      
+|Rahul Krishna|i.m.ralk@gmail.com|
+
+## License
+CADET is released under the under terms of the [MIT License](LICENSE).
+
+>>>>>>> 7197792127f4f8e46bd4a15417c22052739394bc
 This paper proposes CAUPER(short for Causal Performance Debugging) that enables users toidentify, explain, and 
 fix the root cause of non-functional faults early and in a principled fashion. CAUPER builds a causal model by 
 observing the performance of the system under different configurations. Then, it uses casual path extraction 
