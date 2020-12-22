@@ -1,7 +1,6 @@
-from Configuration import Config as cfg
 from multiprocessing import Process
 from apscheduler.schedulers.background import BackgroundScheduler
-
+import yaml
 import os 
 import sys
 import subprocess
@@ -15,6 +14,8 @@ class ComputePerformance(object):
     def __init__(self):
         print ("[STATUS]: Initializing Compute Performance Class")
         self.cur_sys = self.get_sys_name()
+        with open(os.path.join(os.getcwd(),"etc/config.yml")) as file:
+            self.cfg = yaml.load(file, Loader=yaml.FullLoader)
         self.url = 'http://localhost:5000/api'
         self.total_power = list()
         self.gpu_power = list()
@@ -40,20 +41,19 @@ class ComputePerformance(object):
     
     def get_sys_name(self):
         """This function is used to determine the system id
-        Returns
-        ------- 
+        @returns: 
             sys_name: TX1/TX2/TK1
         """
-        sys_id=subprocess.getstatusoutput("cat {}".format(str(cfg.sys_id_file)))[1]
-        sys_name=cfg.sys_id_dict[sys_id]
+        sys_id=subprocess.getstatusoutput("cat {}".format(str(self.cfg["sys_id_file"])))[1]
+        sys_name=self.cfg["sys_id_dict"][sys_id]
         return sys_name         
     
     def compute_power(self):
         """This function is used to read power consumption using from INA monitor 
         """
-        tot=cfg.systems[self.cur_sys]["power"]["total"]
-        gpu=cfg.systems[self.cur_sys]["power"]["gpu"]
-        cpu=cfg.systems[self.cur_sys]["power"]["cpu"]
+        tot=self.cfg["systems"][self.cur_sys]["power"]["total"]
+        gpu=self.cfg["systems"][self.cur_sys]["power"]["gpu"]
+        cpu=self.cfg["systems"][self.cur_sys]["power"]["cpu"]
         try:
             
             self.total_power.append(subprocess.getstatusoutput("cat {0}".format(tot))[1])
@@ -65,9 +65,9 @@ class ComputePerformance(object):
     def compute_temp(self):
         """This function is used to read power consumption using from INA monitor 
         """
-        tot=cfg.systems[self.cur_sys]["temperature"]["total"]
-        gpu=cfg.systems[self.cur_sys]["temperature"]["gpu"]
-        cpu=cfg.systems[self.cur_sys]["temperature"]["cpu"]
+        tot=self.cfg["systems"][self.cur_sys]["temperature"]["total"]
+        gpu=self.cfg["systems"][self.cur_sys]["temperature"]["gpu"]
+        cpu=self.cfg["systems"][self.cur_sys]["temperature"]["cpu"]
         #try:
             
         self.total_temp.append(subprocess.getstatusoutput("cat {0}".format(tot))[1])

@@ -1,23 +1,20 @@
-"""
-----------------------------------------------------------------------------
+'''--------------------------------------------------------------------------------------
 RUNSERVICE
+Author: Shahriar Iqbal
 Version: 0.1
-------------------------------------------------------------------------------
-"""
+-----------------------------------------------------------------------------------------
+'''
 import sys
 import os
 import socket 
 from datetime import datetime
-
-from cadet.Configuration import Config as cfg
-from cadet.set_workload import SetWorkload
+from src.SetWorkload import SetWorkload
 
 def process_input():
-    """This function is used to process input passed by user to select experiment.
-    Returns
-    -------
+    '''This function is used to process input passed by user to select experiment.
+    @returns:
         options: options dictionary
-    """
+    '''
     options={}
     options['software_system']=sys.argv[1]
     # Deep Neural Network Systems1
