@@ -172,13 +172,6 @@ class CausalModel:
         else:
             bestval = (1-query)*bug_val
         
-        paths = [['total_energy_consumption', 'gpu_freq'], 
-                 ['inference_time', 'emc_freq'], 
-                 ['inference_time', 'core_freq'], 
-                 ['total_energy_consumption', 'core_freq'],
-                 ['inference_time', 'core_freq'],
-                 ['total_energy_consumption', 'emc_freq']]
-        
         # multi objective treatment effect
         if len(objectives) >= 2:
             m_paths = defaultdict(list)
