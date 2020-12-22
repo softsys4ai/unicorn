@@ -1,7 +1,7 @@
----
 sys_id_dict:
   '24': TX2
   '33': TX1
+  '67': Xavier
 sys_id_file: "/sys/module/tegra_fuse/parameters/tegra_chip_id"
 systems:
   TX1:
@@ -57,23 +57,39 @@ systems:
       total: "/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power0_input"
       gpu: "/sys/bus/i2c/drivers/ina3221x/0-0040/iio:device0/in_power0_input"
       cpu: "/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power1_input"
+  Xavier:
+    cpu:
+      cores:
+        core0: cpu0
+        core1: cpu3
+        core2: cpu4
+        core3: cpu5
+      frequency:
+        available: "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies"
+    gpu:
+      frequency:
+        available: "/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/available_frequencies"
+        current: "/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/cur_freq"
+      status: "/sys/kernel/debug/bpmp/debug/clk/gpu/state"
+    emc:
+      frequency:
+        available: "/sys/kernel/debug/bpmp/debug/emc/possible_rates"
+        current: "/sys/kernel/debug/clk/emc/clk_rate"
+      status: "/sys/kernel/debug/bpmp/debug/clk/emc/state"
+    power_state: {}
+    temperature:
+      total: "/sys/devices/virtual/thermal/thermal_zone5/temp"
+      gpu: "/sys/devices/virtual/thermal/thermal_zone2/temp"
+      cpu: "/sys/devices/virtual/thermal/thermal_zone1/temp"
+    power:
+      total: "/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power0_input"
+      gpu: "/sys/bus/i2c/drivers/ina3221x/0-0040/iio:device0/in_power0_input"
+      cpu: "/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power1_input"
 hardware_columns:
   TX2:
-  - core0_status
-  - core1_status
-  - core2_status
-  - core3_status
   - core_freq
   - gpu_freq
   - emc_freq
-  - cache_pressure
-  - swappiness
-  - dirty_bg_ratio
-  - dirty_ratio
-  - drop_caches
-  - sched_child_runs_first
-  - sched_rt_runtime
-  - policy
   TX1:
   - core0_status
   - core1_status
@@ -82,14 +98,14 @@ hardware_columns:
   - core_freq
   - gpu_freq
   - emc_freq
-  - cache_pressure
-  - swappiness
-  - dirty_bg_ratio
-  - dirty_ratio
-  - drop_caches
-  - sched_child_runs_first
-  - sched_rt_runtime
-  - policy
+  Xavier:
+  - core0_status
+  - core1_status
+  - core2_status
+  - core3_status
+  - core_freq
+  - gpu_freq
+  - emc_freq
 software_columns:
   Image:
   - memory_growth
@@ -97,6 +113,8 @@ software_columns:
   - memory_growth
   Speech:
   - memory_growth
+  x264: []
+  SQLite: []
 measurement_columns:
 - inference_time
 - total_energy_consumption
@@ -105,6 +123,231 @@ measurement_columns:
 - total_temp
 - gpu_temp
 - cpu_temp
-util_dir: "/shells/"
-output_dir: Data/Output/
-config_file: Params.py
+kernel_columns:
+- scheduler.policy
+- vm.swappiness 
+- vm.vfs_cache_pressure
+- vm.dirty_background_ratio
+- vm.drop_caches
+- kernel.sched_child_runs_first
+- kernel.sched_rt_runtime_us
+perf_columns:
+- migrations
+- context-switches
+- cpu_utilization
+- cache-misses 
+- cache-references 
+- branch-misses
+- branch-load-misses
+is_intervenable:
+   core_freq: True
+   gpu_freq: True
+   emc_freq: True
+   scheduler.policy: True
+   vm.swappiness: True 
+   vm.vfs_cache_pressure: True
+   vm.dirty_background_ratio: True
+   vm.drop_caches: True
+   kernel.sched_child_runs_first: True
+   kernel.sched_rt_runtime_us: True
+   memory_growth: True
+   migrations: False
+   context-switches: False
+   cpu_utilization: False
+   cache-misses: False
+   cache-references: False 
+   branch-misses: False
+   branch-load-misses: False
+   inference_time: False
+   total_energy_consumption: False
+   gpu_energy_consumption: False
+   cpu_energy_consumption: False
+   total_temp: False
+   gpu_temp: False
+   cpu_temp: False
+option_values:
+    TX2:
+        core_freq:
+        - 345600 
+        - 499200
+        - 652800 
+        - 806400 
+        - 960000
+        - 1113600
+        - 1267200
+        - 1420800
+        - 1574400
+        - 1728000
+        - 1881600
+        - 2035200
+        
+        gpu_freq:
+        - 1032750000
+        - 1122000000
+        - 140250000
+        - 408000000
+        - 854250000
+        - 1300500000
+        - 318750000
+        - 229500000
+        - 675750000
+        - 765000000
+        - 497250000
+        - 1211250000
+        emc_freq:
+        - 204000000
+        - 1062400000
+        - 1866000000
+        - 68000000
+        - 40800000
+        - 665600000
+        - 102000000
+        - 1331200000
+        scheduler.policy:
+        - 0 
+        - 1 
+        vm.swappiness:
+        - 10
+        - 60
+        - 100  
+        vm.vfs_cache_pressure:
+        - 0
+        - 100
+        - 500  
+        vm.dirty_background_ratio:
+        - 5
+        - 50 
+        vm.drop_caches:
+        - 0
+        - 3 
+        kernel.sched_child_runs_first:
+        - 0
+        - 1 
+        kernel.sched_rt_runtime_us: 
+        - 500000
+        - 950000
+    Xavier:
+        core_freq:
+        - 345600 
+        - 499200
+        - 652800 
+        - 806400 
+        - 960000
+        - 1113600
+        - 1267200
+        - 1420800
+        - 1574400
+        - 1728000
+        - 1881600
+        - 2035200
+        
+        gpu_freq:
+        - 1032750000
+        - 1122000000
+        - 140250000
+        - 408000000
+        - 854250000
+        - 1300500000
+        - 318750000
+        - 229500000
+        - 675750000
+        - 765000000
+        - 497250000
+        - 1211250000
+        emc_freq:
+        - 204000000
+        - 1062400000
+        - 1866000000
+        - 68000000
+        - 40800000
+        - 665600000
+        - 102000000
+        - 1331200000
+        scheduler.policy:
+        - 0 
+        - 1 
+        vm.swappiness:
+        - 10
+        - 60
+        - 100  
+        vm.vfs_cache_pressure:
+        - 0
+        - 100
+        - 500  
+        vm.dirty_background_ratio:
+        - 5
+        - 50 
+        vm.drop_caches:
+        - 0
+        - 3 
+        kernel.sched_child_runs_first:
+        - 0
+        - 1 
+        kernel.sched_rt_runtime_us: 
+        - 500000
+        - 950000
+    TX1:
+        core_freq:
+        - 345600 
+        - 499200
+        - 652800 
+        - 806400 
+        - 960000
+        - 1113600
+        - 1267200
+        - 1420800
+        - 1574400
+        - 1728000
+        - 1881600
+        - 2035200
+        
+        gpu_freq:
+        - 1032750000
+        - 1122000000
+        - 140250000
+        - 408000000
+        - 854250000
+        - 1300500000
+        - 318750000
+        - 229500000
+        - 675750000
+        - 765000000
+        - 497250000
+        - 1211250000
+        emc_freq:
+        - 204000000
+        - 1062400000
+        - 1866000000
+        - 68000000
+        - 40800000
+        - 665600000
+        - 102000000
+        - 1331200000
+        scheduler.policy:
+        - 0 
+        - 1 
+        vm.swappiness:
+        - 10
+        - 60
+        - 100  
+        vm.vfs_cache_pressure:
+        - 0
+        - 100
+        - 500  
+        vm.dirty_background_ratio:
+        - 5
+        - 50 
+        vm.drop_caches:
+        - 0
+        - 3 
+        kernel.sched_child_runs_first:
+        - 0
+        - 1 
+        kernel.sched_rt_runtime_us: 
+        - 500000
+        - 950000
+util_dir: "utils"
+output_dir: "data/output"
+config_file: params.py
+init_dir: "data/initial"
+bug_dir: "data/bug"

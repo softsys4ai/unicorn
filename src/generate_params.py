@@ -1,54 +1,56 @@
 import os 
 import sys
 import json
+import yaml
 import random
 import subprocess
 import itertools 
 import numpy as np
 import pandas as pd
-
-from cadet.perf import Perf
-from cadet.config_params import ConfigParams 
-from cadet.Configuration import Config as cfg
-from cadet.compute_performance import ComputePerformance
+from src.perf import Perf
+from src.config_params import ConfigParams 
+from src.compute_performance import ComputePerformance
 
 random.seed(288)
 
 class GenerateParams(object):
     """This class is used to generate parameters for running inference
     """
-    def __init__(self,  software):
+    def __init__(self,  software, cfg, 
+                 mode):
         print("[STATUS]: Initializing GenerateParams Class")
         self.perf_obj = Perf()       
-       
+        self.cfg = cfg
         # constants
         self.ENABLE = "1"
         self.DISABLE = "0"
         self.NUM_TEST = 2
-                
+        
         # determine current system
         self.sys_name = self.get_sys_name()
         self.software = software
-        self.output_file = os.path.join(os.getcwd(), cfg.output_dir)
+        self.output_file = os.path.join(os.getcwd(), cfg["output_dir"])
         self.file_name_output = self.output_file + str(software) + ".csv"
-        print (self.file_name_output)
+        
         # columns of dataframe
-        self.columns =  cfg.hardware_columns[self.sys_name]
-        self.columns.extend (cfg.software_columns[self.software])
-        self.columns.extend (cfg.measurement_columns)
+        self.columns =  self.cfg["hardware_columns"][self.sys_name]
+        self.columns =  self.cfg["kernel_columns"]
+        self.columns.extend (self.cfg["software_columns"][self.software])
+        self.columns.extend (self.cfg["measurement_columns"])
         # run     
-        self.initialize()
-        self.run_experiment() 
+        if mode == "measurement":
+            self.initialize()
+            self.run_experiment() 
                 
     def initialize(self):
         # get list of big cores 
-        self.big_cores = cfg.systems[self.sys_name]["cpu"]["cores"]
+        self.big_cores = self.cfg["systems"][self.sys_name]["cpu"]["cores"]
         try:
             if self.sys_name == "TX1":
-                from cadet.TX1.Params import params
+                from Src.TX1.Params import params
                 self.params = params
             elif self.sys_name == "TX2":       
-                from cadet.TX2.Params import configs
+                from Src.TX2.Params import configs
                 self.params = configs      
             else:              
                 return
@@ -69,17 +71,42 @@ class GenerateParams(object):
             # generate all possible combinations 
             self.generate_params_combination()
             self.save_sampled_params()
-               
+    
+    def run_cauper_experiment(self, cur_conf):
+        """This function is used to run experiments for cauper"""
+        # set config   
+        
+        cur_conf_name = "{0}{1}".format("Config",conf)        
+        ConfigParams(self.cfg, cur_conf.values.tolist(), self.sys_name, 
+                      self.big_cores, self.columns)
+        for iteration in range(self.NUM_TEST):
+                    os.system('perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/CAUPER/Src/ComputePerformance.py')
+                    perf_output = self.perf_obj.parse_perf()    
+                    with open ('measurement','r') as f:
+                        data = json.load(f)
+                    cur = list(cur_conf[:])
+                    cur.append(data['cur_inference'])
+                    cur.append(data['cur_total_power'])
+                    cur.append(data['cur_gpu_power'])
+                    cur.append(data['cur_cpu_power'])
+                    cur.append(data['cur_total_temp'])
+                    cur.append(data['cur_gpu_temp'])
+                    cur.append(data['cur_cpu_temp'])
+                    df = pd.DataFrame(np.array(cur).reshape(1, len(self.columns)))
+                    df.columns = self.columns[:]
+                    df = self.df.join(perf_output)
+        return df 
+         
     def run_experiment(self):
         """This function is used to run experiments"""
         # set config   
         for conf in range(0, len(self.params)):                             
             cur_conf = self.params[conf]
             cur_conf_name = "{0}{1}".format("Config",conf)        
-            ConfigParams(cur_conf, self.sys_name, self.big_cores, 
-                         self.columns)
+            ConfigParams(self.cfg, cur_conf, self.sys_name, 
+                         self.big_cores, self.columns)
             for iteration in range(self.NUM_TEST):
-                    os.system('perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/CADET/cadet/compute_performance.py')
+                    os.system('perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/CAUPER/Src/ComputePerformance.py')
                     perf_output = self.perf_obj.parse_perf()    
                     with open ('measurement','r') as f:
                         data = json.load(f)
@@ -109,14 +136,13 @@ class GenerateParams(object):
                                  
     def get_sys_name(self):
         """This function is used to determine the system id"""
-        sys_id = subprocess.getstatusoutput("cat {}".format(str(cfg.sys_id_file)))[1]
-        sys_name = cfg.sys_id_dict[sys_id]
+        sys_id = subprocess.getstatusoutput("cat {}".format(str(self.cfg["sys_id_file"])))[1]
+        sys_name = self.cfg["sys_id_dict"][sys_id]
         return sys_name
     
     def freq_conversion(self,array):
         """This function is is used to convert frequency from KHz to Hz
-        Returns
-    ------- 
+        @returns: 
             array: array where each element is converted to Hz from KHz """
         if not array[-1].isdigit():
             array.pop()
@@ -125,11 +151,10 @@ class GenerateParams(object):
 
     def get_big_core_freqs(self):
         """This function is used to get available frequencies for all the big cores
-        Returns
-        -------
+        @returns:
             freq: list of available frequencies for big cores"""
         try:
-            filename = cfg.systems[self.sys_name]["cpu"]["frequency"]["available"]
+            filename = self.cfg["systems"][self.sys_name]["cpu"]["frequency"]["available"]
             freq = subprocess.getstatusoutput("cat {0}".format(filename))[1]
             if freq:
                 freq = freq.split(" ")
@@ -139,11 +164,10 @@ class GenerateParams(object):
 
     def get_gpu_freqs(self):
         """This function is used to get available gpu frequencies
-        Returns
-        -------
+        @returns:
             freq: list of available frequencies for gpus"""
         try:
-            filename = cfg.systems[self.sys_name]["gpu"]["frequency"]["available"]
+            filename = self.cfg["systems"][self.sys_name]["gpu"]["frequency"]["available"]
             freq = subprocess.getstatusoutput("cat {0}".format(filename))[1]
             if freq:
                 freq = freq.split(" ")
@@ -153,11 +177,10 @@ class GenerateParams(object):
 
     def get_emc_freqs(self):
         """This function is used to get available emmc frequencies
-        Returns
-        -------
+        @returns:
             freq: list of available frequencies for emmc controller"""
         try:
-            filename = cfg.systems[self.sys_name]["emc"]["frequency"]["available"]
+            filename = self.cfg["systems"][self.sys_name]["emc"]["frequency"]["available"]
             freq = subprocess.getstatusoutput("cat {0}".format(filename))[1]
             if freq:
                 freq = freq.split(" ")
@@ -256,7 +279,7 @@ class GenerateParams(object):
     def save_sampled_params(self):
         """This function is used to extract the valid params from all the combination of params"""       
         # save to a file for temporary use     
-        params_file = os.path.join(self.sys_name, cfg.config_file)
+        params_file = os.path.join(self.sys_name, self.cfg["config_file"])
         filename = os.path.join(os.getcwd(), params_file)
         with open(filename, "w") as f:
             f.write('params = %s' %self.params)

@@ -3,7 +3,6 @@ import pandas as pd
 import pydot
 import traceback
 import numpy as np
-from cadet.Configurations import Config as cfg
 from collections import defaultdict
 from causalnex.structure.notears import from_pandas
 from causalnex.network import BayesianNetwork
@@ -140,44 +139,150 @@ class CausalModel:
                                    G, K):
         """This function is used to compute P_ACE for each path"""
         ace = {}
+        print (df)
         for path in paths:
-            ace[path] = 0
+            ace[str(path)] = 0
             for i in range(0, len(path)):
-              if i > 0:
-                obj= CausalEffect(graph=G, treatment=path[i],outcome=path[0])
-                ace[path] += obj.compute_effect(df, "gformula") # computing the effect
-                print ("causal effect of {0} on {1}".format(path[i], path[0]))
-                print("ace = ", ace, "\n")
+                if i > 0:
+                    try:
+                        obj= CausalEffect(graph=G, treatment=path[i],outcome=path[0])
+                        ace[str(path)] += obj.compute_effect(df, "gformula") # computing the effect
+                        print ("causal effect of {0} on {1}".format(path[i], path[0]))
+                        print("ace = ", ace, "\n")
+                    except:
+                        continue
         # rank paths and select top K
         paths = {k: v for k, v in sorted(ace.items(), key=lambda item: item[1], reverse = True)}[:K]
         return paths 
     
     def compute_individual_treatment_effect(self, df, paths, 
-                                            G, query, objectives, 
-                                            bug_val, config):
+                                            g, query, options, 
+                                            bug_val, config, cfg, 
+                                            variable_types):
         """This function is used to compute individual treatment effect"""
         from causality.estimation.nonparametric import CausalEffect
+        from causality.estimation.adjustments import AdjustForDirectCauses
+        from networkx import DiGraph
         ite = {}
+        objectives = options.obj   
+        option_values = cfg["option_values"][options.hardware]
+        adjustment = AdjustForDirectCauses()
         if query == "best":
             bestval = np.min(df[objectives])
         else:
             bestval = (1-query)*bug_val
-        for path in paths:
+        
+        paths = [['total_energy_consumption', 'gpu_freq'], 
+                 ['inference_time', 'emc_freq'], 
+                 ['inference_time', 'core_freq'], 
+                 ['total_energy_consumption', 'core_freq'],
+                 ['inference_time', 'core_freq'],
+                 ['total_energy_consumption', 'emc_freq']]
+        
+        # multi objective treatment effect
+        if len(objectives) >= 2:
+            m_paths = defaultdict(list)
+            multi_paths = []
+            for p in paths:
+                m_paths[p[-1]].append(p[0])
+            
+            for key,_ in m_paths.items():
+                cur_p = []
+                if len(m_paths[key]) >=2:
+                    indexes = [i for i,v in enumerate(paths) if key in v]
+                    for ind in indexes:
+                        cur_p.append(paths[ind])
+                    paths = [i for j, i in enumerate(paths) if j not in indexes]
+                    multi_paths.append(cur_p)
+            # compute treatment effect
+            if paths:
+                for path in paths:    
+                    cur_g = DiGraph()
+                    cur_g.add_nodes_from(path)
+                    cur_g.add_edges_from([(path[j], path[j-1]) for j in range(len(path)-1,0,-1)])
+                    for i in range(0, len(path)):
+                        if i > 0:
+                            if cfg["is_intervenable"][path[i]]:
+                                admissable_set = adjustment.admissable_set(cur_g,[path[i]], [path[0]])
+                                effect = CausalEffect(df, [path[i]], [path[0]],
+                                                 variable_types=variable_types, admissable_set=list(admissable_set))
+                                max_effect = -20000
+                                # compute effect for each value for the options
+                                for val in option_values[path[i]]:
+                                    x = pd.DataFrame({path[i] : [val], path[0] : [bestval[path[0]]]})
+                                    cur_effect = effect.pdf(x)
+                                    if max_effect < cur_effect:
+                                        max_effect = cur_effect
+                                        ite[path[i]] = val
+                  
+            if multi_paths:
+                for mp in multi_paths:
+                    for path in mp:    
+                        cur_g = DiGraph()
+                        cur_g.add_nodes_from(path)
+                        cur_g.add_edges_from([(path[j], path[j-1]) for j in range(len(path)-1,0,-1)])
+                        for i in range(0, len(path)):
+                            if i > 0:
+                                if cfg["is_intervenable"][path[i]]:
+                                    if len(objectives) == 2:
+                                        admissable_set = adjustment.admissable_set(cur_g, [path[i]], [objectives[0], objectives[1]])
+                                        effect = CausalEffect(df, [path[i]], [objectives[0], objectives[1]],
+                                                              variable_types=variable_types, admissable_set=list(admissable_set))
+                                        max_effect = -20000
+                                        # compute effect for each value for the options
+                                        for val in option_values[path[i]]:
+                                            x = pd.DataFrame({path[i] : [val], objectives[0] : [bestval[objectives[0]]], objectives[1] : [bestval[objectives[1]]]})
+                                            cur_effect = effect.pdf(x)
+                                            if max_effect < cur_effect:
+                                                max_effect = cur_effect
+                                                ite[path[i]] = val
+                                    elif len(objectives) == 3:
+                                        admissable_set = adjustment.admissable_set(cur_g, [path[i]], [objectives[0], objectives[1], objectives[2]])
+                                        effect = CausalEffect(df, [path[i]], [objectives[0], objectives[1], objectives[2]],
+                                                              variable_types=variable_types, admissable_set=list(admissable_set))
+                                        max_effect = -20000
+                                        # compute effect for each value for the options
+                                        for val in option_values[path[i]]:
+                                            x = pd.DataFrame({path[i] : [val], objectives[0] : [bestval[objectives[0]]], objectives[1] : [bestval[objectives[1]]], objectives[2] : [bestval[objectives[2]]]})
+                                            cur_effect = effect.pdf(x)
+                                            if max_effect < cur_effect:
+                                                max_effect = cur_effect
+                                                ite[path[i]] = val
+                                    else:
+                                        print ("[ERROR]: number of objectives not supported")
+                                        return     
+                               
+            for option, value in ite.items():
+                config[option] = value
+                print ("-----next configuration-----\n", config)
+                return config
+                    
+        # single objective treatment effect
+        for path in paths:    
+            cur_g = DiGraph()
+            cur_g.add_nodes_from(path)
+            cur_g.add_edges_from([(path[j], path[j-1]) for j in range(len(path)-1,0,-1)])
             for i in range(0, len(path)):
                if i > 0:
-                   if cfg.is_intervenable[path[i]]:
-                       index = cfg.index[path[i]]
-                       effect = CausalEffect(G, path[i], path[0])
-                       max_effect = -20000
-                       for val in cfg.path[i]:
-                           x = df({path[i] : [val], path[0] : [bestval]})
-                           if max_effect < effect.pdf(x):
-                               max_effect = effect.pdf(x)
-                               ite[path[i]] = [max_effect, val, index]
-        # Find the best config options and values 
-        options = [v for _, v in sorted(ace.items(), key=lambda item: item[0], reverse = True)][:5]                
-        for opt in options:
-            config[opt[2]] = opt[1]
+                   
+                   if cfg["is_intervenable"][path[i]]:
+                       if len(objectives) < 2:
+                          
+                           admissable_set = adjustment.admissable_set(cur_g,[path[i]], [path[0]])
+                           effect = CausalEffect(df, [path[i]], [path[0]],
+                                                 variable_types=variable_types, admissable_set=list(admissable_set))
+                           max_effect = -20000
+                           # compute effect for each value for the options
+                           for val in option_values[path[i]]:
+                               x = pd.DataFrame({path[i] : [val], path[0] : [bestval]})
+                               cur_effect = effect.pdf(x)
+                               if max_effect < cur_effect:
+                                   max_effect = cur_effect
+                                   ite[path[i]] = val
+                         
+        for option, value in ite.items():
+           config[option] = value
+        print ("-----next configuration-----\n", config)
         return config
 
 class Graph:
