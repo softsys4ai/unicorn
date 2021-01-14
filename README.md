@@ -60,13 +60,37 @@ your own utilities (similar to run_params.py etc.). In addition to that, you nee
 make some changes in the etc/config.yml file based on your need. The necessary steps are 
 the following:
 
-####Step 1:
+###Step 1:
+Update init_dir variable in the config.yml file with the location of the initial data.
 
-####Step 2:
+###Step 2:
+Update bug_dir variable in the config.yml file with the location of the bug data.
 
+###Step 3:
+Update output_dir variable in the config.yml file where you want to save the output data.
 
+### Step 4:
+Update hardware_columns in the config.yml with the hardware configuration options you want to use.
 
---
+### Step 5:
+Update kernel_columns in the config.yml with the kernel configuration options you want to use.
+
+### Step 6:
+Update perf_columns in the config.yml with the events you want to track using perf use. If you use any other monitoring tool you need to update it accordingly.
+
+### Step 7:
+Update measurment_colums in the config.yml based on the performance objectives you want to use for bug resolve.
+
+### Step 8:
+Update is_intervenable variables in the config.yml with the configuration options you want to use and based on your application change their values to True or False. True indicates the configuration options can be intervened upon and vice-versa for False.
+
+### Step 9: 
+Update the option_values variables in the config.yml based on the allowable values your option can take. 
+
+At this stage you can run cadet.py with your own specification. Please notice that you also need to update the directories according to your software and hardware name in data directory. 
+If you change the name of the variables in the config file or use a new config fille you need to make changes accorsingly from line 49 - 58 in cadet.py.
+If you use your own intervention uitility you need to update line 6 and line 126 of cadet.py.
+
 
 
 ## Contacts
