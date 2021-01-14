@@ -17,8 +17,8 @@ Modern computing platforms are highly-configurable with thousands of interacting
 * py-causal 
 * causality  
 * python 3.6
-## Run Instructions
-To run experiments on NVIDIA Jetson TX1 or TX2 Xavier devices please use the 
+## Run instructions using Jetson faults dataset
+To run experiments on NVIDIA Jetson TX1 or TX2 or Jetson Xavier devices please use the 
 following command to launch a flask on localhost:
 ```python
 command: python run_service.py softwaresystem
@@ -52,6 +52,22 @@ For example, to build causal models using NOTEARS and fci for image recognition 
 system in TX1 with initial datafile irtx1.csv use the following for a latency and energy consumption (multi-ojective) bug : 
 ```python
 command: python cadet.py  -o inference_time -o total_energy_consumption -s Image -k TX1
+
+## Run instructions using a different dataset
+If you want to run CADET on your own dataset you will only need cadet.py and src/causal_model.py.
+To perform interventions using the recommended configuration by cadet.py you need to develop 
+your own utilities (similar to run_params.py etc.). In addition to that, you need to
+make some changes in the etc/config.yml file based on your need. The necessary steps are 
+the following:
+
+####Step 1:
+
+####Step 2:
+
+
+
+--
+
 ```
 ## Contacts
 |Name|Email|     
