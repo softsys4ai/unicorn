@@ -52,7 +52,7 @@ For example, to build causal models using NOTEARS and fci for image recognition 
 system in TX1 with initial datafile irtx1.csv use the following for a latency and energy consumption (multi-ojective) bug : 
 ```python
 command: python cadet.py  -o inference_time -o total_energy_consumption -s Image -k TX1
-
+```
 ## Run instructions using a different dataset
 If you want to run CADET on your own dataset you will only need cadet.py and src/causal_model.py.
 To perform interventions using the recommended configuration by cadet.py you need to develop 
@@ -68,7 +68,7 @@ the following:
 
 --
 
-```
+
 ## Contacts
 |Name|Email|     
 |---------------|------------------|      
