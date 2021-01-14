@@ -91,18 +91,10 @@ hardware_columns:
   - gpu_freq
   - emc_freq
   TX1:
-  - core0_status
-  - core1_status
-  - core2_status
-  - core3_status
   - core_freq
   - gpu_freq
   - emc_freq
   Xavier:
-  - core0_status
-  - core1_status
-  - core2_status
-  - core3_status
   - core_freq
   - gpu_freq
   - emc_freq
