@@ -60,13 +60,13 @@ your own utilities (similar to run_params.py etc.). In addition to that, you nee
 make some changes in the etc/config.yml file based on your need. The necessary steps are 
 the following:
 
-###Step 1:
+### Step 1:
 Update init_dir variable in the config.yml file with the location of the initial data.
 
-###Step 2:
+### Step 2:
 Update bug_dir variable in the config.yml file with the location of the bug data.
 
-###Step 3:
+### Step 3:
 Update output_dir variable in the config.yml file where you want to save the output data.
 
 ### Step 4:
