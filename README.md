@@ -1,8 +1,7 @@
-# CADET
+# unicorn
 ![image](https://user-images.githubusercontent.com/1433964/95892741-f6905480-0d54-11eb-82cb-140254d844c5.png)
 
-Modern computing platforms are highly-configurable with thousands of interacting configurations. However, configuring these systems is challenging. Erroneous configurations can cause unexpected non-functional faults. This paper proposes CADET (short for Causal Debugging Toolkit) that enables users to identify, explain, and fix the root cause of non-functional faults early and in a principled fashion. CADET builds a causal model by observing the performance of the system under different configurations. Then, it uses casual path extraction followed by counterfactual reasoning over the causal model to: (a) identify the root causes of non-functional faults, (b) estimate the effects of various configurable parameters on the performance objective(s), and (c) prescribe candidate repairs to the relevant configuration options to fix the non-functional fault. We evaluated CADET on 5 highly-configurable systems deployed on 3 NVIDIA Jetson systems-on-chip. We compare CADET with state-of-the-art configuration optimization and ML-based debugging approaches. The experimental results indicate that CADET can find effective repairs for faults in multiple non-functional properties with (at most) 17% more accuracy, 28% higher gain, and 40× speed-up than other ML-based performance debugging methods. Compared to multi-objective optimization approaches, CADET can find fixes (at most) 9× faster with comparable or better performance gain. Our case study of non-functional faults reported in NVIDIA's forum show that CADET can find 14× better repairs than the experts' advice in less than 30 minutes.
-
+Modern computer systems are highly configurable. They often are composed of heterogeneous components-each component consists of numerous configurations, giving a total variability space sometimes larger than the number of atoms in the universe. The performance of a system configured with different configuration options can widely vary. Thus, given the vast configuration space, understanding and reasoning about the performance behavior of such systems become challenging. These configuration options interact with each other within and across the system stack, and such interactions typically vary in different deployment environments or workload conditions. So, it becomes almost impossible to track down configuration options that should be set to different values to improve performance if the system’s performance shows wide variability during operation time. As a result, existing performance models that rely on predictive machine learning models suffer from (i) high cost: given a deployment environment, regression-based performance models require a large number of configuration samples for accurate predictions, and more importantly, (ii) unreliable predictions: even if they predict performance for the environment where configurations are measured, since they may infer correlations as causation, they typically do not transfer well for predicting system performance behavior in a new environment (e.g., change of hardware from the canary environment to production). The main problem we address here is to understand why the performance degradation is happening and reason based on a reliable model to improve it. To this end, this paper proposes a new methodology, called Unicorn, which initially learns a Causal Performance Model to reliably capture intricate interactions between options across software-hardware stack by tracing system-level performance events across the stack (hardware, software, cache, and tracepoint). Then, it uses them to explain how such interactions impact the variation in performance objectives causally. Given a limited sampling budget, Unicorn iteratively updates the learned performance model by estimating the causal effects of configuration options to performance objectives, then selecting the highest-impact options to adjust in order to address performance issues by improving the performance objective of interest without deteriorating other objectives in debugging task or recommend a near-optimal configuration. We evaluated Unicorn on six highly configurable systems, including three on-device machine learning systems, a video encoder, a database, and a data analytics pipeline. In addition, we compared the results with state-of-the-art configuration optimization and debugging methods. The experimental results indicate that Unicorn can find effective repairs for performance faults and find configurations with near-optimal performance. Furthermore, unlike the existing methods, the learned causal performance models in Unicorn reliably predict performance for new environments where it has not been used during the learning process
 ## Dependencies
 * pandas    
 * flask 
@@ -36,26 +35,26 @@ command: python run_params.py softwaresystem
 
 To run causal models for a single-objective bug please run the following:
 ```python
-command: python cadet.py  -o objective1  -s softwaresystem -k hardwaresystem
+command: python unicorn.py  -o objective1  -s softwaresystem -k hardwaresystem
 ```
 For example, to build causal models using NOTEARS and fci for image recognition software 
 system in TX1 with initial datafile irtx1.csv use the following for a latency (single objective) bug : 
 ```python
-command: python cadet.py  -o inference_time  -s Image -k TX1
+command: python unicorn.py  -o inference_time  -s Image -k TX1
 ```
 
 To run causal models for a multi-objective bug please run the following:
 ```python
-command: python cadet.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ```
 For example, to build causal models using NOTEARS and fci for image recognition software 
 system in TX1 with initial datafile irtx1.csv use the following for a latency and energy consumption (multi-ojective) bug : 
 ```python
-command: python cadet.py  -o inference_time -o total_energy_consumption -s Image -k TX1
+command: python unicorn.py  -o inference_time -o total_energy_consumption -s Image -k TX1
 ```
 ## Run instructions using a different dataset
-If you want to run CADET on your own dataset you will only need cadet.py and src/causal_model.py.
-To perform interventions using the recommended configuration by cadet.py you need to develop 
+If you want to run CADET on your own dataset you will only need unicorn.py and src/causal_model.py.
+To perform interventions using the recommended configuration by unicorn.py you need to develop 
 your own utilities (similar to run_params.py etc.). In addition to that, you need to
 make some changes in the etc/config.yml file based on your need. The necessary steps are 
 the following:
@@ -87,9 +86,9 @@ Update is_intervenable variables in the config.yml with the configuration option
 ### Step 9: 
 Update the option_values variables in the config.yml based on the allowable values your option can take. 
 
-At this stage you can run cadet.py with your own specification. Please notice that you also need to update the directories according to your software and hardware name in data directory. 
-If you change the name of the variables in the config file or use a new config fille you need to make changes accorsingly from line 49 - 58 in cadet.py.
-If you use your own intervention uitility you need to update line 6 and line 126 of cadet.py.
+At this stage you can run unicorn.py with your own specification. Please notice that you also need to update the directories according to your software and hardware name in data directory. 
+If you change the name of the variables in the config file or use a new config fille you need to make changes accorsingly from line 49 - 58 in unicorn.py.
+If you use your own intervention uitility you need to update line 6 and line 126 of unicorn.py.
 
 
 
