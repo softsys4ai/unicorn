@@ -17,6 +17,7 @@ Modern computer systems are highly configurable, with the total variability spac
 * ``` graphviz ```
 * ``` py-causal ```
 * ``` causality ```
+
 Please run the following commands to have your system ready to run Unicorn:
 ```
 pip install pandas
@@ -35,21 +36,37 @@ pip install torch==1.4.0 torchvision==0.5.0
 Unicorn can be used for performing different tasks such as performance optimization and performance debugging.
 
 ## Debugging
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ### Single-objective
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ### Multi-objective
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ## Optimization
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ### Single-objective
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ### Multi-objective
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ## Efficiency
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 ## Transferability
-
+To run causal models for a multi-objective performance fault please run the following:
+```python
+command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
 
 ## Data generation
 To run experiments on NVIDIA Jetson TX1 or TX2 or Xavier devices please use the following command to launch a flask on localhost:
