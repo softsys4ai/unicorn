@@ -42,24 +42,29 @@ Unicorn supports debugging and fixing single-objective and multi-objective perfo
 
 ### Single-objective debugging
 To debug single-objective faults in the offline mode using Unicorn please use the following command:
-```python unicorn_debugging.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+```
+python unicorn_debugging.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 
 #### Example
 To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_debugging.py  -o inference_time -s Xception -k TX2 -m offline
+```
+python unicorn_debugging.py  -o inference_time -s Xception -k TX2 -m offline
 ```
 To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_debugging.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+```
+python unicorn_debugging.py  -o total_energy_consumption -s Bert -k Xavier -m offline
 ```
 
 ### Multi-objective debugging
 To debug multi-objective faults in the offline mode using Unicorn please use the following command:
-```python unicorn_debugging.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+```
+python unicorn_debugging.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To debug multi-objective ```latency``` and ```energy``` faults for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_debugging.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
+```
+python unicorn_debugging.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
 ```
 
 ## Optimization (offline)
@@ -67,85 +72,87 @@ Unicorn supports single-objective and multi-objective optimization..
 
 ### Single-objective optimization
 To run single-objective optimization in the offline mode using Unicorn please use the following command:
-```python unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+```
+python unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
+```
+python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
 ```
 To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+```
+python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
 ```
 
 ### Multi-objective debugging
 To run multi-objective optimization in the offline mode using Unicorn please use the following command:
-```python unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+```
+python unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To run multi-objective ```latency``` and ```energy``` optimization for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
+```
+python unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
 ```
 
 ## Transferability
 Unicorn supports both single and multi-objective transferability. However, multi-objective transferability is not comprehensively investigated in this version. To determine single-objective transferability of Unicorn use the following command:
-```python unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem
+```
+python unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem
 ```
 #### Example
 To run single-objective ```latency``` transferability for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
+```
+python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
 ```
 To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
-```python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+```
+python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
 ```
 ## Data generation
 To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the following command to start the app in the ```localhost```.
 
-```python run_service.py softwaresystem
+```
+python run_service.py softwaresystem
 ```
 
 For example to initialize a flask app with ```Xception``` software system please use:
-```python run_service.py Image```
+```
+python run_service.py Image
+```
 
 Once the flask app is running and modelserver is ready then please use the following command to collect performance measurements for different configurations:
-```python run_params.py softwaresystem
+```
+python run_params.py softwaresystem
 ```
 
 ## Unicorn usage on a different dataset
 To run Unicorn on your a different dataset you will only need ```unicorn_debugging.py``` and ```unicorn_optimization.py```. In the online mode, to perform interventions using the recommended configuration you need to develop your own utilities (similar to ```run_params.py```). Additionally, you need to make some changes in the ```etc/config.yml``` to use the configuration options and their values accordingly. The necessary steps are the following:
 
-### Step 1:
-Update ```init_dir``` variable in the ```config.yml``` file with the location of the initial data.
+**Step 1**: Update ```init_dir```in ```config.yml``` with the directory where initial data is stored.
+**Step 2**: Update ```bug_dir``` in ```config.yml``` with the directory where bug data is stored.
+**Step 3**: Update ```output_dir``` variable in the ```config.yml``` file where you want to save the output data.
+**Step 4**: Update ```hardware_columns``` in the ```config.yml``` with the hardware configuration options you want to use.
+**Step 5**: Update ```kernel_columns``` in the ```config.yml``` with the kernel configuration options you want to use.
+**Step 6**: Update ```perf_columns``` in the ```config.yml``` with the events you want to track using perf. If you use any other monitoring tool you need to update it accordingly.
+**Step 7**: Update ```measurment_colums``` in the ```config.yml``` based on the performance objectives you want to use for bug resolve.
+**Step 8**: Update ```is_intervenable``` variables in the ```config.yml``` with the configuration options you want to use and based on your application change their values to True or False. True indicates the configuration options can be intervened upon and vice-versa for False.
+**Step 9**: Update the ```option_values``` variables in the ```config.yml``` based on the allowable values your option can take.
 
-### Step 2:
-Update bug_dir variable in the config.yml file with the location of the bug data.
+At this stage you can run ```unicorn_debugging.py``` and ```unicorn_optimization.py``` with your own specification. Please notice that you also need to update the directories according to your software and hardware name in data directory. If you change the name of the variables in the config file or use a new config fille you need to make changes accordingly from in ```unicorn_debugging.py``` and ```unicorn_optimization.py```.
 
-### Step 3:
-Update output_dir variable in the config.yml file where you want to save the output data.
-
-### Step 4:
-Update hardware_columns in the config.yml with the hardware configuration options you want to use.
-
-### Step 5:
-Update kernel_columns in the config.yml with the kernel configuration options you want to use.
-
-### Step 6:
-Update perf_columns in the config.yml with the events you want to track using perf. If you use any other monitoring tool you need to update it accordingly.
-
-### Step 7:
-Update measurment_colums in the config.yml based on the performance objectives you want to use for bug resolve.
-
-### Step 8:
-Update is_intervenable variables in the config.yml with the configuration options you want to use and based on your application change their values to True or False. True indicates the configuration options can be intervened upon and vice-versa for False.
-
-### Step 9:
-Update the option_values variables in the config.yml based on the allowable values your option can take.
-
-At this stage you can run unicorn.py with your own specification. Please notice that you also need to update the directories according to your software and hardware name in data directory. If you change the name of the variables in the config file or use a new config fille you need to make changes accordingly from line 49 - 58 in unicorn.py.
-If you use your own intervention utility you need to update line 6 and line 126 of unicorn.py.
-
-
+## How to cite
+If you use Unicorn in your research or the dataset in this repository please cite the following:
+```
+@article{iqbalcadet,
+  title={CADET: A Systematic Method For Debugging Misconfigurations using Counterfactual Reasoning},
+  author={Iqbal, Md Shahriar and Krishna, Rahul and Javidian, Mohammad Ali and Ray, Baishakhi and Jamshidi, Pooyan}
+}
+```
 
 ## Contacts
+Please please feel free to contact via email if you find any issues or have any feedbacks. Thank you for using Unicorn.
 |Name|Email|     
 |---------------|------------------|      
 |Md Shahriar Iqbal|miqbal@email.sc.edu|     
