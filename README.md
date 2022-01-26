@@ -7,19 +7,30 @@ Modern computer systems are highly configurable, with the total variability spac
 
 
 ## Pre-requisites
-* ``` pandas ```    
-* ``` flask ```
-* ``` Keras ```
-* ``` PyTorch ```
-* ``` Tensorflow ```
-* ``` numpy ```
+* ``` python 3.6 ```
 * ``` json ```
+* ``` pandas ```
+* ``` numpy ```    
+* ``` flask ```
 * ``` causalgraphicalmodels ```
 * ``` causalnex ```
 * ``` graphviz ```
 * ``` py-causal ```
 * ``` causality ```
-* ```python 3.6 ```
+Please run the following commands to have your system ready to run Unicorn:
+```
+pip install pandas
+pip install numpy
+pip install flask
+pip install causalgraphicalmodels
+pip install causalnex
+pip install graphviz
+pip install py-causal
+pip install causality
+pip install tensorflow-gpu==1.15
+pip install keras
+pip install torch==1.4.0 torchvision==0.5.0
+```
 ## How to use Unicorn
 Unicorn can be used for performing different tasks such as performance optimization and performance debugging.
 
