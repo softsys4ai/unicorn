@@ -5,7 +5,7 @@ Modern computer systems are highly configurable, with the total variability spac
 ![overview](https://user-images.githubusercontent.com/12802456/150659769-a23abaee-948d-4f1a-a80c-1968c80da9aa.png)
 
 
-## Dependencies
+## Pre-requisites
 * pandas    
 * flask
 * Keras
@@ -19,7 +19,27 @@ Modern computer systems are highly configurable, with the total variability spac
 * py-causal
 * causality  
 * python 3.6
-## Run instructions using Jetson faults dataset
+## How to use Unicorn
+Unicorn can be used for performing different tasks such as performance optimization and performance debugging.
+
+## Debugging
+
+### Single-objective
+
+### Multi-objective
+
+## Optimization
+
+### Single-objective
+
+### Multi-objective
+
+## Efficiency
+
+## Transferability
+
+
+## Data generation
 To run experiments on NVIDIA Jetson TX1 or TX2 or Xavier devices please use the following command to launch a flask on localhost:
 ```python
 command: python run_service.py softwaresystem
@@ -29,6 +49,7 @@ For example to initialize a flask app with image recogntion software system plea
 command: python run_service.py Image
 ```
 
+## Performance faults dataset
 Once the flask app is running and modelserver is ready then please use the following command to collect performance measurements for different configurations:
 ```python
 command: python run_params.py softwaresystem
@@ -51,7 +72,7 @@ For example, to build causal models using FCI and Entropy for image recognition 
 ```python
 command: python unicorn.py  -o inference_time -o total_energy_consumption -s Image -k TX1
 ```
-## Run instructions using a different dataset
+## Unicorn usage on a different dataset
 If you want to run Unicorn on your own dataset you will only need unicorn.py and src/causal_model.py. To perform interventions using the recommended configuration by unicorn.py you need to develop your own utilities (similar to run_params.py etc.). In addition to that, you need to make some changes in the etc/config.yml file based on your need. The necessary steps are the following:
 
 ### Step 1:
@@ -89,8 +110,7 @@ If you use your own intervention utility you need to update line 6 and line 126 
 ## Contacts
 |Name|Email|     
 |---------------|------------------|      
-|Shahriar Iqbal|miqbal@email.sc.edu|      
-|Rahul Krishna|i.m.ralk@gmail.com|
+|Md Shahriar Iqbal|miqbal@email.sc.edu|     
 
 
 ## 📘&nbsp; License
