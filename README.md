@@ -20,6 +20,8 @@ Modern computer systems are highly configurable, with the total variability spac
 
 Please run the following commands to have your system ready to run Unicorn:
 ```
+git clone https://github.com/softsys4ai/unicorn.git
+cd unicorn
 pip install pandas
 pip install numpy
 pip install flask
@@ -33,76 +35,83 @@ pip install keras
 pip install torch==1.4.0 torchvision==0.5.0
 ```
 ## How to use Unicorn
-Unicorn can be used for performing different tasks such as performance optimization and performance debugging.
+Unicorn can be used for performing different tasks such as performance optimization and performance debugging. Unicorn supports both offline and online modes. In the offline mode, Unicorn can be run on any device that uses previously measured configurations. In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly. To collect measurements from these devices ```sudo``` privilege is required as it requires setting a device to a new configuration before measurement.
 
-## Debugging
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-### Single-objective
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-### Multi-objective
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-## Optimization
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-### Single-objective
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-### Multi-objective
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-## Efficiency
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
+## Debugging (offline)
+Unicorn supports debugging and fixing single-objective and multi-objective performance faults. It also supports root cause analysis of these fixes such as determining accuracy, computing gain etc.
+
+### Single-objective debugging
+To debug single-objective faults in the offline mode using Unicorn please use the following command:
+```python unicorn_debugging.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+```
+
+#### Example
+To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_debugging.py  -o inference_time -s Xception -k TX2 -m offline
+```
+To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_debugging.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+```
+
+### Multi-objective debugging
+To debug multi-objective faults in the offline mode using Unicorn please use the following command:
+```python unicorn_debugging.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+```
+#### Example
+To debug multi-objective ```latency``` and ```energy``` faults for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_debugging.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
+```
+
+## Optimization (offline)
+Unicorn supports single-objective and multi-objective optimization..
+
+### Single-objective optimization
+To run single-objective optimization in the offline mode using Unicorn please use the following command:
+```python unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+```
+#### Example
+To To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
+```
+To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+```
+
+### Multi-objective debugging
+To run multi-objective optimization in the offline mode using Unicorn please use the following command:
+```python unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+```
+#### Example
+To run multi-objective ```latency``` and ```energy``` optimization for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
+```
+
 ## Transferability
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-
+Unicorn supports both single and multi-objective transferability. However, multi-objective transferability is not comprehensively investigated in this version. To determine single-objective transferability of Unicorn use the following command:
+```python unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem
+```
+#### Example
+To run single-objective ```latency``` transferability for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
+```
+To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
+```python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+```
 ## Data generation
-To run experiments on NVIDIA Jetson TX1 or TX2 or Xavier devices please use the following command to launch a flask on localhost:
-```python
-command: python run_service.py softwaresystem
-```
-For example to initialize a flask app with image recogntion software system please use:
-```python
-command: python run_service.py Image
+To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the following command to start the app in the ```localhost```.
+
+```python run_service.py softwaresystem
 ```
 
-## Performance faults dataset
+For example to initialize a flask app with ```Xception``` software system please use:
+```python run_service.py Image```
+
 Once the flask app is running and modelserver is ready then please use the following command to collect performance measurements for different configurations:
-```python
-command: python run_params.py softwaresystem
+```python run_params.py softwaresystem
 ```
 
-To run causal models for a single-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1  -s softwaresystem -k hardwaresystem
-```
-For example, to build causal models using FCI and Entropy for image recognition software system in TX1 with initial datafile irtx1.csv use the following for a latency (single objective) fault :
-```python
-command: python unicorn.py  -o inference_time  -s Image -k TX1
-```
-
-To run causal models for a multi-objective performance fault please run the following:
-```python
-command: python unicorn.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem
-```
-For example, to build causal models using FCI and Entropy for image recognition software system in TX1 with initial datafile irtx1.csv use the following for a latency and energy consumption (multi-ojective) performance fault:
-```python
-command: python unicorn.py  -o inference_time -o total_energy_consumption -s Image -k TX1
-```
 ## Unicorn usage on a different dataset
-If you want to run Unicorn on your own dataset you will only need unicorn.py and src/causal_model.py. To perform interventions using the recommended configuration by unicorn.py you need to develop your own utilities (similar to run_params.py etc.). In addition to that, you need to make some changes in the etc/config.yml file based on your need. The necessary steps are the following:
+To run Unicorn on your a different dataset you will only need ```unicorn_debugging.py``` and ```unicorn_optimization.py```. In the online mode, to perform interventions using the recommended configuration you need to develop your own utilities (similar to ```run_params.py```). Additionally, you need to make some changes in the ```etc/config.yml``` to use the configuration options and their values accordingly. The necessary steps are the following:
 
 ### Step 1:
 Update ```init_dir``` variable in the ```config.yml``` file with the location of the initial data.
