@@ -1,3 +1,5 @@
+import os
+import time
 import sys
 import pandas as pd
 import pydot
@@ -7,15 +9,22 @@ from collections import defaultdict
 from causalnex.structure.notears import from_pandas
 from causalnex.network import BayesianNetwork
 from ananke.graphs import ADMG
-from ananke.estimation import CausalEffect
+from ananke.estimation import CausalEffect as CE
 from ananke.estimation import AutomatedIF
 from causalnex.structure.notears import from_pandas
 from causalnex.network import BayesianNetwork
+from causallearn.search.ConstraintBased.FCI import fci
+from causallearn.utils.cit import chisq, fisherz, kci
+from causallearn.utils.GraphUtils import GraphUtils
+from causallearn.utils.PCUtils.BackgroundKnowledge import BackgroundKnowledge
 
 class CausalModel:
-    def __init__(self):
+    def __init__(self, columns):
         print("initializing CausalModel class")      
-
+        self.colmap={}
+        for i in range(len(columns)):
+            self.colmap[i] = columns[i]     
+        
     def get_tabu_edges(self, columns, options, 
                        objectives):
        """This function is used to exclude edges which are not possible"""
@@ -25,13 +34,13 @@ class CausalModel:
            for cur_elem in columns:
                if cur_elem != opt:
                    tabu_edges.append((cur_elem, opt))
-        
+       
        # constraints on performance objetcives  
        for obj in objectives:
            for cur_elem in columns:
                if cur_elem != obj:
                    tabu_edges.append((obj, cur_elem))
-
+       
        return tabu_edges 
 
     def visualize(self, nodes, edges, fname):
@@ -42,44 +51,64 @@ class CausalModel:
             graph = CausalGraphicalModel(nodes=nodes, edges=edges)
             graph.draw().render(filename=fname)
         except AssertionError:
-            print ("[ERROR]: cycles in NOTEARS dag")
+            print ("[ERROR]: cycles in dag")
             print("Edges: {0}".format(edges))
     
-    def learn_notears(self, df, tabu_edges, 
+    def learn_entropy(self, df, tabu_edges, 
                       thres):
-        """This function is used to learn model using NOTEARS"""
-        sm = from_pandas(df, tabu_edges = tabu_edges, w_threshold=thres)
-        return sm, sm.edges    
+        """This function is used to learn model using entropy"""
+        try:
+            sm = from_pandas(df, tabu_edges = tabu_edges, w_threshold=thres)
+            return sm, sm.edges
+        except:
+            return [], []    
 
-    def learn_fci(self, df, tabu_edges):
+    def learn_fci_pycausal(self, pc, df, 
+                  tabu_edges):
         """This function is used to learn model using FCI"""
-        from pycausal.pycausal import pycausal as pc
+        
         from pycausal import search as s
         from pycausal import prior as p
-        pc=pc()
-        pc.start_vm()
+       
         forbid = [list(i) for i in tabu_edges]
         prior = p.knowledge(forbiddirect = forbid)
         tetrad=s.tetradrunner()
         tetrad.getAlgorithmParameters(algoId = 'fci', testId = 'fisher-z-test')
         tetrad.run(algoId = 'fci', dfs = df, testId = 'fisher-z-test', 
-                   depth = -1, maxPathLength = -1, completeRuleSetUsed = False, 
-                   verbose = False)
+                   depth = -1, maxPathLength = -1, completeRuleSetUsed = True, 
+                   verbose = True, priorKnowledge = prior)
         edges = tetrad.getEdges()
         dot_str = pc.tetradGraphToDot(tetrad.getTetradGraph())
         graph = pydot.graph_from_dot_data(dot_str)
-        # graph[0].write_pdf(fname) 
-        pc.stop_vm()
+             
         return edges
+
+    def learn_fci(self, df, tabu_edges):
+        """This function is used to learn model using FCI"""
+        G, edges = fci(df, fisherz, 0.05, verbose=False)  
+        nodes = G.get_nodes()   
+        bk = BackgroundKnowledge()      
+        for ce in tabu_edges:
+            f = list(self.colmap.keys())[list(self.colmap.values()).index(ce[0])]
+            s = list(self.colmap.keys())[list(self.colmap.values()).index(ce[1])]
+
+            bk.add_forbidden_by_node(nodes[f], nodes[s])
+        G, edges = fci(df, fisherz, 0.05, verbose=False, background_knowledge=bk)
+        fci_edges = []
+        for edge in edges:
+            fci_edges.append(str(edge))
+        print (fci_edges)
+        return fci_edges
 
     def resolve_edges(self, DAG, PAG, 
                       columns, tabu_edges):
-        """This function is used to resolve no-tears (DAG) and fci (PAG) edges"""
+        """This function is used to resolve fci (PAG) edges"""
         bi_edge = "<->"
         directed_edge = "-->"
         undirected_edge = "o-o"
         trail_edge = "o->"
-        # notearse only contains directed edges.
+        #  entropy only contains directed edges.
+        
         options = {}
         for opt in columns:
             options[opt]= {}
@@ -89,7 +118,7 @@ class CausalModel:
         for edge in DAG:
             if edge[0] or edge[1] is None:
                 options[edge[0]][directed_edge].append(edge[1])
-        # replace trail and undirected edges with single edges using policy
+        # replace trail and undirected edges with single edges using entropic policy
         for i in range (len(PAG)):
             if trail_edge in PAG[i]:
                 PAG[i]=PAG[i].replace(trail_edge, directed_edge)
@@ -98,17 +127,26 @@ class CausalModel:
             else:
                 continue
         # update causal graph edges
+        
         for edge in PAG:
             cur = edge.split(" ")
             if cur[1]==directed_edge:
-                options[cur[0]][directed_edge].append(cur[2])
+                
+                node_one = self.colmap[int(cur[0].replace("X", ""))-1]               
+                node_two = self.colmap[int(cur[2].replace("X", ""))-1]
+                options[node_one][directed_edge].append(node_two)
             elif cur[1]==bi_edge:
-                options[cur[0]][bi_edge].append(cur[2])
+                node_one = self.colmap[int(cur[0].replace("X", ""))-1]
+                node_two = self.colmap[int(cur[2].replace("X", ""))-1]
+                
+                options[node_one][bi_edge].append(node_two)
             else: print ("[ERROR]: unexpected edges")
         # extract mixed graph edges 
         single_edges=[]
         double_edges=[]
+        
         for i in options:
+            
             options[i][directed_edge]=list(set(options[i][directed_edge]))
             options[i][bi_edge]=list(set(options[i][bi_edge]))
         for i in options:
@@ -116,7 +154,11 @@ class CausalModel:
                 single_edges.append((i,m))
             for m in options[i][bi_edge]:
                 double_edges.append((i,m))
-        single_edges=list(set(single_edges)-set(tabu_edges))
+        s_edges=list(set(single_edges)-set(tabu_edges))
+        single_edges = []
+        for e in s_edges: 
+            if e[0]!=e[1]:
+                single_edges.append(e)
         double_edges=list(set(double_edges)-set(tabu_edges))
         return single_edges, double_edges
     
@@ -139,20 +181,21 @@ class CausalModel:
                                    G, K):
         """This function is used to compute P_ACE for each path"""
         ace = {}
-        print (df)
+        
         for path in paths:
             ace[str(path)] = 0
             for i in range(0, len(path)):
                 if i > 0:
                     try:
-                        obj= CausalEffect(graph=G, treatment=path[i],outcome=path[0])
+                        obj= CE(graph=G, treatment=path[i],outcome=path[0])
                         ace[str(path)] += obj.compute_effect(df, "gformula") # computing the effect
-                        print ("causal effect of {0} on {1}".format(path[i], path[0]))
-                        print("ace = ", ace, "\n")
                     except:
                         continue
         # rank paths and select top K
-        paths = {k: v for k, v in sorted(ace.items(), key=lambda item: item[1], reverse = True)}[:K]
+        try:
+            paths = {k: v for k, v in sorted(ace.items(), key=lambda item: item[1], reverse = True)}[:K]
+        except TypeError:
+            pass
         return paths 
     
     def compute_individual_treatment_effect(self, df, paths, 
@@ -160,15 +203,16 @@ class CausalModel:
                                             bug_val, config, cfg, 
                                             variable_types):
         """This function is used to compute individual treatment effect"""
-        from causality.estimation.nonparametric import CausalEffect
+        from causality.estimation.nonparametric import CausalEffect 
         from causality.estimation.adjustments import AdjustForDirectCauses
         from networkx import DiGraph
         ite = {}
+        
         objectives = options.obj   
         option_values = cfg["option_values"][options.hardware]
         adjustment = AdjustForDirectCauses()
         if query == "best":
-            bestval = np.min(df[objectives])
+            bestval = bug_val
         else:
             bestval = (1-query)*bug_val
         
@@ -197,7 +241,8 @@ class CausalModel:
                         if i > 0:
                             if cfg["is_intervenable"][path[i]]:
                                 admissable_set = adjustment.admissable_set(cur_g,[path[i]], [path[0]])
-                                effect = CausalEffect(df, [path[i]], [path[0]],
+                                print (variable_types)
+                                effect = CausalEffect (df, [path[i]], [path[0]],
                                                  variable_types=variable_types, admissable_set=list(admissable_set))
                                 max_effect = -20000
                                 # compute effect for each value for the options
@@ -251,31 +296,38 @@ class CausalModel:
                 return config
                     
         # single objective treatment effect
+        
         for path in paths:    
+            
             cur_g = DiGraph()
             cur_g.add_nodes_from(path)
             cur_g.add_edges_from([(path[j], path[j-1]) for j in range(len(path)-1,0,-1)])
+            
             for i in range(0, len(path)):
                if i > 0:
                    
                    if cfg["is_intervenable"][path[i]]:
-                       if len(objectives) < 2:
-                          
+                       if len(objectives) < 2:                         
                            admissable_set = adjustment.admissable_set(cur_g,[path[i]], [path[0]])
+                                           
                            effect = CausalEffect(df, [path[i]], [path[0]],
-                                                 variable_types=variable_types, admissable_set=list(admissable_set))
+                                                     variable_types=variable_types, admissable_set=list(admissable_set))
+                           
                            max_effect = -20000
                            # compute effect for each value for the options
                            for val in option_values[path[i]]:
                                x = pd.DataFrame({path[i] : [val], path[0] : [bestval]})
+                                  
                                cur_effect = effect.pdf(x)
+                              
                                if max_effect < cur_effect:
                                    max_effect = cur_effect
                                    ite[path[i]] = val
+        
                          
         for option, value in ite.items():
            config[option] = value
-        print ("-----next configuration-----\n", config)
+        #print ("-----next configuration-----\n", config)
         return config
 
 class Graph:

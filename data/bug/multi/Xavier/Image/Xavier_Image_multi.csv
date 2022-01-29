@@ -1,0 +1,6 @@
+,core_freq,gpu_freq,emc_freq,num_cores,memory_growth,logical_devices,scheduler.policy,vm.swappiness,vm.vfs_cache_pressure,vm.dirty_background_ratio,vm.drop_caches,vm.nr_hugepages,vm.overcommit_ratio,vm.overcommit_memory,vm.overcommit_hugepages,kernel.sched_child_runs_first,kernel.sched_rt_runtime_us,vm.dirty_bytes,vm.dirty_background_bytes,vm.dirty_ratio,swap_memory,kernel.max_pids,kernel.sched_latency_ns,kernel.sched_nr_migrate,kernel.cpu_time_max_percent,kernel.sched_time_avg_ms,inference_time,total_energy_consumption
+777449,192000,1190400,204000000,4,0.5,1,0,100,500,50,0,1,50,0,1,1,500000,30,30,10,4,65546,24000000,128,100,2000,33.832314097965664,143165
+85584,1420800,576000,665600000,3,0.9,1,0,60,500,5,3,1,50,0,1,0,500000,30,30,10,4,65546,24000000,128,100,1000,35.031382091615846,146155
+813563,115200,729600,600000000,3,0.9,1,1,100,500,50,3,1,50,0,1,1,500000,30,60,10,4,65546,24000000,128,100,2000,34.22526304743086,142720
+376344,729600,1574400,1866000000,1,0.5,1,0,60,100,5,3,1,50,0,1,1,500000,30,30,10,4,65546,24000000,128,100,1000,34.189753376716126,142031
+800029,576000,1728000,1331200000,3,0.9,1,1,60,100,5,3,1,50,0,1,1,950000,30,30,10,4,65546,24000000,128,100,2000,34.28041030952278,141855
