@@ -43,28 +43,28 @@ Unicorn supports debugging and fixing single-objective and multi-objective perfo
 ### Single-objective debugging
 To debug single-objective faults in the offline mode using Unicorn please use the following command:
 ```
-python unicorn_debugging.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+python run_unicorn_debug.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 
 #### Example
 To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_debugging.py  -o inference_time -s Xception -k TX2 -m offline
+python run_unicorn_debug.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_debugging.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+python run_unicorn_debug.py  -o total_energy_consumption -s NLP -k Xavier -m offline
 ```
 
 ### Multi-objective debugging
 To debug multi-objective faults in the offline mode using Unicorn please use the following command:
 ```
-python unicorn_debugging.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+python run_unicorn_debug.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To debug multi-objective ```latency``` and ```energy``` faults for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_debugging.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
+python run_unicorn_debug.py  -o inference_time -o total_energy_consumption -s Speech  -k TX2 -m offline
 ```
 
 ## Optimization (offline)
@@ -73,45 +73,83 @@ Unicorn supports single-objective and multi-objective optimization..
 ### Single-objective optimization
 To run single-objective optimization in the offline mode using Unicorn please use the following command:
 ```
-python unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+python run_unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
+python run_unicorn_optimization.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+python run_unicorn_optimization.py  -o total_energy_consumption -s NLP -k Xavier -m offline
 ```
 
 ### Multi-objective debugging
 To run multi-objective optimization in the offline mode using Unicorn please use the following command:
 ```
-python unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+python run_unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To run multi-objective ```latency``` and ```energy``` optimization for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
+python run_unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
 ```
 
 ## Transferability
 Unicorn supports both single and multi-objective transferability. However, multi-objective transferability is not comprehensively investigated in this version. To determine single-objective transferability of Unicorn use the following command:
 ```
-python unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem
+python run_unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem
 ```
 #### Example
 To run single-objective ```latency``` transferability for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_optimization.py  -o inference_time -s Xception -k TX2 -m offline
+python run_unicorn_transferability.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python unicorn_optimization.py  -o total_energy_consumption -s Bert -k Xavier -m offline
+python run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
 ```
+## Debugging baselines
+Unicorn supports four debugging baselines such as CBI, Delta Debugging, Encore and BugDoc. To run the baselines use the following commands:
+```
+python run_baseline_debug.py  -o objective -s softwaresystem -k hardwaresystem -m mode -b baseline
+```
+#### Example
+To run single-objective ```latency``` debugging for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using CBI please use the following command:
+```
+python run_baseline_debug  -o inference_time -s Image -k TX2 -m offline -b c
+```
+To run single-objective ```latency``` debugging for ```Deespspeech``` in ```JETSON TX2``` in the ```offline``` mode using delta debugging please use the following command:
+```
+python run_baseline_debug  -o inference_time -s Speech -k TX2 -m offline -b dd
+```
+To run single-objective ```energy``` debugging for ```Deesptream``` in ```JETSON Xavier``` in the ```offline``` mode using encore please use the following command:
+```
+python run_baseline_debug  -o total_energy_consumption -s Deepstream -k Xavier -m offline -b encore
+```
+To run single-objective ```energy``` debugging for ```x264``` in ```JETSON Xavier``` in the ```offline``` mode using bugdoc please use the following command:
+```
+python run_baseline_debug  -o total_energy_consumption -s x264 -k Xavier -m offline -b bugdoc
+```
+## Optimization baselines
+Unicorn supports two optimization baselines: SMAC and PESMO. SMAC is used for single-objective optimization while PESMO is used for multi-objective optimization. To run the baselines use the following commands:
+```
+python run_baseline_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode -b baseline
+```
+#### Example
+To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using SMAC please use the following command:
+```
+python run_baseline_optimization  -o inference_time -s Image -k TX2 -m offline -b smac
+```
+To run multi-objective optimizaiton for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using PESMO please use the following command:
+```
+python run_baseline_optimization  -o inference_time -o total_energy_consumption -s Image -k TX2 -m offline -b pesmo
+```
+
 ## Data generation
 To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the following command to start the app in the ```localhost```.
+
 
 ```
 python run_service.py softwaresystem
@@ -142,7 +180,7 @@ To run Unicorn on your a different dataset you will only need ```unicorn_debuggi
 
 **Step 6**: Update ```perf_columns``` in the ```config.yml``` with the events you want to track using perf. If you use any other monitoring tool you need to update it accordingly.
 
-**Step 7**: Update ```measurment_colums``` in the ```config.yml``` based on the performance objectives you want to use for bug resolve.
+**Step 7**: Update ```measurement_colums``` in the ```config.yml``` based on the performance objectives you want to use for bug resolve.
 
 **Step 8**: Update ```is_intervenable``` variables in the ```config.yml``` with the configuration options you want to use and based on your application change their values to True or False. True indicates the configuration options can be intervened upon and vice-versa for False.
 
