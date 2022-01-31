@@ -16,7 +16,7 @@ def config_option_parser():
     """This function is used to configure option parser 
     @returns:
         options: option parser handle"""
-    usage="""USAGE: %python3 run_unicorn_debug.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m [mode] -i [bug_id]
+    usage="""USAGE: %python3 run_unicorn_debug.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m [mode] -i [bid]
     """
     parser=OptionParser(usage=usage)
     parser.add_option('-o', '--objective', dest='obj', 
@@ -28,8 +28,8 @@ def config_option_parser():
                       type="string", dest="hardware", help="hardware")
     parser.add_option('-m', "--mode", action="store",
                       type="string", dest="mode", help="mode")
-    parser.add_option('-i', "--bug_num", action="store",
-                      type="int", dest="bug_num", help="bug_num")
+    parser.add_option('-i', "--bid", action="store",
+                      type="string", dest="bid", help="bid")
     (options, args)=parser.parse_args()
     return options
 
@@ -54,7 +54,7 @@ def run_unicorn_loop(CM, df,
 
 if __name__=="__main__":
     
-    NUM_PATHS =  15
+    NUM_PATHS =  25
     query = 0.8
     options = config_option_parser()
     # Initialization
@@ -112,8 +112,9 @@ if __name__=="__main__":
     for col in columns: var_types[col] = "c"
     # Get Bug and update df 
     bug_exists = True   
-    bug_id = 0
-    
+    if options.bid:
+        bug_df = bug_df.iloc[int(options.bid):int(options.bid)+1]
+     
     for bug_id in range(len(bug_df)):
         bug = bug_df.loc[bug_id]
         bug_exists = True
@@ -128,7 +129,7 @@ if __name__=="__main__":
             
             paths = CM.get_causal_paths(columns, di_edges, bi_edges, 
                                         options.obj)
-            print (paths)
+            
             # compute causal paths
             if len(options.obj) < 2:
                 # single objective faults
@@ -166,6 +167,7 @@ if __name__=="__main__":
                         print ("+++++++++++++++Recommended Fix++++++++++++++++++++")
                         print (config)
                         print ("Unicorn Fix Value", curm)
+                        print ("Number of Samples Required", str(it))
                         print ("--------------------------------------------------")
                         
                         print ("--------------------------------------------------")
@@ -175,6 +177,10 @@ if __name__=="__main__":
                         print ("--------------------------------------------------")
                     else:
                         curc = m[options.hardware][options.software][options.obj[0]][str(bug_id)][str(it)]["conf"]
+                        print ("--------------------------------------------------")
+                        print ("+++++++++++++++++++++Bug++++++++++++++++++++++++++")
+                        print ("Recommended Config Objective Value", curm)
+                        print ("--------------------------------------------------")
                         it += 1 
                         config = config.tolist()       
                         config.extend(curc)
@@ -206,5 +212,5 @@ if __name__=="__main__":
                 print ("[ERROR]: no config recommended")
                 bug_exists = False
         
-  
+            
         
