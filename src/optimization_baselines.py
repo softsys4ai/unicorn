@@ -3,10 +3,16 @@ import os
 from operator import itemgetter
 import random
 from bayes_opt import BayesianOptimization
+import json
 
 class OptimizationBaselines:
     def __init__(self):
         print ("initializing OptimizationBaselines class")
+        with open(os.path.join(os.getcwd(),"etc/bo_config.yml")) as file:
+            self.cfg = yaml.load(file, Loader=yaml.FullLoader)
+        with open(os.path.join(os.getcwd(),self.cfg["opt_dir"],"measurement_b.json")) as mfl:    
+            self.m = json.load(mfl)
+        self.iteration = 0
     
     def measure_config(self, memory_growth, logical_devices, core_freq, 
                    gpu_freq, emc_freq, num_cores, 
@@ -18,10 +24,32 @@ class OptimizationBaselines:
                    kernel_max_pids, kernel_sched_latency_ns, kernel_sched_nr_migrate,
                    kernel_cpu_time_max_percent, kernel_sched_time_avg_ms):
         """This function is used to measure the recommended configuration by BO. Here, 
-        an internal traslation is performed to map to the nearest configuration."""
+        an internal translation is performed to map to the nearest configuration."""
         
-        return -random.uniform(100,200)
+        curm = self.m[self.hw][self.soft][self.objective][str(self.iteration)]["measurement"]
+        self.iteration += 1
+        return -curm
     
+    def get_configs(self, configs, columns):
+        for i in range(len(configs)):
+           cur = configs[i]['params']
+           value = configs[i]['target']
+           for col in columns:
+                min_distance = 20000000000000000
+                vals = self.cfg["option_values"][self.hw][col]
+                
+                print (vals)
+                cur_val = cur[col]
+                print (cur_val)
+                for val in vals:
+                    if abs(val-cur_val) < min_distance:
+                        print (min_distance)
+                        min_distance = abs(val-cur_val)
+                configs[i]['params'][col]=val
+               
+        return configs  
+              
+           
     def smac(self, objective, soft, 
              hw):
         """This function is used to implement smac"""
@@ -29,36 +57,39 @@ class OptimizationBaselines:
         # initialization requires reading from a separate config file as the 
         # config option names are passed as argument and dot conflicts with the
         # keyword and are removed by replacing with underscore. . 
-        with open(os.path.join(os.getcwd(),"etc/bo_config.yml")) as file:
-            cfg = yaml.load(file, Loader=yaml.FullLoader)
-    
-            soft_columns = cfg["software_columns"]["Image"]
-            hw_columns = cfg["hardware_columns"]["TX2"]
-            kernel_columns = cfg["kernel_columns"]
-            columns = soft_columns + hw_columns + kernel_columns 
-            option_values = cfg["option_values"]["TX2"]
+        
+        soft_columns = self.cfg["software_columns"][soft]
+        hw_columns = self.cfg["hardware_columns"][hw]
+        kernel_columns = self.cfg["kernel_columns"]
+        columns = soft_columns + hw_columns + kernel_columns 
+        option_values = self.cfg["option_values"][hw]
+        
             
-            # define bounded configuration space 
+        # define bounded configuration space 
+        self.objective = objective[0]
+        self.hw = hw
+        self.soft = soft
+        pbounds={}
 
-            pbounds={}
+        for col in columns:
+            pbounds[col] = [option_values[col][0], option_values[col][-1]]
 
-            for col in columns:
-                pbounds[col] = [option_values[col][0], option_values[col][1]]
+        # define optimizer
+        optimizer = BayesianOptimization(
+        f = self.measure_config,
+        pbounds = pbounds,
+        random_state=1)
 
-            # define optimizer
-            optimizer = BayesianOptimization(
-            f = self.measure_config,
-            pbounds = pbounds,
-            random_state=1)
+        # optimize for 200 iterations
+        optimizer.maximize(
+        init_points=5,
+        n_iter=5)
+        
+        print(self.get_configs(optimizer.res, columns))
 
-            # optimize for 200 iterations
-            optimizer.maximize(
-            init_points=25,
-            n_iter=200)
-
-            # output
-            for i, res in enumerate(optimizer.res):
-                print("Iteration {}: \n\t{}".format(i, res))
+        
+        #for i, res in enumerate(optimizer.res):
+        #    print("Iteration {}: \n\t{}".format(i, res))
     
     
     def pesmo(self, data):

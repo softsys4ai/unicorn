@@ -32,10 +32,10 @@ def config_option_parser():
     (options, args)=parser.parse_args()
     return options
 
-def run_cauper_loop(CM, df, 
+def run_unicorn_loop(CM, df, 
                    tabu_edges, columns, options, 
                    NUM_PATHS):
-    """This function is used to run cauper in a loop"""
+    """This function is used to run unicorn in a loop"""
     # NOTEARS causal model hyperparmas
     #_, notears_edges = CM.learn_entropy(df, tabu_edges, 0.75)
     # get bayesian network from DAG obtained by NOTEARS
@@ -45,7 +45,7 @@ def run_cauper_loop(CM, df,
     edges = []
     # resolve notears_edges and fci_edges and update 
     di_edges, bi_edges = CM.resolve_edges(edges, fci_edges, columns, 
-                                          tabu_edges)
+                                          tabu_edges, NUM_PATHS, options.obj)
     # construct mixed graph ADMG
     
     G = ADMG(columns, di_edges = di_edges, bi_edges = bi_edges)
@@ -53,7 +53,7 @@ def run_cauper_loop(CM, df,
 
 if __name__=="__main__":
     
-    NUM_PATHS =  7
+    NUM_PATHS =  25
     query = "best"
     options = config_option_parser()
     # Initialization
@@ -84,9 +84,7 @@ if __name__=="__main__":
        
     # get init data
     df = pd.read_csv(init_dir)
-    df.to_csv("init.csv")
     df = df[columns]
-    print (df)
     # initialize causal model object
     CM = CausalModel(columns)
     g = DiGraph()
@@ -94,7 +92,7 @@ if __name__=="__main__":
     # edge constraints
     tabu_edges = CM.get_tabu_edges(columns, conf_opt, options.obj)  
     
-    G, di_edges, bi_edges = run_cauper_loop(CM, df, tabu_edges, 
+    G, di_edges, bi_edges = run_unicorn_loop(CM, df, tabu_edges, 
                                             columns, options, NUM_PATHS)
     
     g.add_edges_from(di_edges + bi_edges)
@@ -102,12 +100,14 @@ if __name__=="__main__":
     var_types = {}
     for col in columns: var_types[col] = "c"
     
-    
-    
+    ref_index = df[[options.obj[0]]].idxmin()
+    ref_df = df.loc[ref_index]
+    ref = ref_df.iloc[0]
     for it in range(200):           
-        # identify causal paths          
+        # identify causal paths 
+        previous_config = ref[conf_opt].copy()
         paths = CM.get_causal_paths(columns, di_edges, bi_edges, 
-                                        options.obj)
+                                    options.obj)
         
         # compute causal paths
         if len(options.obj) < 2:
@@ -120,45 +120,51 @@ if __name__=="__main__":
                     paths = paths[options.obj[0]]
                 
             # compute individual treatment effect in a path 
-            cur_df=df.sample(n=1)
-            for _, ref in cur_df.iterrows():
-                 config = CM.compute_individual_treatment_effect(df, paths, g, 
+            
+            config = CM.compute_individual_treatment_effect(df, paths, g, 
                                        query, options, ref[options.obj[0]], 
-                                       ref[conf_opt], cfg, var_types)
+                                       previous_config, cfg, var_types)
             
         else:
             # multi objective
             paths = paths[options.obj[0]]
             # compute individual treatment effect in a path
-            cur_df=df.sample(n=1)
-            for _, ref in cur_df.iterrows():
-                config = CM.compute_individual_treatment_effect(df, paths, g, 
+            config = CM.compute_individual_treatment_effect(df, paths, g, 
                                             query, options, ref[options.obj], 
-                                            ref[conf_opt], cfg, var_types)
+                                            previous_config, cfg, var_types)
             
          
         # perform intervention. This updates the init_data
         if config is not None:
             if options.mode == "offline":
-               try:
-                   curm = m[options.hardware][options.software][options.obj[0]][str(it)]["measurement"]   
-                   curc = m[options.hardware][options.software][options.obj[0]][str(it)]["conf"]    
-               except KeyError:
-                   continue
+               
+               curm = m[options.hardware][options.software][options.obj[0]][str(it)]["measurement"]   
+               curc = m[options.hardware][options.software][options.obj[0]][str(it)]["conf"]    
+               
                # update initial
-               df = pd.concat([df,config], axis=0)
-               print(df.columns) 
-               run_cauper_loop(CM, df, tabu_edges, 
+               config = config.tolist()         
+               config.extend(curc)
+               config.extend([curm])
+               config = pd.DataFrame([config])
+               config.columns = columns
+               df = pd.concat([df,config],axis=0)
+               df = df[columns]
+               previous_config=config.squeeze()[conf_opt] 
+               run_unicorn_loop(CM, df, tabu_edges, 
                                columns, options, NUM_PATHS)
                     
                     
             elif options.mode == "online":
                gprm = GenerateParams(cfg, options.software, "unicorn")
-               output = gprm.run_cauper_experiment(config)
-                    
-                    
-               df = pd.concat([df, output])
-               run_cauper_loop(CM, df, tabu_edges, 
+               output = gprm.run_unicorn_experiment(config)
+               output.extend(curc)
+               output.extend([curm])
+               output = pd.DataFrame([output])
+               output.columns = columns                         
+               df = pd.concat([df,config],axis=0)
+               df=df[columns]
+               previous_config=output.squeeze()[conf_opt]
+               run_unicorn_loop(CM, df, tabu_edges, 
                                columns, options, NUM_PATHS)
             else:
                 print ("[ERROR]: invalid mode")    

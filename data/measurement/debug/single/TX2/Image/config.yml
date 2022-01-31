@@ -222,7 +222,7 @@ is_intervenable:
    vm.overcommit_hugepages: True
    kernel.sched_child_runs_first: True
    kernel.sched_rt_runtime_us: True
-   vm.dirty_bytes: True
+   vm.dity_bytes: True
    vm.dirty_background_bytes: True
    vm.dirty_ratio: True
    swap_memory: True
@@ -266,8 +266,6 @@ is_intervenable:
    pragma_page_size: True
    pragma_max_page_count: True
    pragma_mmap_size: True
-   sched_sched_process_wait: False
-   sched_sched_stat_runtime: False
    logical_devices: False
    migrations: False
    context-switches: False
@@ -276,12 +274,12 @@ is_intervenable:
    branch-misses: False
    branch-load-misses: False
    major-faults: False
-   minor-faults: False
+   minor-fault: False
    scheduler-wait-time: False
    scheduler-sleep-time: False
    cycles: False
-   raw_syscalls_sys_enter: False
-   raw_syscalls_sys_exit: False
+   num_syscalls_enter: False
+   num_syscalls_exit: False
    instructions: False
    L1-dcache-load-misses: False
    L1-dcache-loads: False
@@ -289,9 +287,6 @@ is_intervenable:
    branch-loads: False
    cache-references: False
    emulation-faults : False
-   sched_sched_load_avg_cpu: False
-   sched_sched_wakeup: False
-   sched_sched_overutilized: False
    inference_time: False
    total_energy_consumption: False
    gpu_energy_consumption: False

@@ -11,7 +11,7 @@ def config_option_parser():
     """This function is used to configure option parser
     @returns:
         options: option parser handle"""
-    usage="""USAGE: %python3 baselines.py -o [objectives] -s [software] -k [hardware] -m [mode]
+    usage="""USAGE: %python3 run_baseline_debug.py -o [objectives] -s [software] -k [hardware] -m [mode] -b [baseline]
     """
     parser=OptionParser(usage=usage)
     parser.add_option('-o', '--objective', dest='obj',
@@ -31,7 +31,6 @@ def config_option_parser():
 
 if __name__=="__main__":
     options = config_option_parser()
-    # Initialization
     # Initialization
     with open(os.path.join(os.getcwd(),"etc/config.yml")) as file:
         cfg = yaml.load(file, Loader=yaml.FullLoader)

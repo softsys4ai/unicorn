@@ -2,19 +2,22 @@ import pandas as pd
 import os
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+from sklearn.metrics import precision_score, recall_score
 class Metrics:
       def __init__(self):
           print ("[STATUS]: initializing Metrics class")
       
-      def compute_accuracy(self, recommended_fix, true_cause):
-          print ("TODO")
+      def compute_accuracy(self, list1, list2):
+          
+          intersection = len(list(set(list1).intersection(list2)))
+          union = (len(list1) + len(list2)) - intersection
+          return float(intersection) / union
       
       def compute_precision(self, recommended_fix, true_cause):
-          print ("TODO")
+          return precision_score(recommended_fix, true_cause)
 
       def compute_recall(self, recommended_fix, true_cause):
-          print ("TODO")
+          return recall_score(recommended_fix, true_cause)
       
       def compute_gain(self, recommended_val, bug_val):
           return ((recommended_val - bug_val)/bug_val)*100

@@ -191,9 +191,11 @@ At this stage you can run ```unicorn_debugging.py``` and ```unicorn_optimization
 ## How to cite
 If you use Unicorn in your research or the dataset in this repository please cite the following:
 ```
-@article{iqbalcadet,
-  title={CADET: A Systematic Method For Debugging Misconfigurations using Counterfactual Reasoning},
-  author={Iqbal, Md Shahriar and Krishna, Rahul and Javidian, Mohammad Ali and Ray, Baishakhi and Jamshidi, Pooyan}
+@article{iqbal2022unicorn,
+  title={Unicorn: Reasoning about Configurable System Performance through the lens of Causality},
+  author={Iqbal, Md Shahriar and Krishna, Rahul and Javidian, Mohammad Ali and Ray, Baishakhi and Jamshidi, Pooyan},
+  journal={arXiv preprint arXiv:2201.08413},
+  year={2022}
 }
 ```
 

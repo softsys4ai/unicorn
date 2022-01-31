@@ -267,7 +267,6 @@ is_intervenable:
    pragma_max_page_count: True
    pragma_mmap_size: True
    sched_sched_process_wait: False
-   sched_sched_stat_runtime: False
    logical_devices: False
    migrations: False
    context-switches: False
@@ -280,8 +279,8 @@ is_intervenable:
    scheduler-wait-time: False
    scheduler-sleep-time: False
    cycles: False
-   raw_syscalls_sys_enter: False
-   raw_syscalls_sys_exit: False
+   num_syscalls_enter: False
+   num_syscalls_exit: False
    instructions: False
    L1-dcache-load-misses: False
    L1-dcache-loads: False

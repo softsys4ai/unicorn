@@ -44,7 +44,7 @@ def run_unicorn_loop(CM, df,
     edges = []
     # resolve notears_edges and fci_edges and update 
     di_edges, bi_edges = CM.resolve_edges(edges, fci_edges, columns, 
-                                          tabu_edges)
+                                          tabu_edges, NUM_PATHS, options.obj)
     # construct mixed graph ADMG
     
     G = ADMG(columns, di_edges = di_edges, bi_edges = bi_edges)
@@ -52,7 +52,7 @@ def run_unicorn_loop(CM, df,
 
 if __name__=="__main__":
     
-    NUM_PATHS =  7
+    NUM_PATHS =  15
     query = 0.8
     options = config_option_parser()
     # Initialization
@@ -111,15 +111,20 @@ if __name__=="__main__":
     # Get Bug and update df 
     bug_exists = True   
     bug_id = 0
-    bug_df = bug_df.sample(n=1)
+    
     for _, bug in bug_df.iterrows():
-        it = 0    
+        print ("++++++++++++++++++++++++++++++++++++++")
+        print ("BUG ID: ", bug_id)
+        print ("++++++++++++++++++++++++++++++++++++++")
+        it = 0 
+        previous_config = bug[conf_opt].copy()  
+         
         while bug_exists:
             # identify causal paths
             
             paths = CM.get_causal_paths(columns, di_edges, bi_edges, 
                                         options.obj)
-            
+            print (paths)
             # compute causal paths
             if len(options.obj) < 2:
                 # single objective faults
@@ -130,11 +135,11 @@ if __name__=="__main__":
                     else: 
                         paths = paths[options.obj[0]]
                 
-                # compute individual treatment effect in a path 
-                
+                # compute individual treatment effect in a path
+        
                 config = CM.compute_individual_treatment_effect(df, paths, g, 
                                             query, options, bug[options.obj[0]], 
-                                            bug[conf_opt], cfg, var_types)
+                                            previous_config, cfg, var_types)
                  
             else:
                  # multi objective faults
@@ -143,7 +148,7 @@ if __name__=="__main__":
                  
                  config = CM.compute_individual_treatment_effect(df, paths, g, 
                                             query, options, bug[options.obj], 
-                                            bug[conf_opt], cfg, var_types)
+                                            previous_config, cfg, var_types)
             
             
             # perform intervention. This updates the init_data
@@ -154,16 +159,26 @@ if __name__=="__main__":
                     if curm < (1-query)*bug[options.obj[0]]:
                         bug_exists = False
                         bug_id += 1
+                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                        print ("+++++++++++Recommended Fix++++++++++++++++++++")
+                        print (config)
+                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                        print ("+++++++++++Bug++++++++++++++++++++")
+                        print (bug[conf_opt])
+                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
                     else:
                         curc = m[options.hardware][options.software][options.obj[0]][str(bug_id)][str(it)]["conf"]
                         it += 1 
-                        config = config.tolist()         
+                        config = config.tolist()       
                         config.extend(curc)
                         config.extend([curm])
                         config = pd.DataFrame([config])
-                        config.columns = columns
+                        config.columns = columns                         
                         df = pd.concat([df,config],axis=0)
-                        
+                        df=df[columns]
+                        # previous_config
+                        previous_config=config.squeeze()[conf_opt]
                         # update initial
                         run_unicorn_loop(CM, df, tabu_edges, 
                                     columns, options, NUM_PATHS)
@@ -173,6 +188,7 @@ if __name__=="__main__":
                     m_config = gprm.run_unicorn_experiment(config)
                     if m_config[m_config.obj[0]] < (1-query)*bug_val:  
                         bug_exists = False
+                        
                     else: 
                         # run loop
                         df = pd.concat([df, output], axis=0)

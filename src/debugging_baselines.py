@@ -7,6 +7,7 @@ import itertools
 import numpy as np
 from math import e
 import pandas as pd
+from sklearn.tree import _tree
 from operator import itemgetter
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import export_text
@@ -15,20 +16,20 @@ random.seed(288)
 class DebuggingBaselines:
     def __init__(self):
         print ("initializing DebuggingBaselines class")
-
+    
     def measure_cbi_importance(self, cfg, data, objective,
                    bug_val):
         """This function is used to measure importance"""
         Importance = {}
 
         adjustment = 4
-        threshold = 0.5 * bug_val
+        threshold = 0.6 * bug_val
         for col in data.columns:
             if col != objective:
                 # compute F (P_true)
                 P_true_df = data.loc[data[col] == 1]
                 F_P_true_df = P_true_df.loc[P_true_df[objective] > threshold]
-                F_P_true = len(F_P_true_df) + adjustment
+                F_P_true = len(F_P_true_df) + adjustment 
 
                 # compute S (P_true)
                 S_P_true_df = P_true_df.loc[P_true_df[objective] < threshold]
@@ -47,12 +48,12 @@ class DebuggingBaselines:
                 Context_P = F_P_observed/ (S_P_observed + F_P_observed)
 
                 # compute Increase
-                Increase_P=Failure_P - Context_P
-
+                Increase_P=Failure_P - Context_P + 0.1
+                        
                 #compute Importance
                 Importance_P = 2/(1/Increase_P) + (1/(math.log(F_P_true)/math.log(F_P_observed)))
                 Importance[col] = Importance_P
-
+        
         return Importance
 
     def detect_cbi_fix(self, importance, columns):
@@ -68,15 +69,18 @@ class DebuggingBaselines:
                     cur = sorted(cur,key=itemgetter(1), reverse=True)
                     selected = cur[0][0].split("@")
                     col_dict[selected[0]] = selected[1]
-        print (col_dict)
-        return col_dict, 0
+        # convert the fix to a dataframe
+        cur_df = [col_dict[cur_col] for cur_col in columns]
+        cur_df = pd.Series(cur_df, index = columns)
+        
+        return cur_df, 0
 
     def cbi(self, cfg, data,
             objective, bug, soft,
             hw):
         """This function is used to run CBI"""
         if not data.empty:
-            print ("[STATUS]: data format is valid")
+            print ("[STATUS]: Starting CBI")
             soft_configs = cfg["software_columns"][soft]
             hw_configs=cfg["hardware_columns"][hw]
             kernel_configs=cfg["kernel_columns"]
@@ -95,15 +99,22 @@ class DebuggingBaselines:
                 importance = self.measure_cbi_importance(cfg, data,
                                                      objective[0], bug[objective[0]])
                 fix, fix_val = self.detect_cbi_fix(importance, columns)
-
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            print("Recommended Fix")
+            print (fix)
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            print("Bug")
+            print (bug)
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            
         else:
             print ("[ERROR]: no data found")
             return
         
     def process_bug(self, cfg, bug,
                     baseline_columns, columns):
-       # Hardcoded
-       bug["kernel.max_pids"]=65536
+       
        col_index ={}
        index = 0
        for col in baseline_columns:
@@ -153,14 +164,14 @@ class DebuggingBaselines:
         """This function is used to implement dd"""
 
         if not data.empty:
-            print ("[STATUS]: data format is valid")
+            print ("[STATUS]: Starting Delta Debugging")
 
             if len(objective) > 1:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0.5 * bug[objective[0]]]
-                no_bug_subset_df = no_bug_subset_df.loc[data[objective[0]] < 0.5 * bug[objective[0]]]
+                no_bug_subset_df = data.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
+                no_bug_subset_df = no_bug_subset_df.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
             else:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0.5 * bug[objective[0]]]
-                threshold = 0.5 * bug[objective[0]]
+                no_bug_subset_df = data.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
+                threshold = 0.6 * bug[objective[0]]
             # randomly select a fix
             pass_conf = no_bug_subset_df.sample(n=1)
             pass_conf = pass_conf.values.tolist()
@@ -200,6 +211,7 @@ class DebuggingBaselines:
                 print ("[ERROR]: possible adjustmens need to be made")
                 H[i] = -1
             H[i] = cur_entropy
+        selected_H = [h for h in H if h>0.325]
         max_H = np.max(H)
         max_H_index = H.index(max_H)
         selected_config = configs[max_H_index]
@@ -211,14 +223,14 @@ class DebuggingBaselines:
         """This function is used to implement encore"""
         from mlxtend.frequent_patterns import apriori, association_rules
         if not data.empty:
-            print ("[STATUS]: data format is valid")
+            print ("[STATUS]: Starting Encore")
 
             columns = data.columns
             if len(objective) > 1:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0.25 * bug[objective[0]]]
-                no_bug_subset_df = data.loc[data[objective[1]] < 0.25 * bug[objective[1]]]
-            else:
                 no_bug_subset_df = data.loc[data[objective[0]] < 0.5 * bug[objective[0]]]
+                no_bug_subset_df = data.loc[data[objective[1]] < 0.5 * bug[objective[1]]]
+            else:
+                no_bug_subset_df = data.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
             no_bug_subset_df = no_bug_subset_df.drop(columns=['inference_time', 'total_energy_consumption'])
             no_bug_df = no_bug_subset_df
 
@@ -237,14 +249,75 @@ class DebuggingBaselines:
             columns.extend(kernel_configs)
             dict_col={}
             for col in columns:
+                dict_col[col] = bug[col]
+                
+            for col in columns:
                 for option in fix:
                     if col in option:
                         opt, val = option.split("@")
                         dict_col[opt] = val
-
+            
+            # convert the fix to a dataframe
+            fix = [dict_col[col] for col in columns]
+            fix = pd.Series(fix, index = columns)
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            print("Recommended Fix")
+            print (fix)
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            print("Bug")
+            print (bug)
+            print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
         else:
             print ("[ERROR]: no data found")
             return
+    def get_rules(self, tree, feature_names, class_names):
+        tree_ = tree.tree_
+        feature_name = [feature_names[i] if i != _tree.TREE_UNDEFINED else "undefined!" for i in tree_.feature]
+
+        paths = []
+        path = []
+    
+        def recurse(node, path, paths):
+        
+            if tree_.feature[node] != _tree.TREE_UNDEFINED:
+                name = feature_name[node]
+                threshold = tree_.threshold[node]
+                p1, p2 = list(path), list(path)
+                p1 += [f"({name} <= {np.round(threshold, 3)})"]
+                recurse(tree_.children_left[node], p1, paths)
+                p2 += [f"({name} > {np.round(threshold, 3)})"]
+                recurse(tree_.children_right[node], p2, paths)
+            else:
+                path += [(tree_.value[node], tree_.n_node_samples[node])]
+                paths += [path]
+            
+        recurse(0, path, paths)
+
+        # sort by samples count
+        samples_count = [p[-1][1] for p in paths]
+        ii = list(np.argsort(samples_count))
+        paths = [paths[i] for i in reversed(ii)]
+    
+        rules = []
+        for path in paths:
+            rule = "if "
+        
+            for p in path[:-1]:
+                if rule != "if ":
+                    rule += " and "
+                rule += str(p)
+            rule += " then "
+            if class_names is None:
+                rule += "response: "+str(np.round(path[-1][0][0][0],3))
+            else:
+                classes = path[-1][0][0]
+                l = np.argmax(classes)
+                rule += f"class: {class_names[l]} (proba: {np.round(100.0*classes[l]/np.sum(classes),2)}%)"
+            rule += f" | based on {path[-1][1]:,} samples"
+            rules += [rule]
+        
+        return rules
     
     def get_bugdoc_rules(self, tree, feature_names):
         left      = tree.tree_.children_left
@@ -274,28 +347,72 @@ class DebuggingBaselines:
                 return recurse(left, right, parent, lineage)
         struct = []
         for child in idx:
-            cur=[]
+             
             for node in recurse(left, right, child):
-                
-                if isinstance(node,int):
-                    print (node)
-                else:
-                    cur.append(node)
-                    struct.append(cur)
+                print (node) 
+               
             return struct
     
+    def parse(self, cur_rule, cfg, columns, hw):
+        if " <= " in cur_rule:
+            cur_rule = cur_rule.split( " <= ")
+            opt_s, val_s = cur_rule[0], cur_rule[1]
+            for col in columns:
+                if col in opt_s:
+                    val_s = float(val_s.split(")")[0])
+                    for val in cfg["option_values"][hw][col]:
+                        if val <= val_s:
+                            val_s = val
+                            break
+              
+                    break 
+        if " < " in cur_rule:
+            cur_rule = cur_rule.split( " < ")
+            opt_s, val_s = cur_rule[0], cur_rule[1]
+            for col in columns:
+                if col in opt_s:
+                    val_s = float(val_s.split(")")[0])
+                    for val in cfg["option_values"][hw][col]:
+                        if val < val_s:
+                            val_s = val
+                            break
+                    break 
+        if " > " in cur_rule:
+            cur_rule = cur_rule.split( " > ")
+            opt_s, val_s = cur_rule[0], cur_rule[1]
+            for col in columns:
+                if col in opt_s:
+                    val_s = float(val_s.split(")")[0])
+                    for val in cfg["option_values"][hw][col]:
+                        if val > val_s:
+                            val_s = val
+                            break
+                    break 
+        if " => " in cur_rule:
+            cur_rule = cur_rule.split( " => ")
+            opt_s, val_s = cur_rule[0], cur_rule[1]
+            for col in columns:
+                if col in opt_s:
+                    val_s = float(val_s.split(")")[0])
+                    for val in cfg["option_values"][hw][col]:
+                        if val >= val_s:
+                            val_s = val
+                            break
+                    break
+        return col, val_s                          
+                       
     def bugdoc(self, cfg, df, 
                objective, bug, soft, 
                hw):
         """This function is used to implement bugdoc"""
         if not df.empty:
-            print ("[STATUS]: data format is valid")
+            print ("[STATUS]: Starting BugDoc")
             # create label for training
             if len(objective) > 1:
                 maximum_obj_0 = df[objective[0]].max()
                 maximum_obj_1 = df[objective[1]].max()
             else:
-                threshold = 0.5 * bug[objective[0]]
+                threshold = 0.6 * bug[objective[0]]
                 obj = df[objective[0]].values.tolist()
                 y = [0 for i in obj]
                 for i in range(len(obj)):
@@ -311,20 +428,49 @@ class DebuggingBaselines:
             decision_tree = DecisionTreeClassifier(random_state=0, max_depth=5)
             decision_tree = decision_tree.fit(X, y)
             r = export_text(decision_tree, feature_names=columns)
-            
+            print ("Rules", r)
             # get debug rules
-            rules = self.get_bugdoc_rules(decision_tree,columns)
-            
-            # parse the rules to generate config
-            configs = []
-            rules.sort()
-            rules=list(rules for rules,_ in itertools.groupby(rules))
-            col_dict={}
-            for col in columns:
-                col_dict[col]=bug[col]
+            rules = self.get_rules(decision_tree,columns,[0,1])
+            # process rules to extract
+            config = []
             for rule in rules:
-                for i in range(len(rule)-1):      
-                    col_dict[rule[i][3]] = rule[i][2]
+                print ("++++++++++++++++++++++++++++++++")
+                print ("Rule")
+                print (rule)
+                if "class: 1" in rule:
+                    cur_conf = {}
+                    
+                    cur = rule.split("then")[0]
+                    cur = cur.split("if ")[1]
+                    cur = cur.split(" and ")
+                    for cur_rule in cur:                   
+                        col, val_s = self.parse(cur_rule, cfg, columns, hw)
+                        cur_conf[col] = val_s 
+                        print (cur_conf)    
+                    config.append(cur_conf)                    
+                print ("++++++++++++++++++++++++++++++++")        
+           
+            for i in range(len(config)):
+                print (i)
+                for col in columns: 
+                   if col not in config[i].keys():
+                       config[i][col]=bug[col]
+            
+            recommended_fixes =[]
+            for fix in config:
+                fix = [fix[col] for col in columns]
+                fix = pd.Series(fix, index = columns)              
+                recommended_fixes.append(fix)
+                                  
+            for fix in recommended_fixes:
 
-            print (col_dict)
-              
+                print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+                print("Recommended Fix")
+                print (fix)
+                print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+                print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+                print("Bug")
+                print (bug)
+                print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            
+
