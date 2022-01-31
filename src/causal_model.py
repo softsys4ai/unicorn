@@ -88,11 +88,6 @@ class CausalModel:
         G, edges = fci(df, fisherz, 0.05, verbose=False)  
         nodes = G.get_nodes()   
         bk = BackgroundKnowledge()      
-        print("+++++++++++++++++++++++++++++++++++++++++++++++")
-        print (nodes)
-        for i in nodes:
-            print (str(i))
-        print ("+++++++++++++++++++++++++++++++++++++++++++++++")
         for ce in tabu_edges:
             f = list(self.colmap.keys())[list(self.colmap.values()).index(ce[0])]
             s = list(self.colmap.keys())[list(self.colmap.values()).index(ce[1])]     
@@ -343,12 +338,12 @@ class CausalModel:
         selected_index = np.argmax(selected_effect)
         
         config[ite[selected_index][0]] = ite[selected_index][1]
-        print ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print ("Recommended Configuration")
+        print ("--------------------------------------------------")
+        print ("--------------------------------------------------")
+        print ("             Recommended Configuration            ")
         print (config)
-        print ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        print ("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print ("--------------------------------------------------")
+        print ("--------------------------------------------------")
         return config
 
 class Graph:

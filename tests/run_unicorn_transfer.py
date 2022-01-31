@@ -123,15 +123,13 @@ if __name__=="__main__":
     
     
     # UNICORN + 25
-   
-    num_samples = 0
     for bug_id in range(len(bug_df)):
         bug = bug_df.loc[bug_id]
         num_samples = 0
         bug_exists = True  
-        print ("++++++++++++++++++++++++++++++++++++++")
+        print (("--------------------------------------------------")
         print ("BUG ID: ", bug_id)
-        print ("++++++++++++++++++++++++++++++++++++++")
+        print ("---------------------------------------------------")
         previous_config = bug[conf_opt].copy()  
         
                     
@@ -166,23 +164,19 @@ if __name__=="__main__":
                 if curm < (1-query)*bug[options.obj[0]]:
                     bug_exists = False
                     print ("Resolved BUG_ID", bug_id)
-                    print (bug_id)
-                    print (num_samples)
-                    
-                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
-                    print ("+++++++++++Recommended Fix++++++++++++++++++++")
+                                
+                    print ("----------------Recommended Fix-------------------")
                     print (config)
-                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
-                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
-                    print ("+++++++++++Bug++++++++++++++++++++")
+                    print ("--------------------------------------------------")
+                    
+                    print ("-----------------------Bug------------------------")
                     print (bug[conf_opt])
-                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                    print ("--------------------------------------------------")
                     
                 else:
                     curc = m[target_hw][options.software][options.obj[0]][str(bug_id)][str(num_samples)]["conf"]
                     num_samples +=1
-                    print (bug[options.obj[0]])
-                    print (curm)
+                   
                     output = config.tolist()       
                     output.extend(curc)
                     output.extend([curm])
@@ -193,7 +187,6 @@ if __name__=="__main__":
                     # previous_config
                     previous_config=output.squeeze()[conf_opt]
                     # update initial
-                    print ("Number of samples", num_samples)
                     run_unicorn_loop(CM, df, tabu_edges, 
                                      columns, options, NUM_PATHS)
                         

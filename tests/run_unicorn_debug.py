@@ -16,7 +16,7 @@ def config_option_parser():
     """This function is used to configure option parser 
     @returns:
         options: option parser handle"""
-    usage="""USAGE: %python3 run_unicorn_debug.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m [mode]
+    usage="""USAGE: %python3 run_unicorn_debug.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m [mode] -i [bug_id]
     """
     parser=OptionParser(usage=usage)
     parser.add_option('-o', '--objective', dest='obj', 
@@ -28,6 +28,8 @@ def config_option_parser():
                       type="string", dest="hardware", help="hardware")
     parser.add_option('-m', "--mode", action="store",
                       type="string", dest="mode", help="mode")
+    parser.add_option('-i', "--bug_num", action="store",
+                      type="int", dest="bug_num", help="bug_num")
     (options, args)=parser.parse_args()
     return options
 
@@ -112,10 +114,12 @@ if __name__=="__main__":
     bug_exists = True   
     bug_id = 0
     
-    for _, bug in bug_df.iterrows():
-        print ("++++++++++++++++++++++++++++++++++++++")
+    for bug_id in range(len(bug_df)):
+        bug = bug_df.loc[bug_id]
+        bug_exists = True
+        print ("--------------------------------------------------")
         print ("BUG ID: ", bug_id)
-        print ("++++++++++++++++++++++++++++++++++++++")
+        print ("--------------------------------------------------")
         it = 0 
         previous_config = bug[conf_opt].copy()  
          
@@ -158,15 +162,17 @@ if __name__=="__main__":
                     curm = m[options.hardware][options.software][options.obj[0]][str(bug_id)][str(it)]["measurement"]
                     if curm < (1-query)*bug[options.obj[0]]:
                         bug_exists = False
-                        bug_id += 1
-                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
-                        print ("+++++++++++Recommended Fix++++++++++++++++++++")
+                        print ("--------------------------------------------------")
+                        print ("+++++++++++++++Recommended Fix++++++++++++++++++++")
                         print (config)
-                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
-                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
-                        print ("+++++++++++Bug++++++++++++++++++++")
+                        print ("Unicorn Fix Value", curm)
+                        print ("--------------------------------------------------")
+                        
+                        print ("--------------------------------------------------")
+                        print ("+++++++++++++++++++++Bug++++++++++++++++++++++++++")
                         print (bug[conf_opt])
-                        print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                        print ("Bug Objective Value", bug[options.obj[0]])
+                        print ("--------------------------------------------------")
                     else:
                         curc = m[options.hardware][options.software][options.obj[0]][str(bug_id)][str(it)]["conf"]
                         it += 1 
