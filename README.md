@@ -12,24 +12,16 @@ Modern computer systems are highly configurable, with the total variability spac
 
 
 ## Pre-requisites
-* ``` python 3.6 ```
-* ``` json ```
-* ``` pandas ```
-* ``` numpy ```    
-* ``` flask ```
-* ``` causalgraphicalmodels ```
-* ``` causalnex ```
-* ``` graphviz ```
-* ``` py-causal ```
-* ``` causality ```
 
 Please run the following commands to have your system ready to run Unicorn:
 ```
-git clone https://github.com/softsys4ai/unicorn.git
-cd unicorn
-pip install pandas
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.6
+pip install json
 pip install numpy
 pip install scipy
+pip install pandas
 pip install matplotlib
 pip install networkx
 pip install pydot
