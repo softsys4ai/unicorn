@@ -1,5 +1,5 @@
 # Unicorn functionality
-In this section, we introduce the Uniocorn with a walkthrough example. Initially we will get to familiarize with the directory structure used in this repository. 
+In this section, we introduce Unicorn with a walkthrough example. Initially we will get to familiarize with the directory structure used in this repository. 
 
 ## Structure
 
@@ -32,7 +32,7 @@ Processor: Intel Core i7-8700 CPU @ 3.20GHz × 12
 Memory: 31.2 GB
 OS: Ubuntu 18.04 LTS 64-bit
 ```
-For online mode we used the following setup;
+For online mode we used the following setup.
 ``` 
 **NVIDIA Jetson Xavier**
 -----------------------------------------------------------------------------------------
@@ -51,3 +51,4 @@ OS: Ubuntu 20.04 64-bit
 
 
 ## Functionality testing
+Let us 
