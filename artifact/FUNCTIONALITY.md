@@ -23,5 +23,31 @@ unicorn
     |--tests (contains necessary code to run and test unicorn)
     |--utils (contains necessary scripts to set hardware configuration)
 ```
+## Hardware 
+The offline version can be run from any devices while the online version needs to be run from ```NVIDIA Jetson TX2``` and ```NVIDIA Jetson Xavier```. For this evaluation, we believe testing the offline version would be sufficient for Unicorn functionality. We used the following specifications for offline mode.
+``` 
+**offline mode**
+-----------------------------------------------------------------------------------------
+Processor: Intel Core i7-8700 CPU @ 3.20GHz × 12 
+Memory: 31.2 GB
+OS: Ubuntu 18.04 LTS 64-bit
+```
+For online mode we used the following setup;
+``` 
+**NVIDIA Jetson Xavier**
+-----------------------------------------------------------------------------------------
+Processor: 6-core Carmel ARM v8.2 64-bit CPU, 8MB L2 + 4MB L3
+GPU: 384-core Volta GPU with 48 Tensor cores
+Memory: 8 GB 256-bit LPDDR4x 1333MHz
+OS: Ubuntu 20.04 64-bit 85.3 GB/s
+
+**NVIDIA Jetson TX2**
+-----------------------------------------------------------------------------------------
+Processor: Dual-core NVIDIA Denver 2 64-bit CPU and quad-core Arm Cortex-A57 
+GPU: NVIDIA Pascal architecture with 256 NVIDIA CUDA cores
+Memory: 4 GB 128-bit LPDDR4 51.2 GB/s
+OS: Ubuntu 20.04 64-bit
+```
+
 
 ## Functionality testing
