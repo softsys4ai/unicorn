@@ -1,5 +1,10 @@
-# Unicorn 
-Unicorn can be used for performance analyses of highly configurable systems with causal reasoning. Users or developers can query Unicorn for a performance task.
+# Unicorn
+```
+EuroSys 2022 Title: Reasoning about Configurable System Performance through the lens of Causality
+Md Shahriar Iqbal, Rahul Krishna, Mohammad Ali Javidian, Baishakhi Ray, and Pooyan Jamshidi
+``` 
+Unicorn is a performance analysis, debugging and optimization tool designed for highly configurable systems with causal reasoning and inference. Users or developers can query Unicorn to resolve a performance issue or for performance improvement.
+
 ## Overview
 ![overview](https://user-images.githubusercontent.com/12802456/151218680-5456bcdc-27c0-4736-b54c-7483bc394b8c.png)
 ## Abstract
@@ -160,4 +165,4 @@ Please please feel free to contact via email if you find any issues or have any 
 
 
 ## 📘&nbsp; License
-Unicorn is released under the under terms of the [MIT License](LICENSE).
+Unicorn is released under the terms of the [MIT License](LICENSE).
