@@ -51,4 +51,5 @@ OS: Ubuntu 20.04 64-bit
 
 
 ## Functionality testing
-Let us 
+An example run of Unicorn for an ```energy``` fault is recorded in this 
+[trial run](https://user-images.githubusercontent.com/12802456/151889655-63efb22e-be37-480c-9f21-dc4d25f77335.mp4). 
