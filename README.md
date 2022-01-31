@@ -1,4 +1,4 @@
-# Unicorn (EuroSys 2022)
+# Unicorn 
 Unicorn can be used for performance analyses of highly configurable systems with causal reasoning. Users or developers can query Unicorn for a performance task.
 ## Overview
 ![overview](https://user-images.githubusercontent.com/12802456/151218680-5456bcdc-27c0-4736-b54c-7483bc394b8c.png)
@@ -35,7 +35,13 @@ pip install keras
 pip install torch==1.4.0 torchvision==0.5.0
 ```
 ## How to use Unicorn
-Unicorn can be used for performing different tasks such as performance optimization and performance debugging. Unicorn supports both offline and online modes. In the offline mode, Unicorn can be run on any device that uses previously measured configurations. In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly. To collect measurements from these devices ```sudo``` privilege is required as it requires setting a device to a new configuration before measurement. Please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md) for artifact evaluation.
+Unicorn can be used for performing different tasks such as performance optimization and performance debugging. Unicorn can be run on both offline and online modes. In the offline mode, Unicorn can be run on any device that uses previously measured configurations. In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required as it requires setting a device to a new configuration before measurement. 
+
+
+In both offline and online modes, Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```). Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
+
+## Artifact evaluation (EuroSys 2022)
+Please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md) for artifact evaluation.
 
 ## Debugging
 Unicorn supports debugging and fixing single-objective and multi-objective performance faults in offline and online modes. It also supports root cause analysis of these fixes using metrics such as accuracy, precision, recall and gain. 
