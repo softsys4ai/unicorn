@@ -34,8 +34,8 @@ class GenerateParams(object):
         
         # columns of dataframe
         self.columns =  self.cfg["hardware_columns"][self.sys_name]
-        self.columns =  self.cfg["kernel_columns"]
         self.columns.extend (self.cfg["software_columns"][self.software])
+        self.columns =  self.cfg["kernel_columns"]     
         self.columns.extend (self.cfg["measurement_columns"])
         # run     
         if mode == "measurement":
@@ -128,10 +128,10 @@ class GenerateParams(object):
             
                                                                                   
     def random_config_select(self):
-        """This function is to select 1600 configurations randomly"""
+        """This function is to select 20000 configurations randomly"""
         from random import randint
         from operator import itemgetter
-        index = [randint(0, len(self.params)) for p in range(0, 1600)]
+        index = [randint(0, len(self.params)) for p in range(0, 20000)]
         return itemgetter(*index)(self.params) 
                                  
     def get_sys_name(self):
@@ -268,12 +268,12 @@ class GenerateParams(object):
         for i in range(len(os_soft_var)):
             os_soft_var[i] = os_soft_var[i][0] + os_soft_var[i][1]
         os_soft_var = list(os_soft_var for os_soft_var,_ in itertools.groupby(os_soft_var))
-        # select 1600 samples
-        hw_sampled_var = random.sample(hw_var, 1600)
-        os_soft_sampled_var = random.sample(os_soft_var, 1600)
+        # select 20000 samples
+        hw_sampled_var = random.sample(hw_var, 20000)
+        os_soft_sampled_var = random.sample(os_soft_var, 20000)
         # sampled_params
         self.params = []
-        for i in range(1600):
+        for i in range(20000):
             self.params.append(hw_sampled_var[i] + os_soft_var[i])
                 
     def save_sampled_params(self):

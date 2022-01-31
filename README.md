@@ -47,7 +47,7 @@ Unicorn can be used for performing different tasks such as performance optimizat
 In both offline and online modes, Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```). Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
 
 ## Artifact evaluation (EuroSys 2022)
-Please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md) for artifact evaluation.
+Please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md) for artifact evaluation. All tests should be run from the ```unicorn``` directory using ```python 3.6.9```. 
 
 ## Debugging
 Unicorn supports debugging and fixing single-objective and multi-objective performance faults in offline and online modes. It also supports root cause analysis of these fixes using metrics such as accuracy, precision, recall and gain. 
@@ -55,28 +55,28 @@ Unicorn supports debugging and fixing single-objective and multi-objective perfo
 ### Single-objective debugging
 To debug single-objective faults in the using Unicorn please use the following command:
 ```
-python run_unicorn_debug.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+python ./tests/run_unicorn_debug.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 
 #### Example
 To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_debug.py  -o inference_time -s Image -k TX2 -m offline
+python ./tests/run_unicorn_debug.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_debug.py  -o total_energy_consumption -s NLP -k Xavier -m online
+python ./tests/run_unicorn_debug.py  -o total_energy_consumption -s NLP -k Xavier -m online
 ```
 
 ### Multi-objective debugging
 To debug multi-objective faults using Unicorn please use the following command:
 ```
-python run_unicorn_debug.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+python ./tests/run_unicorn_debug.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To debug multi-objective ```latency``` and ```energy``` faults for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_debug.py  -o inference_time -o total_energy_consumption -s Speech  -k TX2 -m offline
+python ./tests/run_unicorn_debug.py  -o inference_time -o total_energy_consumption -s Speech  -k TX2 -m offline
 ```
 
 ## Optimization
@@ -85,59 +85,59 @@ Unicorn supports single-objective and multi-objective optimization in offline an
 ### Single-objective optimization
 To run single-objective optimization using Unicorn please use the following command:
 ```
-python run_unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
+python ./tests/run_unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_optimization.py  -o inference_time -s Image -k TX2 -m offline
+python ./tests/run_unicorn_optimization.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_optimization.py  -o total_energy_consumption -s NLP -k Xavier -m online
+python ./tests/run_unicorn_optimization.py  -o total_energy_consumption -s NLP -k Xavier -m online
 ```
 
 ### Multi-objective debugging
 To run multi-objective optimization in the using Unicorn please use the following command:
 ```
-python run_unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
+python ./tests/run_unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
 To run multi-objective ```latency``` and ```energy``` optimization for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
+python ./tests/run_unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
 ```
 
 ## Transferability
 Unicorn supports both single and multi-objective transferability in online and offline modes. However, the current version is not tested for multi-objective transferability. To determine single-objective transferability of Unicorn please use the following command:
 ```
-python run_unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem -m offline
+python ./tests/run_unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem -m offline
 ```
 #### Example
 To run single-objective ```latency``` transferability for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_transferability.py  -o inference_time -s Image -k TX2 -m offline
+python ./tests/run_unicorn_transferability.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-python run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
+python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
 ```
 ## Data generation
 To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the following command to start the app in the ```localhost```.
 
 
 ```
-python run_service.py softwaresystem
+python ./services/run_service.py softwaresystem
 ```
 
 For example to initialize a flask app with ```Xception``` software system please use:
 ```
-python run_service.py Image
+python ./services/run_service.py Image
 ```
 
 Once the flask app is running and modelserver is ready then please use the following command to collect performance measurements for different configurations:
 ```
-python run_params.py softwaresystem
+python ./services/run_params.py softwaresystem
 ```
 ## Baselines 
 
