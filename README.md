@@ -29,12 +29,21 @@ git clone https://github.com/softsys4ai/unicorn.git
 cd unicorn
 pip install pandas
 pip install numpy
+pip install scipy
+pip install matplotlib
+pip install networkx
+pip install pydot
 pip install flask
 pip install causalgraphicalmodels
 pip install causalnex
 pip install graphviz
 pip install py-causal
 pip install causality
+pip install mlxtend
+pip install -U scikit-learn
+pip install basyesian-optimization
+pip install statsmodels
+pip install tqdm
 pip install tensorflow-gpu==1.15
 pip install keras
 pip install torch==1.4.0 torchvision==0.5.0
