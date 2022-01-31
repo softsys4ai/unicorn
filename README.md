@@ -123,21 +123,22 @@ To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON
 python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
 ```
 ## Data generation
-To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the following command to start the app in the ```localhost```.
+To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the first command to start the app in the ```localhost```. Once the app is up and running please use the second command to start measuring consfigurations.
 
 
 ```
 python ./services/run_service.py softwaresystem
+python ./services/run_params.py softwaresystem
 ```
-
-For example to initialize a flask app with ```Xception``` software system please use:
+#### Example
+To initialize a flask app with ```Xception``` software system please use:
 ```
 python ./services/run_service.py Image
 ```
 
 Once the flask app is running and modelserver is ready then please use the following command to collect performance measurements for different configurations:
 ```
-python ./services/run_params.py softwaresystem
+python ./services/run_params.py Image
 ```
 ## Baselines 
 

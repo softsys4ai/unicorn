@@ -1,5 +1,5 @@
 ## Unicorn usage on a different dataset
-To run Unicorn on your a different dataset you will only need ```unicorn_debugging.py``` and ```unicorn_optimization.py```. In the online mode, to perform interventions using the recommended configuration you need to develop your own utilities (similar to ```run_params.py```). Additionally, you need to make some changes in the ```etc/config.yml``` to use the configuration options and their values accordingly. The necessary steps are the following:
+To run Unicorn on a different dataset you will only need ```/tests/run_unicorn_debug.py``` and ```/tests/run_unicorn_optimization.py```. In the online mode, to perform interventions using the recommended configuration you need to develop your own utilities (similar to ```/services/run_params.py```). Additionally, you need to make some changes in the ```etc/config.yml``` to use the configuration options and their values accordingly. The necessary steps are the following:
 
 **Step 1**: Update ```init_dir``` in ```config.yml``` with the directory where initial data is stored.
 
@@ -19,4 +19,4 @@ To run Unicorn on your a different dataset you will only need ```unicorn_debuggi
 
 **Step 9**: Update the ```option_values``` variables in the ```config.yml``` based on the allowable values your option can take.
 
-At this stage you can run ```unicorn_debugging.py``` and ```unicorn_optimization.py``` with your own specification. Please notice that you also need to update the directories according to your software and hardware name in data directory. If you change the name of the variables in the config file or use a new config fille you need to make changes accordingly from in ```unicorn_debugging.py``` and ```unicorn_optimization.py```.
+**Step 10**: Now, you can run ```run_unicorn_debug.py``` and ```run_unicorn_optimization.py``` with your own specification. Please notice that you also need to update the directories according to your software and hardware name in data directory. If you change the name of the variables in the config file or use a new config file you need to make changes accordingly from in ```run_unicorn_debug.py``` and ```run_unicorn_optimization.py```.
