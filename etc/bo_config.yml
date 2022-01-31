@@ -155,5 +155,12 @@ option_values:
         kernel_sched_latency_ns:
         - 24000000
         - 96000000
-
+util_dir: "utils"
+output_dir: "data/output"
+config_file: params.py
+init_dir: "data/initial"
+bug_dir: "data/bug"
+opt_dir: "data/measurement/optimization"
+debug_dir: "data/measurement/debug"
+sampled_dir: "data/sampled"
 

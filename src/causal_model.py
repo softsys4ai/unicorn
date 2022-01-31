@@ -88,20 +88,28 @@ class CausalModel:
         G, edges = fci(df, fisherz, 0.05, verbose=False)  
         nodes = G.get_nodes()   
         bk = BackgroundKnowledge()      
+        print("+++++++++++++++++++++++++++++++++++++++++++++++")
+        print (nodes)
+        for i in nodes:
+            print (str(i))
+        print ("+++++++++++++++++++++++++++++++++++++++++++++++")
         for ce in tabu_edges:
             f = list(self.colmap.keys())[list(self.colmap.values()).index(ce[0])]
-            s = list(self.colmap.keys())[list(self.colmap.values()).index(ce[1])]
-
+            s = list(self.colmap.keys())[list(self.colmap.values()).index(ce[1])]     
             bk.add_forbidden_by_node(nodes[f], nodes[s])
-        G, edges = fci(df, fisherz, 0.05, verbose=False, background_knowledge=bk)
+        try:
+            G, edges = fci(df, fisherz, 0.05, verbose=False, background_knowledge=bk)
+        except:
+            G, edges = fci(df, fisherz, 0.05, verbose=False)
         fci_edges = []
         for edge in edges:
             fci_edges.append(str(edge))
-        print (fci_edges)
+        
         return fci_edges
 
     def resolve_edges(self, DAG, PAG, 
-                      columns, tabu_edges):
+                      columns, tabu_edges, num_paths,
+                      objectives):
         """This function is used to resolve fci (PAG) edges"""
         bi_edge = "<->"
         directed_edge = "-->"
@@ -159,7 +167,14 @@ class CausalModel:
         for e in s_edges: 
             if e[0]!=e[1]:
                 single_edges.append(e)
+        print (s_edges)
+        for i in range(len(s_edges)):
+             for obj in objectives:
+                 if s_edges[i][0]!=s_edges[i][1]:
+                     single_edges.append((s_edges[i][0],obj))
+       
         double_edges=list(set(double_edges)-set(tabu_edges))
+        
         return single_edges, double_edges
     
     def get_causal_paths(self, columns, di_edges,
@@ -169,12 +184,13 @@ class CausalModel:
         causal_paths={}
         for edge in di_edges:
             CG.add_edge(edge[1], edge[0])
+     
         for edge in bi_edges:
             CG.add_edge(edge[1], edge[0])
         for obj in objectives:
             CG.get_all_paths(obj)
             causal_paths[obj] = CG.path
-        
+    
         return causal_paths 
     
     def compute_path_causal_effect(self, df, paths, 
@@ -206,7 +222,7 @@ class CausalModel:
         from causality.estimation.nonparametric import CausalEffect 
         from causality.estimation.adjustments import AdjustForDirectCauses
         from networkx import DiGraph
-        ite = {}
+        ite = []
         
         objectives = options.obj   
         option_values = cfg["option_values"][options.hardware]
@@ -241,7 +257,7 @@ class CausalModel:
                         if i > 0:
                             if cfg["is_intervenable"][path[i]]:
                                 admissable_set = adjustment.admissable_set(cur_g,[path[i]], [path[0]])
-                                print (variable_types)
+                                
                                 effect = CausalEffect (df, [path[i]], [path[0]],
                                                  variable_types=variable_types, admissable_set=list(admissable_set))
                                 max_effect = -20000
@@ -251,7 +267,7 @@ class CausalModel:
                                     cur_effect = effect.pdf(x)
                                     if max_effect < cur_effect:
                                         max_effect = cur_effect
-                                        ite[path[i]] = val
+                                        ite.append([path[i],val])
                   
             if multi_paths:
                 for mp in multi_paths:
@@ -273,7 +289,7 @@ class CausalModel:
                                             cur_effect = effect.pdf(x)
                                             if max_effect < cur_effect:
                                                 max_effect = cur_effect
-                                                ite[path[i]] = val
+                                                ite.append([path[i],val])
                                     elif len(objectives) == 3:
                                         admissable_set = adjustment.admissable_set(cur_g, [path[i]], [objectives[0], objectives[1], objectives[2]])
                                         effect = CausalEffect(df, [path[i]], [objectives[0], objectives[1], objectives[2]],
@@ -285,18 +301,16 @@ class CausalModel:
                                             cur_effect = effect.pdf(x)
                                             if max_effect < cur_effect:
                                                 max_effect = cur_effect
-                                                ite[path[i]] = val
+                                                ite.append([path[i],val])
                                     else:
                                         print ("[ERROR]: number of objectives not supported")
                                         return     
                                
-            for option, value in ite.items():
-                config[option] = value
-                print ("-----next configuration-----\n", config)
+                       
                 return config
                     
         # single objective treatment effect
-        
+        selected_effect = []
         for path in paths:    
             
             cur_g = DiGraph()
@@ -316,18 +330,25 @@ class CausalModel:
                            max_effect = -20000
                            # compute effect for each value for the options
                            for val in option_values[path[i]]:
+                               
                                x = pd.DataFrame({path[i] : [val], path[0] : [bestval]})
                                   
                                cur_effect = effect.pdf(x)
                               
                                if max_effect < cur_effect:
                                    max_effect = cur_effect
-                                   ite[path[i]] = val
+                                   ite.append([path[i],val])
+                                   selected_effect.append(max_effect) 
         
-                         
-        for option, value in ite.items():
-           config[option] = value
-        #print ("-----next configuration-----\n", config)
+        selected_index = np.argmax(selected_effect)
+        
+        config[ite[selected_index][0]] = ite[selected_index][1]
+        print ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print ("Recommended Configuration")
+        print (config)
+        print ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print ("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         return config
 
 class Graph:

@@ -2,6 +2,7 @@ import os
 import sys
 import pandas as pd 
 import yaml 
+import json
 from src.causal_model import CausalModel
 from src.generate_params import GenerateParams
 from ananke.graphs import ADMG
@@ -14,7 +15,7 @@ def config_option_parser():
     """This function is used to configure option parser 
     @returns:
         options: option parser handle"""
-    usage="""USAGE: %python3 unicorn_debugging.py -o [objectives] -d [init_data] -s [software] -k [hardware]
+    usage="""USAGE: %python3 unicorn_transfer.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m offline
     """
     parser=OptionParser(usage=usage)
     parser.add_option('-o', '--objective', dest='obj', 
@@ -29,20 +30,20 @@ def config_option_parser():
     (options, args)=parser.parse_args()
     return options
 
-def run_cauper_loop(CM, pc, df, 
+def run_unicorn_loop(CM, df, 
                    tabu_edges, columns, options, 
                    NUM_PATHS):
-    """This function is used to run cauper in a loop"""
+    """This function is used to run unicorn in a loop"""
     # NOTEARS causal model hyperparmas
     #_, notears_edges = CM.learn_entropy(df, tabu_edges, 0.75)
-    # get bayesian network from DAG obtained using Bayesian Network
+    # get bayesian network from DAG obtained 
     # bn = BayesianNetwork(sm)
     
-    fci_edges = CM.learn_fci(pc, df, tabu_edges)
+    fci_edges = CM.learn_fci(df, tabu_edges)
     edges = []
     # resolve notears_edges and fci_edges and update 
     di_edges, bi_edges = CM.resolve_edges(edges, fci_edges, columns, 
-                                          tabu_edges)
+                                          tabu_edges, NUM_PATHS, options.obj)
     # construct mixed graph ADMG
     
     G = ADMG(columns, di_edges = di_edges, bi_edges = bi_edges)
@@ -50,16 +51,18 @@ def run_cauper_loop(CM, pc, df,
 
 
 if __name__=="__main__":
-    pc=pc()
-    pc.start_vm()
-    NUM_PATHS =  7
+    
+    NUM_PATHS =  15
     query = 0.8
     options = config_option_parser()
-    # Initialization
+    # target
+    target_hw = "TX2"
+   
+    # initialization
     with open(os.path.join(os.getcwd(),"etc/config.yml")) as file:
         cfg = yaml.load(file, Loader=yaml.FullLoader)
     # nodes for causal graph 
-    # nodes for causal graph
+    
     soft_columns = cfg["software_columns"][options.software] 
     hw_columns = cfg["hardware_columns"][options.hardware]
     kernel_columns = cfg["kernel_columns"]
@@ -74,191 +77,148 @@ if __name__=="__main__":
                          options.hardware, options.software, options.hardware+"_"+options.software+"_"+"initial.csv")
         bug_dir = os.path.join(os.getcwd(), cfg["bug_dir"], "multi", options.hardware,
                   options.software, options.hardware+"_"+options.software+"_"+"multi.csv")
+        target_bug_dir = os.path.join(os.getcwd(), cfg["bug_dir"], "multi", 
+                     target_hw, options.software, target_hw+"_"+options.software+"_"+options.obj[0]+".csv") 
+        
+        with open(os.path.join(os.getcwd(),cfg["debug_dir"],"multi", target_hw,
+                  options.software,"measurement_t.json")) as mfl:    
+            m = json.load(mfl)
     else: 
         
         init_dir = os.path.join(os.getcwd(), cfg["init_dir"], "single", 
                          options.hardware, options.software, options.hardware+"_"+options.software+"_"+"initial.csv")
         bug_dir = os.path.join(os.getcwd(), cfg["bug_dir"], "single", 
                          options.hardware, options.software, options.hardware+"_"+options.software+"_"+options.obj[0]+".csv") 
+        target_bug_dir = os.path.join(os.getcwd(), cfg["bug_dir"], "single", 
+                     target_hw, options.software, target_hw+"_"+options.software+"_"+options.obj[0]+".csv") 
+        
+        with open(os.path.join(os.getcwd(),cfg["debug_dir"],"single", target_hw,
+                  options.software,"measurement_t.json")) as mfl:    
+            m = json.load(mfl)
     # get init data
     df = pd.read_csv(init_dir)
     df = df[columns]
     
-    # get bug data
-    bug_df = pd.read_csv(bug_dir)
+    
     
     # initialize causal model object
-    CM = CausalModel()
+    CM = CausalModel(columns)
     g = DiGraph()
     g.add_nodes_from(columns)
     # edge constraints
     tabu_edges = CM.get_tabu_edges(columns, conf_opt, options.obj)  
     
-    G, di_edges, bi_edges = run_cauper_loop(CM, pc, df, 
-                                            tabu_edges, columns, options, 
-                                            NUM_PATHS)
+    G, di_edges, bi_edges = run_unicorn_loop(CM, df, tabu_edges, columns, 
+                                             options, NUM_PATHS)
     
     g.add_edges_from(di_edges + bi_edges)
     
     var_types = {}
     for col in columns: var_types[col] = "c"
-    # Get Bug and update df 
-    bug_exists = True   
-    bug_df = bug_df.sample(n=1)
-    # unicorn (rerun)
-    for _, bug in bug_df.iterrows():
-        #TODO
-        print ("bug",bug)
-        print (type(bug))
-        import random
-        curd={}
-        curd["Xavier"]={}
-        curd["Xavier"]["Image"]={}
-        curd["Xavier"]["Image"]["latency"]={}
-        curd["Xavier"]["Image"]["latency"][1]={}
+    # extract bugs from target hardware TX2. 
+    
+    # get bug data from the target
+    bug_df = pd.read_csv(target_bug_dir)
+    # get Bug and update df 
+    
+    
+    # UNICORN + 25
+   
+    num_samples = 0
+    for bug_id in range(len(bug_df)):
+        bug = bug_df.loc[bug_id]
+        num_samples = 0
+        bug_exists = True  
+        print ("++++++++++++++++++++++++++++++++++++++")
+        print ("BUG ID: ", bug_id)
+        print ("++++++++++++++++++++++++++++++++++++++")
+        previous_config = bug[conf_opt].copy()  
         
-
-        for i in range(60):
-            if i < 40:
-               curd["Xavier"]["Image"]["latency"][1][i]= random.uniform(0.25*bug[options.obj[0]],0.45*bug[options.obj[0]])
-                
-            else:
-                curd["Xavier"]["Image"]["latency"][1][i]= random.uniform(0.1*bug[options.obj[0]],0.35*bug[options.obj[0]])
-        
-        
-        samp = 0
-        
+                    
         while bug_exists:
-            # identify causal paths
-            
+            # identify causal paths            
             paths = CM.get_causal_paths(columns, di_edges, bi_edges, 
-                                        options.obj)
-            
+                                        options.obj)            
             # compute causal paths
             if len(options.obj) < 2:
                 # single objective faults
                 for key, val in paths.items():
                     if len(paths[key]) > NUM_PATHS:
-                        paths = CM.compute_path_causal_effect(df, paths[key], G, 
-                                                              NUM_PATHS)
+                        paths = CM.compute_path_causal_effect(df, paths[key], G, NUM_PATHS)
                     else: 
                         paths = paths[options.obj[0]]
-                
-                # compute individual treatment effect in a path 
-                
+                # compute individual treatment effect in a path               
                 config = CM.compute_individual_treatment_effect(df, paths, g, 
                                             query, options, bug[options.obj[0]], 
-                                            bug[conf_opt], cfg, var_types)
-            
+                                            previous_config, cfg, var_types)
             else:
                  # multi objective faults
                  paths = paths[options.obj[0]]
-                 # compute individual treatment effect in a path
-                 
+                 # compute individual treatment effect in a path                 
                  config = CM.compute_individual_treatment_effect(df, paths, g, 
                                             query, options, bug[options.obj], 
-                                            bug[conf_opt], cfg, var_types)
-            
-            
+                                            previous_config, cfg, var_types)
+                      
             # perform intervention. This updates the init_data
-            if config is not None:
-                if options.mode == "offline":
-                    """
-                    output = curd["Xavier"]["Image"]["latency"][1][samp]
-                    samp+=1
-                    config = config.tolist()
-                    for col in perf_columns:
-                        config.append(random.uniform(0.3*df[col].max(),0.6*df[col].max()))
-                    #new=pd.DataFrame(config)
+            
+            if options.mode == "offline":                         
+                curm = m[target_hw][options.software][options.obj[0]][str(bug_id)][str(num_samples)]["measurement"]
+                if curm < (1-query)*bug[options.obj[0]]:
+                    bug_exists = False
+                    print ("Resolved BUG_ID", bug_id)
+                    print (bug_id)
+                    print (num_samples)
                     
-                    config.append(output)
+                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                    print ("+++++++++++Recommended Fix++++++++++++++++++++")
+                    print (config)
+                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
+                    print ("+++++++++++Bug++++++++++++++++++++")
+                    print (bug[conf_opt])
+                    print ("++++++++++++++++++++++++++++++++++++++++++++++")
                     
-                    config = pd.DataFrame([config])
-                    config.columns = columns
-                    
-                    if output < (1-query)*bug[options.obj[0]]:
-                        bug_exists = False
-                    # update initial
-                    #df = pd.concat([df,config])
-                    """                  
-                    run_cauper_loop(CM, pc, df, tabu_edges, 
-                                    columns, options, NUM_PATHS)
-                    
-                elif options.mode == "online":
-                    gprm = GenerateParams(cfg, options.software, "unicorn")
-                    output = gprm.run_cauper_experiment(config)
-                    if output[options.obj[0]] < (1-query)*bug_val:  
-                        bug_exists = False
-                    else: 
-                        # run loop
-                        df = pd.concat([df, output])
-                        run_cauper_loop(CM, pc, df, tabu_edges, 
-                                    columns, options, NUM_PATHS)
                 else:
-                    print ("[ERROR]: invalid mode")    
+                    curc = m[target_hw][options.software][options.obj[0]][str(bug_id)][str(num_samples)]["conf"]
+                    num_samples +=1
+                    print (bug[options.obj[0]])
+                    print (curm)
+                    output = config.tolist()       
+                    output.extend(curc)
+                    output.extend([curm])
+                    output = pd.DataFrame([output])
+                    output.columns = columns                         
+                    df = pd.concat([df,output],axis=0)
+                    df=df[columns]
+                    # previous_config
+                    previous_config=output.squeeze()[conf_opt]
+                    # update initial
+                    print ("Number of samples", num_samples)
+                    run_unicorn_loop(CM, df, tabu_edges, 
+                                     columns, options, NUM_PATHS)
+                        
+            elif options.mode == "online":
+                gprm = GenerateParams(cfg, options.software, "unicorn")
+                output = gprm.run_unicorn_experiment(config)
+                if output[options.obj[0]] < (1-query)*bug_val:  
+                    bug_exists = False
+                else: 
+                    # run loop
+                    output = output.tolist()       
+                    output.extend(curc)
+                    output.extend([curm])
+                    output = pd.DataFrame([output])
+                    output.columns = columns                         
+                    df = pd.concat([df,config],axis=0)
+                    df=df[columns]
+                    # previous_config
+                    previous_config=output.squeeze()[conf_opt]
+                    run_unicorn_loop(CM, df, tabu_edges, 
+                                    columns, options, NUM_PATHS)
             else:
-                print ("[ERROR]: no config recommended")
-                bug_exists = False
-    
-    # unicorn + 25
-    for _, bug in bug_df.iterrows():
-        for it in range(200):           
-            # identify causal paths          
-            paths = CM.get_causal_paths(columns, di_edges, bi_edges, 
-                                        options.obj)
+                print ("[ERROR]: invalid mode")    
+            
         
-            # compute causal paths
-            if len(options.obj) < 2:
-                # single objective 
-                for key, val in paths.items():
-                    if len(paths[key]) > NUM_PATHS:
-                        s = CM.compute_path_causal_effect(df, paths[key], G, 
-                                                              NUM_PATHS)
-                    else: 
-                        paths = paths[options.obj[0]]
-                
-                # compute individual treatment effect in a path 
-                
-                config = CM.compute_individual_treatment_effect(df, paths, g, 
-                                       query, options, bug[options.obj[0]], 
-                                       bug[conf_opt], cfg, var_types)
-            
-            else:
-                # multi objective
-                paths = paths[options.obj[0]]
-                # compute individual treatment effect in a path
-                
-                config = CM.compute_individual_treatment_effect(df, paths, g, 
-                                            query, options, bug[options.obj], 
-                                            bug[conf_opt], cfg, var_types)
-            
-         
-            # perform intervention. This updates the init_data
-            if config is not None:
-                if options.mode == "offline":
-                    try:
-                        curm = m[options.hardware][options.software][options.obj[0]][str(it)]["measurement"]   
-                        curc = m[options.hardware][options.software][options.obj[0]][str(it)]["conf"]    
-                    except KeyError:
-                        continue
-                    # update initial
-                    # df = pd.concat([df,config])
-               
-                    run_cauper_loop(CM, pc, df, tabu_edges, 
-                               columns, options, NUM_PATHS)
-                    
-                    
-                elif options.mode == "online":
-                    gprm = GenerateParams(cfg, options.software, "unicorn")
-                    output = gprm.run_cauper_experiment(config)
-                    
-                    
-                    df = pd.concat([df, output])
-                    run_cauper_loop(CM, pc, df, tabu_edges, 
-                               columns, options, NUM_PATHS)
-                else:
-                    print ("[ERROR]: invalid mode")    
-            else:
-                print ("[ERROR]: no config recommended")
-        pc.stop_vm()
+   
+        
 
