@@ -12,13 +12,11 @@ RUN pip install git+git://github.com/bd2kccd/py-causal
 
 RUN pip install git+git://github.com/fmfn/BayesianOptimization
 
+
 RUN pip install scipy matplotlib \
     seaborn networkx causalgraphicalmodels \
-    causalnex causality statsmodels \
-    tqdm flask tensorflow-gpu==1.15 keras torch==1.4.0 \
-    torchvision==0.5.0 mlxtend scikit-learn
-
-RUN pip install pyyaml
+    causality statsmodels pyyaml ananke-causal \
+    tqdm mlxtend scikit-learn 
 
 WORKDIR /root
 

@@ -1,11 +1,14 @@
 import os
 import sys
-import pandas as pd
 import yaml
+import pandas as pd
+from optparse import OptionParser
+
+sys.path.append('/root')
+
 from src.causal_model import CausalModel
 from src.generate_params import GenerateParams
 from src.optimization_baselines import OptimizationBaselines
-from optparse import OptionParser
 
 def config_option_parser():
     """This function is used to configure option parser
