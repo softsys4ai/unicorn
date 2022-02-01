@@ -330,8 +330,8 @@ total_energy_consumption         2.474800e+04
 Let us compare them side by side to see what options are changed and what are the root causes of this fault.
 
 ```
-                                  Bug        Ground truth   Unicorn
----------------------------------------------------------------------
+                                  Bug        Ground truth     Unicorn
+--------------------------------------------------------------------------
 memory_growth                 5.000000e-01   5.000000e-01   5.000000e-01      
 logical_devices               2.000000e+00   2.000000e+00   2.000000e+00
 core_freq*                    2.188800e+06   2.265600e+06   2.265600e+06
@@ -353,7 +353,7 @@ vm.dirty_bytes                3.000000e+01   3.000000e+01   3.000000e+01
 vm.dirty_background_bytes     6.000000e+01   6.000000e+01   6.000000e+01
 vm.dirty_ratio                5.000000e+01   5.000000e+01   5.000000e+01
 swap_memory                   1.000000e+00   1.000000e+00   1.000000e+00
-kernel.max_pids               3.276800e+04   6.553600e+04   6.553600e+04
+kernel.max_pids*              3.276800e+04   6.553600e+04   6.553600e+04
 kernel.sched_latency_ns       2.400000e+07   2.400000e+07   2.400000e+07
 kernel.sched_nr_migrate       1.280000e+02   1.280000e+02   1.280000e+02
 kernel.cpu_time_max_percent   1.000000e+02   1.000000e+02   1.000000e+02
