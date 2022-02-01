@@ -360,7 +360,7 @@ kernel.cpu_time_max_percent   1.000000e+02   1.000000e+02   1.000000e+02
 kernel.sched_time_avg_ms      1.000000e+03   1.000000e+03   1.000000e+03
 total_energy_consumption*     1.500357e+05   2.474800e+04   2.474800e+04
 ```
-Here, the root causes are ```core_freq```, ```emc_freq```, ```num_cores```, and ```kernel.max_pids``` (indicated by ```*```). Here, Unicorn is able to find each of the root causes. Therefore, Unicorn achieves ``100%``` accuracy, precision and recall for this non-functional energy fault.
+Here, the root causes are ```core_freq```, ```emc_freq```, ```num_cores```, and ```kernel.max_pids``` (indicated by ```*```). Here, Unicorn is able to find each of the root causes. Therefore, Unicorn achieves ```100%``` accuracy, precision and recall for this non-functional energy fault.
 
 An example run of Unicorn for an ```energy``` fault is recorded in this 
 [trial run](https://user-images.githubusercontent.com/12802456/151889655-63efb22e-be37-480c-9f21-dc4d25f77335.mp4). Printing graph outputs are disabled in the trial run video (only connections are printed in the standard output.)
