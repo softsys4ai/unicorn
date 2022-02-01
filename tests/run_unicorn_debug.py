@@ -6,8 +6,6 @@ import json
 from src.causal_model import CausalModel
 from src.generate_params import GenerateParams
 from ananke.graphs import ADMG
-from causalnex.structure.notears import from_pandas
-from causalnex.network import BayesianNetwork
 from networkx import DiGraph
 from optparse import OptionParser
 from pycausal.pycausal import pycausal 
@@ -116,7 +114,11 @@ if __name__=="__main__":
         bug_df = bug_df.iloc[int(options.bug_index):int(options.bug_index)+1]
      
     for bug_id in range(len(bug_df)):
-        bug = bug_df.loc[bug_id]
+        if options.bug_index:
+            bug = bug_df.loc[int(options.bug_index)]
+            bug_id = int(options.bug_index)
+        else:
+            bug = bug_df.loc[bug_id]
         bug_exists = True
         print ("--------------------------------------------------")
         print ("BUG ID: ", bug_id)
@@ -175,6 +177,7 @@ if __name__=="__main__":
                         print (bug[conf_opt])
                         print ("Bug Objective Value", int(bug[options.obj[0]]))
                         print ("--------------------------------------------------")
+                        
                     else:
                         curc = m[options.hardware][options.software][options.obj[0]][str(bug_id)][str(it)]["conf"]
                         print ("--------------------------------------------------")
