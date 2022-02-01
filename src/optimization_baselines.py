@@ -4,7 +4,7 @@ from operator import itemgetter
 import random
 from bayes_opt import BayesianOptimization
 import json
-
+import pandas as pd
 class OptimizationBaselines:
     def __init__(self):
         print ("initializing OptimizationBaselines class")
@@ -38,12 +38,11 @@ class OptimizationBaselines:
                 min_distance = 20000000000000000
                 vals = self.cfg["option_values"][self.hw][col]
                 
-                print (vals)
                 cur_val = cur[col]
-                print (cur_val)
+                
                 for val in vals:
                     if abs(val-cur_val) < min_distance:
-                        print (min_distance)
+                        
                         min_distance = abs(val-cur_val)
                 configs[i]['params'][col]=val
                
@@ -82,25 +81,24 @@ class OptimizationBaselines:
 
         # optimize for 200 iterations
         optimizer.maximize(
-        init_points=5,
-        n_iter=5)
+        init_points=25,
+        n_iter=175)
         
-        print(self.get_configs(optimizer.res, columns))
-
+        configs = self.get_configs(optimizer.res, columns)
+        dfl = []
+        for conf in configs:
+           cur = []
+           for col in columns:
+              cur.append(conf['params'][col])
+           cur.append(-conf['target'])
+           dfl.append(cur)
+        df = pd.DataFrame(dfl)
+        columns.append(self.objective) 
+        df.columns = columns
+        df["Iteration"] = [i for i in range(len(df))]
+        print ("Optimal value obtained by SMAC: ", df[self.objective].min())
+               
         
-        #for i, res in enumerate(optimizer.res):
-        #    print("Iteration {}: \n\t{}".format(i, res))
-    
-    
-    def pesmo(self, data):
-        """This function is used to implement pesmo"""
-        if data:
-            print ("data format is valid")
-        
-        else:
-            print ("no data found")
-            return
-    
     
 
 
