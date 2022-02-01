@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-=======
 # Artifact evaluation (EuroSys 2022)
 This artifact is applying for **Available, Functional and Reproducible** badges.
 
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
 
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 # Unicorn ([paper](https://arxiv.org/pdf/2201.08413.pdf))
 ```
 EuroSys 2022 Title: Reasoning about Configurable System Performance through the lens of Causality
@@ -21,56 +18,6 @@ Modern computer systems are highly configurable, with the total variability spac
 ## Artifact evaluation (EuroSys 2022)
 Please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md) for artifact evaluation. All tests should be run from the ```unicorn``` directory using ```python 3.6.9```. 
 
-<<<<<<< HEAD
-## Pre-requisites
-
-Please run the following commands to have your system ready to run Unicorn.
-```
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt update
-sudo apt install python3.6
-pip install json
-pip install numpy
-pip install scipy
-pip install pandas
-pip install matplotlib
-pip install seaborn
-```
-For causal structure recovery, causal effect estimation and causal graph visulalization please use the following commands:
-```
-pip install networkx
-pip install pydot
-pip install causalgraphicalmodels
-pip install causalnex
-pip install graphviz
-pip install py-causal
-pip install causality
-pip install statsmodels
-pip install tqdm
-```
-For data generation and bug discovery please use the following commands:
-```
-sudo apt-get install linux-tools-common linux-tools-generic 
-pip install flask
-pip install tensorflow-gpu==1.15
-pip install keras
-pip install torch==1.4.0 torchvision==0.5.0
-```
-To run the baselines used in this paper please use the following commands:
-```
-pip install mlxtend
-pip install -U scikit-learn
-pip install basyesian-optimization
-```
-Additionally, please follow ```STEP 1: Installation``` reported in [pesmo](https://github.com/HIPS/Spearmint/tree/PESM) to run a multi-objective optimization baseline reported in our approach. Please note that [pesmo](https://github.com/HIPS/Spearmint/tree/PESM) needs to be run using ```python2.7```.
-
-## How to use Unicorn
-Unicorn is used for performing tasks such as performance optimization and performance debugging in offline and online modes. In the offline mode, Unicorn can be run on any device that uses previously measured configurations. In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required as it requires setting a device to a new configuration before measurement. 
-
-
-In both offline and online modes, Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```). Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
-
-=======
 
 # How to use Unicorn
 Unicorn is used for performing tasks such as performance optimization and performance debugging in offline and online modes. 
@@ -136,7 +83,6 @@ You can get them here: <https://docs.docker.com/desktop/mac/install/>.
    ```
 
 
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 
 ## Debugging
 Unicorn supports debugging and fixing single-objective and multi-objective performance faults in offline and online modes. It also supports root cause analysis of these fixes using metrics such as accuracy, precision, recall and gain. 
@@ -144,48 +90,28 @@ Unicorn supports debugging and fixing single-objective and multi-objective perfo
 ### Single-objective debugging
 To debug single-objective faults in the using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_debug.py  -o objective -s softwaresystem -k hardwaresystem -m mode
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o objective -s softwaresystem -k hardwaresystem -m mode
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 
 #### Example
 To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_debug.py  -o inference_time -s Image -k TX2 -m offline
-```
-To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
-```
-python ./tests/run_unicorn_debug.py  -o total_energy_consumption -s NLP -k Xavier -m online
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o total_energy_consumption -s NLP -k Xavier -m online
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 
 ### Multi-objective debugging
 To debug multi-objective faults using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_debug.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 #### Example
 To debug multi-objective ```latency``` and ```energy``` faults for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_debug.py  -o inference_time -o total_energy_consumption -s Speech  -k TX2 -m offline
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o inference_time -o total_energy_consumption -s Speech  -k TX2 -m offline
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 
 ## Optimization
@@ -194,105 +120,60 @@ Unicorn supports single-objective and multi-objective optimization in offline an
 ### Single-objective optimization
 To run single-objective optimization using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 #### Example
 To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_optimization.py  -o inference_time -s Image -k TX2 -m offline
-```
-To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
-```
-python ./tests/run_unicorn_optimization.py  -o total_energy_consumption -s NLP -k Xavier -m online
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o total_energy_consumption -s NLP -k Xavier -m online
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 
 ### Multi-objective debugging
 To run multi-objective optimization in the using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 #### Example
 To run multi-objective ```latency``` and ```energy``` optimization for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 
 ## Transferability
 Unicorn supports both single and multi-objective transferability in online and offline modes. However, the current version is not tested for multi-objective transferability. To determine single-objective transferability of Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem -m offline
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem -m offline
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 #### Example
 To run single-objective ```latency``` transferability for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-<<<<<<< HEAD
-python ./tests/run_unicorn_transferability.py  -o inference_time -s Image -k TX2 -m offline
-```
-To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
-```
-python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
-=======
 docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o inference_time -s Image -k TX2 -m offline
 ```
 To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 ## Data generation
 To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the first command to start the app in the ```localhost```. Once the app is up and running please use the second command to start measuring consfigurations.
 
 
 ```
-<<<<<<< HEAD
-python ./services/run_service.py softwaresystem
-python ./services/run_params.py softwaresystem
-=======
 docker-compose exec unicorn python ./services/run_service.py softwaresystem
 docker-compose exec unicorn python ./services/run_params.py softwaresystem
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 #### Example
 To initialize a flask app with ```Xception``` software system please use:
 ```
-<<<<<<< HEAD
-python ./services/run_service.py Image
-=======
 docker-compose exec unicorn python ./services/run_service.py Image
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 
 Once the flask app is running and modelserver is ready then please use the following command to collect performance measurements for different configurations:
 ```
-<<<<<<< HEAD
-python ./services/run_params.py Image
-=======
 docker-compose exec unicorn python ./services/run_params.py Image
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
 ```
 ## Baselines 
 
