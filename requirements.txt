@@ -6,17 +6,11 @@ seaborn
 networkx
 pydot
 causalgraphicalmodels
-causalnex
 graphviz
 py-causal
 causality
 statsmodels
 tqdm
-flask
-tensorflow-gpu==1.15
-keras
-torch==1.4.0 
-torchvision==0.5.0
 mlxtend
 scikit-learn
 basyesian-optimization
