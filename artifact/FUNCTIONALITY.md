@@ -293,7 +293,7 @@ Number of Samples Required 23
 ```
 
 ### Evaluation
-Here, the gain is ```((150035 - 24748)/150035) * 100% = 83%```. Therefore, it satifies the user query to improve performance fault by ```80%```. Unicorn required 23 additional samples to resolve the fault. 
+Here, the gain is ```((150035 - 24748)/150035) * 100% = 83%```. Therefore, it satisfies the user query to improve performance fault by ```80%```. Unicorn required 23 additional samples to resolve the fault. 
 
 We also measure accuracy, precision and recall of the recommended fix by comparison with the ground truth fix that is given below:
 
