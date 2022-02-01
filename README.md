@@ -23,7 +23,7 @@ pip install numpy
 pip install scipy
 pip install pandas
 pip install matplotlib
-
+pip install seaborn
 ```
 For causal structure recovery, causal effect estimation and causal graph visulalization please use the following commands:
 ```
@@ -39,6 +39,7 @@ pip install tqdm
 ```
 For data generation and bug discovery please use the following commands:
 ```
+sudo apt-get install linux-tools-common linux-tools-generic 
 pip install flask
 pip install tensorflow-gpu==1.15
 pip install keras
@@ -50,10 +51,10 @@ pip install mlxtend
 pip install -U scikit-learn
 pip install basyesian-optimization
 ```
-Additionally, please follow ```STEP 1: Installation``` reported in [pesmo](https://github.com/HIPS/Spearmint/tree/PESM) to run a multi-objective optimization baseline reported in our approach.
+Additionally, please follow ```STEP 1: Installation``` reported in [pesmo](https://github.com/HIPS/Spearmint/tree/PESM) to run a multi-objective optimization baseline reported in our approach. Please note that [pesmo](https://github.com/HIPS/Spearmint/tree/PESM) needs to be run using ```python2.7```.
 
 ## How to use Unicorn
-Unicorn can be used for performing different tasks such as performance optimization and performance debugging. Unicorn can be run on both offline and online modes. In the offline mode, Unicorn can be run on any device that uses previously measured configurations. In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required as it requires setting a device to a new configuration before measurement. 
+Unicorn is used for performing tasks such as performance optimization and performance debugging in offline and online modes. In the offline mode, Unicorn can be run on any device that uses previously measured configurations. In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required as it requires setting a device to a new configuration before measurement. 
 
 
 In both offline and online modes, Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```). Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
