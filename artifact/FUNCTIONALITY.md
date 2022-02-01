@@ -165,7 +165,7 @@ Unicorn initially builds a causal graph with the initial samples located in ```.
 
 At this stage the causal graph has some undecided edges which are later resolved and the following causal graph is discovered in the first iteration. 
 
-![graph_1](https://user-images.githubusercontent.com/12802456/151922460-efbd2a6e-119b-4ba6-8513-db255483891b.png)
+![graph_iter_1 png](https://user-images.githubusercontent.com/12802456/151999773-bce9cc41-bb4f-4d99-bfca-5fbda2b07b57.png)
 
 ### Iterative sampling
 After the causal graph is discovered we identify the causal paths. A causal path starts from a performance objective node and ends in a configuration option. For example, the causal paths for ```total_energy_consumption``` from the causal graph obatined in the first iteration are below.
