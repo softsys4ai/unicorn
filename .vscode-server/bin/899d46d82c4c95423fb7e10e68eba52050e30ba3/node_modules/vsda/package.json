@@ -1,0 +1,26 @@
+{
+  "name": "vsda",
+  "description": "VS Code debug handshake module",
+  "version": "1.4.1",
+  "author": {
+    "name": "Microsoft"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^6.1.4"
+  },
+  "homepage": "https://github.com/Microsoft/vscode",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "os": [
+    "win32",
+    "linux",
+    "darwin"
+  ],
+  "scripts": {
+    "build": "node-gyp build",
+    "configure": "node-gyp configure",
+    "install": "node-gyp rebuild",
+    "test": "mocha test.js"
+  }
+}

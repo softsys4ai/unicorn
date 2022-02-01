@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  unicorn:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      container_name: unicorn
+      volumes:
+        - .:/root/
+      command: "sleep infinity"

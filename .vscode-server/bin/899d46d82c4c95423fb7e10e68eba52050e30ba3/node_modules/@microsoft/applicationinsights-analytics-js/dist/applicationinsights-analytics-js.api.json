@@ -1,0 +1,1913 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.17.1",
+    "schemaVersion": 1004,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      }
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@microsoft/applicationinsights-analytics-js!",
+  "docComment": "",
+  "name": "@microsoft/applicationinsights-analytics-js",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@microsoft/applicationinsights-analytics-js!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class ApplicationInsights extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseTelemetryPlugin",
+              "canonicalReference": "@microsoft/applicationinsights-core-js!BaseTelemetryPlugin:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            },
+            {
+              "kind": "Content",
+              "text": "implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAppInsights",
+              "canonicalReference": "@microsoft/applicationinsights-common!IAppInsights:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", "
+            },
+            {
+              "kind": "Reference",
+              "text": "IAppInsightsInternal",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!IAppInsightsInternal:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "ApplicationInsights",
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#_onerror:member(1)",
+              "docComment": "/**\n * @description Custom error handler for Application Insights Analytics\n *\n * @param exception -  @memberof ApplicationInsights\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_onerror(exception: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAutoExceptionTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IAutoExceptionTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "exception",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "_onerror"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#_pageViewManager:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected _pageViewManager: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PageViewManager",
+                  "canonicalReference": "@microsoft/applicationinsights-analytics-js!PageViewManager:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_pageViewManager",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#_pageViewPerformanceManager:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected _pageViewPerformanceManager: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PageViewPerformanceManager",
+                  "canonicalReference": "@microsoft/applicationinsights-analytics-js!PageViewPerformanceManager:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_pageViewPerformanceManager",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#_pageVisitTimeManager:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected _pageVisitTimeManager: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "PageVisitTimeManager",
+                  "canonicalReference": "@microsoft/applicationinsights-analytics-js!PageVisitTimeManager:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_pageVisitTimeManager",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#_telemetryInitializers:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected _telemetryInitializers: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Array",
+                  "canonicalReference": "!Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<(envelope: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITelemetryItem",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ITelemetryItem:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ") => boolean | void>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_telemetryInitializers",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `ApplicationInsights` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor();"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#addTelemetryInitializer:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "addTelemetryInitializer(telemetryInitializer: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(item: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITelemetryItem",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ITelemetryItem:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ") => boolean | void"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "telemetryInitializer",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "addTelemetryInitializer"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#autoRoutePVDelay:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "autoRoutePVDelay: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "autoRoutePVDelay",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#config:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "config: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IConfig",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "config",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#getCookieMgr:member(1)",
+              "docComment": "/**\n * Get the current cookie manager for this instance\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getCookieMgr(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICookieMgr",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ICookieMgr:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "getCookieMgr"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights.getDefaultConfig:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static getDefaultConfig(config?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IConfig",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IConfig",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "config",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "getDefaultConfig"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#identifier:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identifier: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "identifier",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#initialize:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "initialize(config: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IConfiguration",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IConfiguration:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IConfig",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", core: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAppInsightsCore",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IAppInsightsCore:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", extensions: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPlugin",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IPlugin:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", pluginChain?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITelemetryPluginChain",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ITelemetryPluginChain:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 13
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "config",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "core",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                },
+                {
+                  "parameterName": "extensions",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 9
+                  }
+                },
+                {
+                  "parameterName": "pluginChain",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 10,
+                    "endIndex": 11
+                  }
+                }
+              ],
+              "name": "initialize"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#priority:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "priority: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "priority",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#processTelemetry:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "processTelemetry(env: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITelemetryItem",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ITelemetryItem:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", itemCtx?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IProcessTelemetryContext",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IProcessTelemetryContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "env",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "itemCtx",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "processTelemetry"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#queue:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "queue: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Array",
+                  "canonicalReference": "!Array:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<() => void>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "queue",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#sendExceptionInternal:member(1)",
+              "docComment": "/**\n * @ignore INTERNAL ONLY\n *\n * @param exception - \n *\n * @param properties - \n *\n * @param systemProperties - \n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendExceptionInternal(exception: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IExceptionTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IExceptionTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", customProperties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", systemProperties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "exception",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "customProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "systemProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "sendExceptionInternal"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#sendPageViewInternal:member(1)",
+              "docComment": "/**\n * Create a page view telemetry item and send it to the SDK pipeline through the core.track API\n *\n * @param pageView - Page view item to be sent\n *\n * @param properties - Custom properties (Part C) that a user can add to the telemetry item\n *\n * @param systemProperties - System level properties (Part A) that a user can add to the telemetry item\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendPageViewInternal(pageView: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPageViewTelemetryInternal",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IPageViewTelemetryInternal:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", properties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", systemProperties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "pageView",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "properties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "systemProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "sendPageViewInternal"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#sendPageViewPerformanceInternal:member(1)",
+              "docComment": "/**\n * @ignore INTERNAL ONLY\n *\n * @param pageViewPerformance - \n *\n * @param properties - \n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendPageViewPerformanceInternal(pageViewPerformance: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPageViewPerformanceTelemetryInternal",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IPageViewPerformanceTelemetryInternal:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", properties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", systemProperties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: any;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "pageViewPerformance",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "properties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "systemProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "sendPageViewPerformanceInternal"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#startTrackEvent:member(1)",
+              "docComment": "/**\n * Start timing an extended event. Call `stopTrackEvent` to log the event when it ends.\n *\n * @param name - A string that identifies this event uniquely within the document.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "startTrackEvent(name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "name",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "startTrackEvent"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#startTrackPage:member(1)",
+              "docComment": "/**\n * Starts the timer for tracking a page load time. Use this instead of `trackPageView` if you want to control when the page view timer starts and stops, but don't want to calculate the duration yourself. This method doesn't send any telemetry. Call `stopTrackPage` to log the end of the page view and send the event.\n *\n * @param name - A string that idenfities this item, unique within this HTML document. Defaults to the document title.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "startTrackPage(name?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "name",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "startTrackPage"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#stopTrackEvent:member(1)",
+              "docComment": "/**\n * Log an extended event that you started timing with `startTrackEvent`.\n *\n * @param name - The string you used to identify this event in `startTrackEvent`.\n *\n * @param properties - map[string, string] - additional data used to filter events and metrics in the portal. Defaults to empty.\n *\n * @param measurements - map[string, number] - metrics associated with this event, displayed in Metrics Explorer on the portal. Defaults to empty.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "stopTrackEvent(name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", properties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", measurements?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: number;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "name",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "properties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "measurements",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "stopTrackEvent"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#stopTrackPage:member(1)",
+              "docComment": "/**\n * Stops the timer that was started by calling `startTrackPage` and sends the pageview load time telemetry with the specified properties and measurements. The duration of the page view will be the time between calling `startTrackPage` and `stopTrackPage`.\n *\n * @param name - The string you used as the name in startTrackPage. Defaults to the document title.\n *\n * @param url - String - a relative or absolute URL that identifies the page or other item. Defaults to the window location.\n *\n * @param properties - map[string, string] - additional data used to filter pages and metrics in the portal. Defaults to empty.\n *\n * @param measurements - map[string, number] - metrics associated with this page, displayed in Metrics Explorer on the portal. Defaults to empty.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "stopTrackPage(name?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", url?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", properties?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", measurement?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        [key: string]: number;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 10
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "name",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "url",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "properties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                },
+                {
+                  "parameterName": "measurement",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 8
+                  }
+                }
+              ],
+              "name": "stopTrackPage"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#trackEvent:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trackEvent(event: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IEventTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IEventTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", customProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICustomProperties",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ICustomProperties:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "event",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "customProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "trackEvent"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#trackException:member(1)",
+              "docComment": "/**\n * Log an exception you have caught.\n *\n * @param exception - Object which contains exception to be sent\n *\n * @param customProperties - Additional data used to filter pages and metrics in the portal. Defaults to empty.\n *\n * Any property of type double will be considered a measurement, and will be treated by Application Insights as a metric.  @memberof ApplicationInsights\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trackException(exception: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IExceptionTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IExceptionTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", customProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICustomProperties",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ICustomProperties:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "exception",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "customProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "trackException"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#trackMetric:member(1)",
+              "docComment": "/**\n * @description Log a numeric value that is not associated with a specific event. Typically used to send regular reports of performance indicators. To send single measurement, just use the name and average fields of {@link IMetricTelemetry}. If you take measurements frequently, you can reduce the telemetry bandwidth by aggregating multiple measurements and sending the resulting average at intervals\n *\n * @param metric - input object argument. Only name and average are mandatory.\n *\n * @param customProperties - additional data used to filter metrics in the portal. Defaults to empty.  @memberof ApplicationInsights\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trackMetric(metric: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IMetricTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IMetricTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", customProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICustomProperties",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ICustomProperties:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "metric",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "customProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "trackMetric"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#trackPageView:member(1)",
+              "docComment": "/**\n * Logs that a page or other item was viewed.\n *\n * @param IPageViewTelemetry - The string you used as the name in startTrackPage. Defaults to the document title.\n *\n * @param customProperties - Additional data used to filter events and metrics. Defaults to empty. If a user wants to provide duration for pageLoad, it'll have to be in pageView.properties.duration\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trackPageView(pageView?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPageViewTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IPageViewTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", customProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICustomProperties",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ICustomProperties:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "pageView",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "customProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "trackPageView"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#trackPageViewPerformance:member(1)",
+              "docComment": "/**\n * Send browser performance metrics.\n *\n * @param pageViewPerformance - \n *\n * @param customProperties - \n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trackPageViewPerformance(pageViewPerformance: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPageViewPerformanceTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IPageViewPerformanceTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", customProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICustomProperties",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ICustomProperties:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "pageViewPerformance",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "customProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "trackPageViewPerformance"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights#trackTrace:member(1)",
+              "docComment": "/**\n * @description Log a diagnostic message\n *\n * @param trace - \n *\n * @param  - ICustomProperties.  @memberof ApplicationInsights\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trackTrace(trace: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITraceTelemetry",
+                  "canonicalReference": "@microsoft/applicationinsights-common!ITraceTelemetry:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", customProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ICustomProperties",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ICustomProperties:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "trace",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "customProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "trackTrace"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!ApplicationInsights.Version:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static Version: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "Version",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": true
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "implementsTokenRanges": [
+            {
+              "startIndex": 4,
+              "endIndex": 5
+            },
+            {
+              "startIndex": 6,
+              "endIndex": 8
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@microsoft/applicationinsights-analytics-js!IAppInsightsInternal:interface",
+          "docComment": "/**\n * Internal interface to pass appInsights object to subcomponents without coupling\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IAppInsightsInternal "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "IAppInsightsInternal",
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!IAppInsightsInternal#sendPageViewInternal:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendPageViewInternal(pageViewItem: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPageViewTelemetryInternal",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IPageViewTelemetryInternal:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", properties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Object",
+                  "canonicalReference": "!Object:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", systemProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Object",
+                  "canonicalReference": "!Object:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "pageViewItem",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "properties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "systemProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "sendPageViewInternal"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@microsoft/applicationinsights-analytics-js!IAppInsightsInternal#sendPageViewPerformanceInternal:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendPageViewPerformanceInternal(pageViewPerformance: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPageViewPerformanceTelemetryInternal",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IPageViewPerformanceTelemetryInternal:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", properties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Object",
+                  "canonicalReference": "!Object:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", systemProperties?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Object",
+                  "canonicalReference": "!Object:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "pageViewPerformance",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "properties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "systemProperties",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "sendPageViewPerformanceInternal"
+            }
+          ],
+          "extendsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}

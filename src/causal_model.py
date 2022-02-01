@@ -11,8 +11,6 @@ from causalnex.network import BayesianNetwork
 from ananke.graphs import ADMG
 from ananke.estimation import CausalEffect as CE
 from ananke.estimation import AutomatedIF
-from causalnex.structure.notears import from_pandas
-from causalnex.network import BayesianNetwork
 from causallearn.search.ConstraintBased.FCI import fci
 from causallearn.utils.cit import chisq, fisherz, kci
 from causallearn.utils.GraphUtils import GraphUtils
