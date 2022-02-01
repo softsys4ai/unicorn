@@ -1,0 +1,1 @@
+{"githubServer":{"messages":["GitHub Sign-in","$(mark-github) Signing in to github.com...","Please enter a valid Uri from the GitHub login page."],"keys":["status.git.signIn.name","signingIn","validUri"]},"common/keychain":{"messages":["Troubleshooting Guide","Writing login information to the keychain failed with error '{0}'."],"keys":["troubleshooting","keychainWriteError"]}}

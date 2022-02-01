@@ -1,0 +1,1319 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.17.1",
+    "schemaVersion": 1004,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      }
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@microsoft/applicationinsights-channel-js!",
+  "docComment": "",
+  "name": "@microsoft/applicationinsights-channel-js",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@microsoft/applicationinsights-channel-js!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender:class",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class Sender extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseTelemetryPlugin",
+              "canonicalReference": "@microsoft/applicationinsights-core-js!BaseTelemetryPlugin:class"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            },
+            {
+              "kind": "Content",
+              "text": "implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IChannelControlsAI",
+              "canonicalReference": "@microsoft/applicationinsights-common!IChannelControlsAI:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "Sender",
+          "members": [
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_appId:member",
+              "docComment": "/**\n * AppId of this component parsed from some backend response.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_appId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_appId",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_buffer:member",
+              "docComment": "/**\n * A send buffer object\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_buffer: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISendBuffer",
+                  "canonicalReference": "@microsoft/applicationinsights-channel-js!ISendBuffer:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_buffer",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_onError:member(1)",
+              "docComment": "/**\n * error handler\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_onError(payload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", message: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", event?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ErrorEvent",
+                  "canonicalReference": "!ErrorEvent:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "payload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "event",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "_onError"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_onPartialSuccess:member(1)",
+              "docComment": "/**\n * partial success handler\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_onPartialSuccess(payload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", results: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IBackendResponse",
+                  "canonicalReference": "@microsoft/applicationinsights-channel-js!IBackendResponse:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "payload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "results",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "_onPartialSuccess"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_onSuccess:member(1)",
+              "docComment": "/**\n * success handler\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_onSuccess(payload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", countOfItemsInPayload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "payload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "countOfItemsInPayload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "_onSuccess"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_sample:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected _sample: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Sample",
+                  "canonicalReference": "@microsoft/applicationinsights-channel-js!Sample:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_sample",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_sender:member",
+              "docComment": "/**\n * A method which will cause data to be send to the url\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_sender: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SenderFunction",
+                  "canonicalReference": "@microsoft/applicationinsights-channel-js!SenderFunction:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_sender",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_senderConfig:member",
+              "docComment": "/**\n * The configuration for this sender instance\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_senderConfig: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ISenderConfig",
+                  "canonicalReference": "@microsoft/applicationinsights-channel-js!ISenderConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_senderConfig",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_xdrOnLoad:member(1)",
+              "docComment": "/**\n * xdr state changes\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_xdrOnLoad(xdr: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IXDomainRequest",
+                  "canonicalReference": "@microsoft/applicationinsights-channel-js!XDomainRequest:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", payload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "xdr",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "payload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "_xdrOnLoad"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_xhrReadyStateChange:member(1)",
+              "docComment": "/**\n * xhr state changes\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_xhrReadyStateChange(xhr: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "XMLHttpRequest",
+                  "canonicalReference": "!XMLHttpRequest:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", payload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", countOfItemsInPayload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "xhr",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "payload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "countOfItemsInPayload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "_xhrReadyStateChange"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#_XMLHttpRequestSupported:member",
+              "docComment": "/**\n * Whether XMLHttpRequest object is supported. Older version of IE (8,9) do not support it.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "_XMLHttpRequestSupported: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_XMLHttpRequestSupported",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender:constructor(1)",
+              "docComment": "/**\n * Constructs a new instance of the `Sender` class\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor();"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": []
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#addHeader:member(1)",
+              "docComment": "/**\n * Add header to request\n *\n * @param name - Header name.\n *\n * @param value - Header value.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "addHeader(name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", value: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "name",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "value",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "addHeader"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender.constructEnvelope:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static constructEnvelope(orig: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITelemetryItem",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ITelemetryItem:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", iKey: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", logger: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IDiagnosticLogger",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IDiagnosticLogger:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IEnvelope",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IEnvelope:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "orig",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "iKey",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "logger",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "constructEnvelope"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#flush:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "flush(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "flush"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#identifier:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "identifier: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "identifier",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#initialize:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "initialize(config: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IConfiguration",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IConfiguration:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": " & "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IConfig",
+                  "canonicalReference": "@microsoft/applicationinsights-common!IConfig:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", core: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IAppInsightsCore",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IAppInsightsCore:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", extensions: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IPlugin",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IPlugin:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", pluginChain?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITelemetryPluginChain",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ITelemetryPluginChain:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 13
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "config",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "core",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                },
+                {
+                  "parameterName": "extensions",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 7,
+                    "endIndex": 9
+                  }
+                },
+                {
+                  "parameterName": "pluginChain",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 10,
+                    "endIndex": 11
+                  }
+                }
+              ],
+              "name": "initialize"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#onunloadFlush:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "onunloadFlush(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "onunloadFlush"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#pause:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "pause(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "pause"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#priority:member",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "priority: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "priority",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#processTelemetry:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "processTelemetry(telemetryItem: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ITelemetryItem",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!ITelemetryItem:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", itemCtx?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IProcessTelemetryContext",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!IProcessTelemetryContext:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "telemetryItem",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "itemCtx",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ],
+              "name": "processTelemetry"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#resume:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "resume(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "resume"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#teardown:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "teardown(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "teardown"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@microsoft/applicationinsights-channel-js!Sender#triggerSend:member(1)",
+              "docComment": "/**\n * Immediately send buffered data\n *\n * @param async - Indicates if the events should be sent asynchronously\n *\n * @param forcedSender - Indicates the forcedSender, undefined if not passed\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "triggerSend(async?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", forcedSender?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SenderFunction",
+                  "canonicalReference": "@microsoft/applicationinsights-channel-js!SenderFunction:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", sendReason?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SendRequestReason",
+                  "canonicalReference": "@microsoft/applicationinsights-core-js!SendRequestReason:enum"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "async",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "forcedSender",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "sendReason",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "triggerSend"
+            }
+          ],
+          "extendsTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          },
+          "implementsTokenRanges": [
+            {
+              "startIndex": 4,
+              "endIndex": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
