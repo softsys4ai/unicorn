@@ -1,9 +1,9 @@
 *.pyc
 *__init__.py
-.cache
-.ssh
-.vscode-server
-.bash_history
-.gitconfig
-.gitignore
+*.cache
+*.ssh
+*.vscode-server
+*.bash_history
+*.gitconfig
+*.gitignore
 
