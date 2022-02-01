@@ -330,37 +330,37 @@ total_energy_consumption         2.474800e+04
 Let us compare them side by side to see what options are changed and what are the root causes of this fault.
 
 ```
-                                  Bug       Ground truth   Unicorn
+                                  Bug        Ground truth   Unicorn
 ---------------------------------------------------------------------
-memory_growth                 5.000000e-01  5.000000e-01 5.000000e-01      
-logical_devices               2.000000e+00  2.000000e+00 2.000000e+00
-core_freq                     2.188800e+06  2.265600e+06 2.265600e+06
-gpu_freq                      2.688000e+05  2.688000e+05 2.688000e+05
-emc_freq                      6.000000e+08  2.133000e+09 2.133000e+09
-num_cores                     2.000000e+00  4.000000e+00 4.000000e+00
-scheduler.policy              0.000000e+00  0.000000e+00 0.000000e+00
-vm.swappiness                 1.000000e+02  1.000000e+02 1.000000e+02
-vm.vfs_cache_pressure         5.000000e+02  5.000000e+02 5.000000e+02
-vm.dirty_background_ratio     8.000000e+01  8.000000e+01 8.000000e+01
-vm.drop_caches                0.000000e+00  0.000000e+00 0.000000e+00
-vm.nr_hugepages               1.000000e+00  1.000000e+00 1.000000e+00
-vm.overcommit_ratio           5.000000e+01  5.000000e+01 5.000000e+01
-vm.overcommit_memory          1.000000e+00  1.000000e+00 1.000000e+00
-vm.overcommit_hugepages       2.000000e+00  2.000000e+00 2.000000e+00
-kernel.sched_child_runs_first 1.000000e+00  1.000000e+00 1.000000e+00
-kernel.sched_rt_runtime_us    9.500000e+05  9.500000e+05 9.500000e+05
-vm.dirty_bytes                3.000000e+01  3.000000e+01 3.000000e+01
-vm.dirty_background_bytes     6.000000e+01  6.000000e+01 6.000000e+01
-vm.dirty_ratio                5.000000e+01  5.000000e+01 5.000000e+01
-swap_memory                   1.000000e+00  1.000000e+00 1.000000e+00
-kernel.max_pids               3.276800e+04  6.553600e+04 6.553600e+04
-kernel.sched_latency_ns       2.400000e+07  2.400000e+07 2.400000e+07
-kernel.sched_nr_migrate       1.280000e+02  1.280000e+02 1.280000e+02
-kernel.cpu_time_max_percent   1.000000e+02  1.000000e+02 1.000000e+02
-kernel.sched_time_avg_ms      1.000000e+03  1.000000e+03 1.000000e+03
-total_energy_consumption      1.500357e+05  2.474800e+04 2.474800e+04
+memory_growth                 5.000000e-01   5.000000e-01   5.000000e-01      
+logical_devices               2.000000e+00   2.000000e+00   2.000000e+00
+core_freq*                    2.188800e+06   2.265600e+06   2.265600e+06
+gpu_freq                      2.688000e+05   2.688000e+05   2.688000e+05
+emc_freq*                     6.000000e+08   2.133000e+09   2.133000e+09
+num_cores*                    2.000000e+00   4.000000e+00   4.000000e+00
+scheduler.policy              0.000000e+00   0.000000e+00   0.000000e+00
+vm.swappiness                 1.000000e+02   1.000000e+02   1.000000e+02
+vm.vfs_cache_pressure         5.000000e+02   5.000000e+02   5.000000e+02
+vm.dirty_background_ratio     8.000000e+01   8.000000e+01   8.000000e+01
+vm.drop_caches                0.000000e+00   0.000000e+00   0.000000e+00
+vm.nr_hugepages               1.000000e+00   1.000000e+00   1.000000e+00
+vm.overcommit_ratio           5.000000e+01   5.000000e+01   5.000000e+01
+vm.overcommit_memory          1.000000e+00   1.000000e+00   1.000000e+00
+vm.overcommit_hugepages       2.000000e+00   2.000000e+00   2.000000e+00
+kernel.sched_child_runs_first 1.000000e+00   1.000000e+00   1.000000e+00
+kernel.sched_rt_runtime_us    9.500000e+05   9.500000e+05   9.500000e+05
+vm.dirty_bytes                3.000000e+01   3.000000e+01   3.000000e+01
+vm.dirty_background_bytes     6.000000e+01   6.000000e+01   6.000000e+01
+vm.dirty_ratio                5.000000e+01   5.000000e+01   5.000000e+01
+swap_memory                   1.000000e+00   1.000000e+00   1.000000e+00
+kernel.max_pids               3.276800e+04   6.553600e+04   6.553600e+04
+kernel.sched_latency_ns       2.400000e+07   2.400000e+07   2.400000e+07
+kernel.sched_nr_migrate       1.280000e+02   1.280000e+02   1.280000e+02
+kernel.cpu_time_max_percent   1.000000e+02   1.000000e+02   1.000000e+02
+kernel.sched_time_avg_ms      1.000000e+03   1.000000e+03   1.000000e+03
+total_energy_consumption*     1.500357e+05   2.474800e+04   2.474800e+04
 ```
-Here, the root causes are ```core_freq```, ```emc_freq```, ```num_cores```, and ```kernel.max_pids```. Here, Unicorn is able to find each of the root causes. Therefore, Unicorn achieves ``100%``` accuracy, precision and recall for this non-functional energy fault.
+Here, the root causes are ```core_freq```, ```emc_freq```, ```num_cores```, and ```kernel.max_pids``` (indicated by ```*```). Here, Unicorn is able to find each of the root causes. Therefore, Unicorn achieves ``100%``` accuracy, precision and recall for this non-functional energy fault.
 
 An example run of Unicorn for an ```energy``` fault is recorded in this 
 [trial run](https://user-images.githubusercontent.com/12802456/151889655-63efb22e-be37-480c-9f21-dc4d25f77335.mp4). Printing graph outputs are disabled in the trial run video (only connections are printed in the standard output.)
