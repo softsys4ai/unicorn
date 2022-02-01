@@ -6,7 +6,6 @@ import pandas as pd
 from ananke.graphs import ADMG
 from networkx import DiGraph
 from optparse import OptionParser
-from pycausal.pycausal import pycausal
 
 sys.path.append('/root')
 

@@ -6,7 +6,6 @@ import json
 from ananke.graphs import ADMG
 from networkx import DiGraph
 from optparse import OptionParser
-from pycausal.pycausal import pycausal as pc
 
 sys.path.append('/root')
 

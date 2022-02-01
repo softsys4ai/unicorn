@@ -1,1 +1,0 @@
-# causal-config-labyrinth
