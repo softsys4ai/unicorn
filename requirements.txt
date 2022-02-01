@@ -16,7 +16,8 @@ tqdm
 flask
 tensorflow-gpu==1.15
 keras
-torch==1.4.0 torchvision==0.5.0
+torch==1.4.0 
+torchvision==0.5.0
 mlxtend
 scikit-learn
 basyesian-optimization
