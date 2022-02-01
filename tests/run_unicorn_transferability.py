@@ -6,8 +6,6 @@ import json
 from src.causal_model import CausalModel
 from src.generate_params import GenerateParams
 from ananke.graphs import ADMG
-from causalnex.structure.notears import from_pandas
-from causalnex.network import BayesianNetwork
 from networkx import DiGraph
 from optparse import OptionParser
 from pycausal.pycausal import pycausal as pc
