@@ -180,4 +180,4 @@ Please please feel free to contact via email if you find any issues or have any 
 
 
 ## 📘&nbsp; License
-Unicorn is released under the terms of the [MIT License](LICENSE).
+Unicorn is released under the terms of the [MIT License](./LICENSE).

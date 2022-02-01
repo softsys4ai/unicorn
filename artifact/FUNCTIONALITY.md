@@ -254,7 +254,7 @@ X45 --> X49
 
 ``` 
 Causal graph discovered in iteration 2 is updated after adding the recommended configuration. Here, we see an impact of adding the recommended confiuration that changes the causal graph in previous iteration. 
-![graph_2](https://user-images.githubusercontent.com/12802456/151925526-369b2e85-06c9-4827-99e9-a138836ec311.png)
+![graph_iter_2 png](https://user-images.githubusercontent.com/12802456/151996491-ddca8174-6e08-4d12-a5ce-0c2fba0e002d.png)
 After the graph is obtained we repeat the steps of causal path discovery, computing path causal effects and iterative sampling until the fault is resolved.
 
 Finally, we find a fix after 23 iteration.
