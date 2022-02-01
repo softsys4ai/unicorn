@@ -141,7 +141,7 @@ if __name__=="__main__":
                         paths = paths[options.obj[0]]
                 
                 # compute individual treatment effect in a path
-        
+                print (paths)
                 config = CM.compute_individual_treatment_effect(df, paths, g, 
                                             query, options, bug[options.obj[0]], 
                                             previous_config, cfg, var_types)
