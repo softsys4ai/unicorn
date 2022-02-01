@@ -53,6 +53,13 @@ Jetpack: 4.3
 OS: Ubuntu 20.04 64-bit
 ```
 
+## Video run of the example
+An example run of Unicorn for an ```energy``` fault is shown here. 
+
+_Note: Printing charts outputs are disabled in the trial run video. Instead, output is piped to STDOUT._
+
+https://user-images.githubusercontent.com/1433964/152039788-23bbc9a6-a8e8-495b-a647-c4c1dc0747a1.mp4
+
 
 ## Functionality testing
 Once the pre-requisites are installed clone the repo and navigate to the root directory using the following:
@@ -362,9 +369,7 @@ total_energy_consumption*     1.500357e+05   2.474800e+04   2.474800e+04
 ```
 Here, the root causes are ```core_freq```, ```emc_freq```, ```num_cores```, and ```kernel.max_pids``` (indicated by ```*```). Here, Unicorn is able to find each of the root causes. Therefore, Unicorn achieves ```100%``` accuracy, precision and recall for this non-functional energy fault.
 
-## Video run of the example
-An example run of Unicorn for an ```energy``` fault is recorded in this 
-[trial run](https://user-images.githubusercontent.com/12802456/151889655-63efb22e-be37-480c-9f21-dc4d25f77335.mp4). Printing graph outputs are disabled in the trial run video (only connections are printed in the standard output.)
+
 
 
 
