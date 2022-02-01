@@ -16,7 +16,7 @@ def config_option_parser():
     """This function is used to configure option parser 
     @returns:
         options: option parser handle"""
-    usage="""USAGE: %python3 run_unicorn_debug.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m [mode] -i [bid]
+    usage="""USAGE: %python3 run_unicorn_debug.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m [mode] -i [bug_index]
     """
     parser=OptionParser(usage=usage)
     parser.add_option('-o', '--objective', dest='obj', 
@@ -28,8 +28,8 @@ def config_option_parser():
                       type="string", dest="hardware", help="hardware")
     parser.add_option('-m', "--mode", action="store",
                       type="string", dest="mode", help="mode")
-    parser.add_option('-i', "--bid", action="store",
-                      type="string", dest="bid", help="bid")
+    parser.add_option('-i', "--bug_index", action="store",
+                      type="string", dest="bug_index", help="bug_index")
     (options, args)=parser.parse_args()
     return options
 
@@ -53,9 +53,9 @@ def run_unicorn_loop(CM, df,
     return G, di_edges, bi_edges
 
 if __name__=="__main__":
-    
-    NUM_PATHS =  25
     query = 0.8
+    NUM_PATHS =  25
+    
     options = config_option_parser()
     # Initialization
     with open(os.path.join(os.getcwd(),"etc/config.yml")) as file:
@@ -112,8 +112,8 @@ if __name__=="__main__":
     for col in columns: var_types[col] = "c"
     # Get Bug and update df 
     bug_exists = True   
-    if options.bid:
-        bug_df = bug_df.iloc[int(options.bid):int(options.bid)+1]
+    if options.bug_index:
+        bug_df = bug_df.iloc[int(options.bug_index):int(options.bug_index)+1]
      
     for bug_id in range(len(bug_df)):
         bug = bug_df.loc[bug_id]
