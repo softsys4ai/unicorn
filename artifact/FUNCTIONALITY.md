@@ -170,7 +170,7 @@ At this stage the causal graph has some undecided edges which are later resolved
 ### Iterative sampling
 After the causal graph is discovered we identify the causal paths. A causal path starts from a performance objective node and ends in a configuration option. For example, the causal paths for ```total_energy_consumption``` from the causal graph obatined in the first iteration are below.
 ```
-[['total_energy_consumption', 'core_freq'], ['total_energy_consumption', 'num_cores'], ['total_energy_consumption', 'vm.swappiness'], ['total_energy_consumption', 'vm.drop_caches'], ['total_energy_consumption', 'vm.swappiness'], ['total_energy_consumption', 'logical_devices']]
+[['total_energy_consumption', 'core_freq'], ['total_energy_consumption', 'num_cores'], ['total_energy_consumption', 'kernel.max_pids'], ['total_energy_consumption', 'vm.drop_caches'], ['total_energy_consumption', 'kernel.sched_nr_migrate'], ['total_energy_consumption', 'emc_freq']]
 ```
 Once the causal paths are identified we select the top K paths using their average causal effect. For this software system we set ```K=25```. Since, the number of causal paths obtained from the causal graph is less than 25 we select all the paths to consider in the later stages. Now, we compute the individual treatment effect for each path by setting each option in the path to its allowable values and determine for what value of an option provides the maximum treatment effect to resolve this bug. In this case, we observe that ```emc_freq = 2.133000e+09``` has the highest individual treatment effect. Therefore, we perform an intervention by changing ```emc_freq = 2.133000e+09``` in the performance fault configuration and select for measurement. 
 
