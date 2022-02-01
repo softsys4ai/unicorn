@@ -169,7 +169,10 @@ class CausalModel:
                      single_edges.append((s_edges[i][0],obj))
        
         double_edges=list(set(double_edges)-set(tabu_edges))
-        
+        print ("--------------------------------------------------------------")
+        print ("Connections discovered by the causal graph")
+        print (single_edges)
+        print ("--------------------------------------------------------------")
         return single_edges, double_edges
     
     def get_causal_paths(self, columns, di_edges,
