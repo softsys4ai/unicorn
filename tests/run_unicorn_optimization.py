@@ -6,8 +6,6 @@ import yaml
 from src.causal_model import CausalModel
 from src.generate_params import GenerateParams
 from ananke.graphs import ADMG
-from causalnex.structure.notears import from_pandas
-from causalnex.network import BayesianNetwork
 from networkx import DiGraph
 from optparse import OptionParser
 from pycausal.pycausal import pycausal as pc
@@ -103,7 +101,7 @@ if __name__=="__main__":
     ref_index = df[[options.obj[0]]].idxmin()
     ref_df = df.loc[ref_index]
     ref = ref_df.iloc[0]
-    for it in range(200):           
+    for it in range(68):           
         # identify causal paths 
         previous_config = ref[conf_opt].copy()
         paths = CM.get_causal_paths(columns, di_edges, bi_edges, 
@@ -170,7 +168,7 @@ if __name__=="__main__":
                 print ("[ERROR]: invalid mode")    
         else:
                 print ("[ERROR]: no config recommended")
-                
-        
-       
-        
+    print ("---------------------------------------------------------------")            
+    print ("Optimal value obtained by Unicorn is:", df[options.obj[0]].min())    
+    print ("---------------------------------------------------------------")  
+     
