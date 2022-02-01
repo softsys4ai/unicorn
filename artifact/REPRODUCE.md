@@ -34,25 +34,19 @@ cd unicorn
 
 We reproduce results for the following three key claims reported in our paper:
 
-- Unicorn can be used to detect root causes of non-functional performance (```latency``` and ```energy```) faults with higher accuracy and gain. To support this claim we will reproduce partial results from Table 2. In Table 2 we reported our findings for 243/494 faults discovered in this study. For reproducibility, we will reproduce results for 44/243 faults reported in Table 2 for ```Xception``` in ```NVIDIA Jetson TX2``` and  ```NVIDIA Jetson Xavier```.
+- Unicorn can be used to detect root causes of non-functional performance (```latency``` and ```energy```) faults with higher accuracy and gain. To support this claim we will reproduce partial results from Table 2. In Table 2 we reported our findings for 243/494 faults discovered in this study. For reproducibility, we will reproduce results for 29/243 energy faults reported in Table 2 for ```Xception``` on ```NVIDIA Jetson Xavier```.
 
-- Unicorn can be used as a central tool and can support performing tasks such as performance optimization. To support this claim we will reproduce single-objective latency and energy optimization results reported in Figure 16 (a) and 16 (b).
+- Unicorn can be used as a central tool and can support performing tasks such as performance optimization. To support this claim we will reproduce single-objective latency and energy optimization results reported in Figure 16 (a).
 
 - Unicorn can be effeciciently re-used when the deployment environment changes. To support this claim we will reproduce our findings reported in Figure 18.
 
 For each of the above claims, we will compare our results with the baselines reported in the paper. Instructions to run the baselines can be found in [baselines](./BASELINES.md).
 
 ## Steps to reproduce Table 2 results for ```Xception```
-Here, the reported energy and latency faults, initial data and ground truths are stored in the corresponding directories. Please run the following command to run Unicorn and baselines one by one.
+Here, the reported energy latency faults, initial data and ground truths are stored in the corresponding directories. Please run the following command to run Unicorn and baselines one by one.
 ```
-python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline
-python3 ./tests/run_baseline_debug.py -o inference_time -s Image -k TX2 -m offline -b cbi
-python3 ./tests/run_baseline_debug.py -o inference_time -s Image -k TX2 -m offline -b dd
-python3 ./tests/run_baseline_debug.py -o inference_time -s Image -k TX2 -m offline -b encore
-python3 ./tests/run_baseline_debug.py -o inference_time -s Image -k TX2 -m offline -b bugdoc
 python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline
 python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b cbi
-python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b dd
 python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b encore
 python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b bugdoc
 ```
@@ -61,8 +55,6 @@ Please use the following commands to reproduce this step:
 ```
 python3 ./tests/run_unicorn_optimization.py -o inference_time -s Image -k TX2 -m offline
 python3 ./tests/run_baseline_optimization.py -o inference_time -s Image -k TX2 -m offline -b smac
-python3 ./tests/run_unicorn_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline
-python3 ./tests/run_baseline_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline -b smac
 ```
 
 ## Steps to reproduce Figure 18 results 
@@ -71,5 +63,20 @@ Please use the following commands to reproduce this step:
 python3 ./tests/run_unicorn_transferability.py -o inference_time -s Image -k Xavier -m offline
 ```
 
+## Additional Experiments
+Please use the following commands if you want to run additional experiments using Unicorn:
+
+For debugging ```latency``` faults in ```NVIDIA Jetson TX2``` please use the following commands:
+```
+python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline
+python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b cbi
+python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b encore
+python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b bugdoc
+``` 
+For ```energy``` optimization in ```NVIDIA Jetson TX2``` please use the following commands.
+```
+python3 ./tests/run_unicorn_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline
+python3 ./tests/run_baseline_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline -b smac
+```
 ## Trial run
 A trial run for the reproducibility steps can be found in this [video]
