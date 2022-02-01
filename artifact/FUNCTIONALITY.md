@@ -161,11 +161,124 @@ At this stage the causal graph has some undecided edges which are later resolved
 
 ![graph_1](https://user-images.githubusercontent.com/12802456/151922460-efbd2a6e-119b-4ba6-8513-db255483891b.png)
 
+### Iterative sampling
+After the causal graph is discovered we identify the causal paths. A causal path starts from a performance objective node and ends in a configuration option. For example, the causal paths for ```total_energy_consumption``` from the causal graph obatined in the first iteration are below.
+```
+[['total_energy_consumption', 'core_freq'], ['total_energy_consumption', 'num_cores'], ['total_energy_consumption', 'vm.swappiness'], ['total_energy_consumption', 'vm.drop_caches'], ['total_energy_consumption', 'vm.swappiness'], ['total_energy_consumption', 'logical_devices']]
+```
+Once the causal paths are identified we select the top K paths using their average causal effect. For this software system we set ```K=25```. Since, the number of causal paths obtained from the causal graph is less than 25 we select all the paths to consider in the later stages. Now, we cpompute the individual treatment effect for each path by setting each option to its allowable value and determine what value of a configuration option would provide the maximum treatment effect. We a configuration option and set it to a value for which individual treatment effect is maximum. In this case we find that for ```emc_freq = 2.133000e+09``` has the highest average treatment effect. Therefore, we change ```emc_freq = 2.133000e+09``` in the performance fault configuration and select this configuration for measurement. 
+
+```
+memory_growth                    5.000000e-01
+logical_devices                  2.000000e+00
+core_freq                        2.188800e+06
+gpu_freq                         2.688000e+05
+emc_freq                         2.133000e+09
+num_cores                        2.000000e+00
+scheduler.policy                 0.000000e+00
+vm.swappiness                    1.000000e+02
+vm.vfs_cache_pressure            5.000000e+02
+vm.dirty_background_ratio        8.000000e+01
+vm.drop_caches                   0.000000e+00
+vm.nr_hugepages                  1.000000e+00
+vm.overcommit_ratio              5.000000e+01
+vm.overcommit_memory             1.000000e+00
+vm.overcommit_hugepages          2.000000e+00
+kernel.sched_child_runs_first    1.000000e+00
+kernel.sched_rt_runtime_us       9.500000e+05
+vm.dirty_bytes                   3.000000e+01
+vm.dirty_background_bytes        6.000000e+01
+vm.dirty_ratio                   5.000000e+01
+swap_memory                      1.000000e+00
+kernel.max_pids                  3.276800e+04
+kernel.sched_latency_ns          2.400000e+07
+kernel.sched_nr_migrate          1.280000e+02
+kernel.cpu_time_max_percent      1.000000e+02
+kernel.sched_time_avg_ms         1.000000e+03
+```
+### Update causal performance model
+In this stage, we measure the recommended configuration and determine whether that resolves the fault. Here,
+```
+Recommended Config Objective Value 65084
+```
+Since, this configuration does not resolve developers query to improve performance by ```80% or more``` we proceed to the next iteration with the new measurement and update the causal graph. 
+![graph_2](https://user-images.githubusercontent.com/12802456/151925526-369b2e85-06c9-4827-99e9-a138836ec311.png)
+We then repeat the steps until a fix is found.
+
+Finally, we find a fix after 23 iteration.
+
+```
++++++++++++++++Recommended Fix++++++++++++++++++++
+memory_growth                    5.000000e-01
+logical_devices                  2.000000e+00
+core_freq                        2.265600e+06
+gpu_freq                         2.688000e+05
+emc_freq                         2.133000e+09
+num_cores                        4.000000e+00
+scheduler.policy                 0.000000e+00
+vm.swappiness                    1.000000e+02
+vm.vfs_cache_pressure            5.000000e+02
+vm.dirty_background_ratio        8.000000e+01
+vm.drop_caches                   0.000000e+00
+vm.nr_hugepages                  1.000000e+00
+vm.overcommit_ratio              5.000000e+01
+vm.overcommit_memory             1.000000e+00
+vm.overcommit_hugepages          2.000000e+00
+kernel.sched_child_runs_first    1.000000e+00
+kernel.sched_rt_runtime_us       9.500000e+05
+vm.dirty_bytes                   3.000000e+01
+vm.dirty_background_bytes        6.000000e+01
+vm.dirty_ratio                   5.000000e+01
+swap_memory                      1.000000e+00
+kernel.max_pids                  6.553600e+04
+kernel.sched_latency_ns          2.400000e+07
+kernel.sched_nr_migrate          1.280000e+02
+kernel.cpu_time_max_percent      1.000000e+02
+kernel.sched_time_avg_ms         1.000000e+03
+Name: 0, dtype: float64
+Unicorn Fix Value 24748
+Number of Samples Required 23
+```
+
+### Evaluation
+Here, the gain is ```((150035 - 24748)/150035) * 100% = 83%```. Therefore, it satifies the user query to improve performance fault by ```80%```. 
+
+We also measure accuracy, precision and recall of the recommended fix by comparison with the ground truth fix that is given below:
+
+```
+memory_growth                    5.000000e-01
+logical_devices                  2.000000e+00
+core_freq                        2.265600e+06
+gpu_freq                         2.688000e+05
+emc_freq                         2.133000e+09
+num_cores                        4.000000e+00
+scheduler.policy                 0.000000e+00
+vm.swappiness                    1.000000e+02
+vm.vfs_cache_pressure            5.000000e+02
+vm.dirty_background_ratio        8.000000e+01
+vm.drop_caches                   0.000000e+00
+vm.nr_hugepages                  1.000000e+00
+vm.overcommit_ratio              5.000000e+01
+vm.overcommit_memory             1.000000e+00
+vm.overcommit_hugepages          2.000000e+00
+kernel.sched_child_runs_first    1.000000e+00
+kernel.sched_rt_runtime_us       9.500000e+05
+vm.dirty_bytes                   3.000000e+01
+vm.dirty_background_bytes        6.000000e+01
+vm.dirty_ratio                   5.000000e+01
+swap_memory                      1.000000e+00
+kernel.max_pids                  6.553600e+04
+kernel.sched_latency_ns          2.400000e+07
+kernel.sched_nr_migrate          1.280000e+02
+kernel.cpu_time_max_percent      1.000000e+02
+kernel.sched_time_avg_ms         1.000000e+03
+```
+
+So, the Unicorn achieves perfect ```100%``` accuracy, precision and recall for this non-functional energy fault.
+
 An example run of Unicorn for an ```energy``` fault is recorded in this 
 [trial run](https://user-images.githubusercontent.com/12802456/151889655-63efb22e-be37-480c-9f21-dc4d25f77335.mp4). Printing graph outputs are disabled 
 in the trial run video (only connections are printed in the standard output.)
-
-## Evaluation
 
 
 
