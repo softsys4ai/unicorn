@@ -1,4 +1,3 @@
-json
 numpy
 scipy
 pandas
