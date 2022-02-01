@@ -179,7 +179,7 @@ if __name__=="__main__":
                         print (bug[conf_opt])
                         print ("Bug Objective Value", int(bug[options.obj[0]]))
                         print ("--------------------------------------------------")
-                        df.to_csv("unicorn_energy_debug_"+str(bug_id)+".csv")
+                        
                     else:
                         curc = m[options.hardware][options.software][options.obj[0]][str(bug_id)][str(it)]["conf"]
                         print ("--------------------------------------------------")
