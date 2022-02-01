@@ -201,7 +201,53 @@ In this stage, we measure the recommended configuration and determine whether th
 ```
 Recommended Config Objective Value 65084
 ```
-Since, this configuration does not resolve developers query to improve performance by ```80% or more``` we proceed to the next iteration with the new measurement and update the causal graph. 
+Since, this configuration does not resolve developers query to improve performance by ```80% or more``` we proceed to the next iteration with the new measurement and update the causal graph.
+```
+--------------------------------------------------
+/home/pjamshid/unicorn/causallearn/search/ConstraintBased/FCI.py:792: UserWarning: The number of features is much larger than the sample size!
+  warnings.warn("The number of features is much larger than the sample size!")
+Starting Fast Adjacency Search.
+Working on node 48: 100%|████████████████████| 49/49 [00:00<00:00, 12084.49it/s]
+Finishing Fast Adjacency Search.
+/home/pjamshid/unicorn/causallearn/search/ConstraintBased/FCI.py:792: UserWarning: The number of features is much larger than the sample size!
+  warnings.warn("The number of features is much larger than the sample size!")
+Starting Fast Adjacency Search.
+Working on node 2:   6%|█▍                     | 3/49 [00:00<00:00, 3306.07it/s]X3 --- X5 because it was forbidden by background background_knowledge.
+Working on node 3:   8%|█▉                     | 4/49 [00:00<00:00, 2441.39it/s]X4 --- X7 because it was forbidden by background background_knowledge.
+X4 --- X12 because it was forbidden by background background_knowledge.
+X4 --- X17 because it was forbidden by background background_knowledge.
+X4 --- X19 because it was forbidden by background background_knowledge.
+X4 --- X26 because it was forbidden by background background_knowledge.
+Working on node 4:  10%|██▎                    | 5/49 [00:00<00:00, 1183.69it/s]X5 --- X11 because it was forbidden by background background_knowledge.
+X5 --- X25 because it was forbidden by background background_knowledge.
+Working on node 5:  12%|██▊                    | 6/49 [00:00<00:00, 1054.42it/s]X6 --- X10 because it was forbidden by background background_knowledge.
+Working on node 6:  14%|███▍                    | 7/49 [00:00<00:00, 994.75it/s]X7 --- X14 because it was forbidden by background background_knowledge.
+Working on node 8:  18%|████▍                   | 9/49 [00:00<00:00, 990.44it/s]X9 --- X15 because it was forbidden by background background_knowledge.
+X9 --- X18 because it was forbidden by background background_knowledge.
+Working on node 9:  20%|████▍                 | 10/49 [00:00<00:00, 1010.89it/s]X10 --- X20 because it was forbidden by background background_knowledge.
+X10 --- X21 because it was forbidden by background background_knowledge.
+Working on node 10:  22%|████▉                 | 11/49 [00:00<00:00, 931.94it/s]X11 --- X14 because it was forbidden by background background_knowledge.
+Working on node 11:  24%|█████▍                | 12/49 [00:00<00:00, 938.25it/s]X12 --- X17 because it was forbidden by background background_knowledge.
+X12 --- X19 because it was forbidden by background background_knowledge.
+X12 --- X24 because it was forbidden by background background_knowledge.
+X12 --- X26 because it was forbidden by background background_knowledge.
+Working on node 12:  27%|█████▊                | 13/49 [00:00<00:00, 911.04it/s]X13 --- X23 because it was forbidden by background background_knowledge.
+Working on node 13:  29%|██████▎               | 14/49 [00:00<00:00, 908.39it/s]X14 --- X26 because it was forbidden by background background_knowledge.
+Working on node 15:  33%|██████▊              | 16/49 [00:00<00:00, 1017.08it/s]X16 --- X23 because it was forbidden by background background_knowledge.
+Working on node 16:  35%|███████▎             | 17/49 [00:00<00:00, 1050.63it/s]X17 --- X19 because it was forbidden by background background_knowledge.
+Working on node 17:  37%|███████▋             | 18/49 [00:00<00:00, 1083.66it/s]X18 --- X20 because it was forbidden by background background_knowledge.
+Working on node 18:  39%|████████▏            | 19/49 [00:00<00:00, 1115.80it/s]X19 --- X22 because it was forbidden by background background_knowledge.
+X19 --- X24 because it was forbidden by background background_knowledge.
+Working on node 48: 100%|█████████████████████| 49/49 [00:00<00:00, 6552.35it/s]
+Finishing Fast Adjacency Search.
+Starting BK Orientation.
+Finishing BK Orientation.
+Starting BK Orientation.
+Finishing BK Orientation.
+X45 --> X49
+
+``` 
+Causal graph discovered in iteration 2 is updated after adding the recommended configuration. 
 ![graph_2](https://user-images.githubusercontent.com/12802456/151925526-369b2e85-06c9-4827-99e9-a138836ec311.png)
 We then repeat the steps until a fix is found.
 
@@ -274,7 +320,7 @@ kernel.cpu_time_max_percent      1.000000e+02
 kernel.sched_time_avg_ms         1.000000e+03
 ```
 
-So, the Unicorn achieves perfect ```100%``` accuracy, precision and recall for this non-functional energy fault.
+So, the Unicorn achieves ``100%``` accuracy, precision and recall for this non-functional energy fault.
 
 An example run of Unicorn for an ```energy``` fault is recorded in this 
 [trial run](https://user-images.githubusercontent.com/12802456/151889655-63efb22e-be37-480c-9f21-dc4d25f77335.mp4). Printing graph outputs are disabled 
