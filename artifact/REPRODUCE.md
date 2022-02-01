@@ -70,3 +70,6 @@ Please use the following commands to reproduce this step:
 ```
 python3 ./tests/run_unicorn_transferability.py -o inference_time -s Image -k Xavier -m offline
 ```
+
+## Trial run
+A trial run for the reproducibility steps can be found in this [video]
