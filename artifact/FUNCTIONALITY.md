@@ -56,7 +56,7 @@ Once the pre-requisites are installed clone the repo and navigate to the root di
 git clone https://github.com/softsys4ai/unicorn.git
 cd unicorn
 ```
-Consider a performance developer encounters a non-functional energy we use Unicorn to debug a reported non-functional ```energy``` fault for ```Xception``` in ```NVIDIA Jetson Xavier``` as the following:
+Consider a performance developer encounters a non-functional ```energy``` fault for ```Xception``` in ```NVIDIA Jetson Xavier``` as the following:
 ```
 **Example Bug** (Bug ID: 0)
 ------------------------------------------------------------------------------------------
@@ -88,11 +88,11 @@ kernel.cpu_time_max_percent      1.000000e+02
 kernel.sched_time_avg_ms         1.000000e+03
 total_energy_consumption         1.500357e+05
 ```
-The reported ```energy``` for the performance fault is over ```150000 millijoules```. To resolve the fault, the developer queries Unicorn to determine the root cause and expects to achieve a ```80% or more``` improvement as a fix to this fault. The developer's query is hardcoded in ```line 58``` in ```./tests/run_unicorn_debug.py```  as the following:
+The reported ```energy``` value for the performance fault is over ```150000 millijoules```. To resolve the fault, the developer queries Unicorn to determine the root cause and expects to achieve a ```80% or more``` improvement as a fix to this fault. The developer's query is hardcoded in ```line 58``` in ```./tests/run_unicorn_debug.py```  as the following:
 ```
 query = 0.8
 ``` 
-The fault must be in the appropriate bug directory to run Unicorn for this bug with the current version. We put the fault in ```.data/bug/single/Xavier/Image/Xavier_Image_total_energy_consumption.csv```. Unicorn needs to be passed  ```index``` of the bug (row number). To see what arguments are needed to run debugging use the following:
+The fault must be in the appropriate bug directory to run Unicorn for this fault with the current version. We put the fault in ```.data/bug/single/Xavier/Image/Xavier_Image_total_energy_consumption.csv``` in the beginning. Unicorn needs to be passed  the ```index``` of the bug (row number) before running. To see what arguments are needed to run debugging with Unicorn use the following:
 
 ```
 python3 ./tests/run_unicorn_debug.py -h
@@ -108,11 +108,12 @@ Options:
   -i BUG_INDEX, --bug_index=BUG_INDEX bug_index
 
 ```
-Therefore, we need to use the following command to run Unicorn to resolve the energy fault (```bug_index is 0```).
+Therefore, we need to use the following command to run Unicorn to resolve this energy fault (```bug_index is 0```).
 ```
 python3 ./test/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -i 0
 ``` 
-We will see the following output in while Unicorn is running:
+### Learn causal performance model
+We will see similar output while Unicorn is running.
 ```
 initializing CausalModel class
 /home/pjamshid/unicorn/causallearn/search/ConstraintBased/FCI.py:792: UserWarning: The number of features is much larger than the sample size!
@@ -153,15 +154,16 @@ Starting BK Orientation.
 Finishing BK Orientation.
 Starting BK Orientation.
 Finishing BK Orientation.
---------------------------------------------------------------
-Connections discovered by the causal graph
-[('emc_freq', 'total_energy_consumption'), ('logical_devices', 'sched_sched_wakeup_new'), ('emc_freq', 'L1-dcache-load-misses'), ('logical_devices', 'sched_sched_overutilized'), ('kernel.max_pids', 'branch-load-misses'), ('vm.swappiness', 'context-switches'), ('kernel.sched_nr_migrate', 'branch-loads'), ('migrations', 'L1-dcache-stores'), ('minor-faults', 'L1-dcache-load-misses'), ('vm.swappiness', 'branch-load-misses'), ('cache-misses', 'sched_sched_stat_runtime'), ('vm.drop_caches', 'raw_syscalls_sys_enter'), ('core_freq', 'total_energy_consumption'), ('num_cores', 'raw_syscalls_sys_enter'), ('logical_devices', 'total_energy_consumption'), ('kernel.max_pids', 'total_energy_consumption'), ('vm.swappiness', 'total_energy_consumption'), ('kernel.sched_nr_migrate', 'total_energy_consumption'), ('migrations', 'total_energy_consumption'), ('minor-faults', 'total_energy_consumption'), ('vm.swappiness', 'total_energy_consumption'), ('cache-misses', 'total_energy_consumption'), ('vm.drop_caches', 'total_energy_consumption'), ('core_freq', 'total_energy_consumption'), ('num_cores', 'total_energy_consumption')]
 ```
+Unicorn initially builds a causal graph with 25 initial samples located in ```./data/initial/Xavier/Image/Xavier_Image_initial.csv``` usingthe causal graph discovery algorithm FCI (indicated by ```Finishing Fast Adjacency Search```). Then, Unicorn imposes constraints on the discovered causal structure as background knowledge (BK) to remove incoming edges to any configuration options node and outgoing edges from any performan objective node to any other node indicated by the ```BK Orientation``` messages.  
 
+At this stage the causal graph has some undecided edges which are later resolved and the following causal graph is discovered in the first iteration. 
+
+![graph_1](https://user-images.githubusercontent.com/12802456/151922460-efbd2a6e-119b-4ba6-8513-db255483891b.png)
 
 An example run of Unicorn for an ```energy``` fault is recorded in this 
 [trial run](https://user-images.githubusercontent.com/12802456/151889655-63efb22e-be37-480c-9f21-dc4d25f77335.mp4). Printing graph outputs are disabled 
-in the trial run video. 
+in the trial run video (only connections are printed in the standard output.)
 
 ## Evaluation
 

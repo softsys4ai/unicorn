@@ -163,7 +163,7 @@ class CausalModel:
             if e[0]!=e[1]:
                 single_edges.append(e)
         
-        for i in range(len(s_edges)):
+        for i in range(int(len(s_edges)/2)):
              for obj in objectives:
                  if s_edges[i][0]!=s_edges[i][1]:
                      single_edges.append((s_edges[i][0],obj))

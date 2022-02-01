@@ -173,7 +173,7 @@ if __name__=="__main__":
                         print ("--------------------------------------------------")
                         print ("+++++++++++++++++++++Bug++++++++++++++++++++++++++")
                         print (bug[conf_opt])
-                        print ("Bug Objective Value", bug[options.obj[0]])
+                        print ("Bug Objective Value", int(bug[options.obj[0]]))
                         print ("--------------------------------------------------")
                     else:
                         curc = m[options.hardware][options.software][options.obj[0]][str(bug_id)][str(it)]["conf"]
