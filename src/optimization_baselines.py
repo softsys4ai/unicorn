@@ -4,11 +4,9 @@ from operator import itemgetter
 import random
 from bayes_opt import BayesianOptimization
 import json
-<<<<<<< HEAD
-import pandas as pd
-=======
 
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
+import pandas as pd
+
 class OptimizationBaselines:
     def __init__(self):
         print ("initializing OptimizationBaselines class")
@@ -40,22 +38,19 @@ class OptimizationBaselines:
            value = configs[i]['target']
            for col in columns:
                 min_distance = 20000000000000000
-                vals = self.cfg["option_values"][self.hw][col]
-                
-<<<<<<< HEAD
+                vals = self.cfg["option_values"][self.hw][col]               
                 cur_val = cur[col]
                 
                 for val in vals:
                     if abs(val-cur_val) < min_distance:
                         
-=======
+
                 print (vals)
                 cur_val = cur[col]
                 print (cur_val)
                 for val in vals:
                     if abs(val-cur_val) < min_distance:
                         print (min_distance)
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
                         min_distance = abs(val-cur_val)
                 configs[i]['params'][col]=val
                
@@ -94,7 +89,7 @@ class OptimizationBaselines:
 
         # optimize for 200 iterations
         optimizer.maximize(
-<<<<<<< HEAD
+
         init_points=25,
         n_iter=175)
         
@@ -111,29 +106,8 @@ class OptimizationBaselines:
         df.columns = columns
         df["Iteration"] = [i for i in range(len(df))]
         print ("Optimal value obtained by SMAC: ", df[self.objective].min())
-               
-        
-=======
-        init_points=5,
-        n_iter=5)
-        
-        print(self.get_configs(optimizer.res, columns))
+              
 
-        
-        #for i, res in enumerate(optimizer.res):
-        #    print("Iteration {}: \n\t{}".format(i, res))
-    
-    
-    def pesmo(self, data):
-        """This function is used to implement pesmo"""
-        if data:
-            print ("data format is valid")
-        
-        else:
-            print ("no data found")
-            return
-    
->>>>>>> f67624787a3a63b3a3484c8aeb1b72d1673d6321
-    
+       
 
 
