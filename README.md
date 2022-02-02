@@ -184,7 +184,7 @@ Instructions to use Unicorn with a different dataset are described in [others](.
 After experimentation, consider stoping and removing any docker related caches.
 
 ```sh
-echo "Stops any running docker compose services, and removes related caches
+echo "Stops any running docker compose services, and removes related caches"
 docker-compose rm -fsv
 ```
 
