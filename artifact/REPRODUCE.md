@@ -119,5 +119,4 @@ For ```energy``` optimization in ```NVIDIA Jetson TX2``` please use the followin
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline
 docker-compose exec unicorn python ./tests/run_baseline_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline -b smac
 ```
-## Trial run
-A trial run for the reproducibility steps can be found in this [video]
+
