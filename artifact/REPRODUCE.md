@@ -77,7 +77,12 @@ We reproduce results for the following three key claims reported in our paper:
 For each of the above claims, we will compare our results with the baselines reported in the paper. Instructions to run the baselines can be found in [baselines](./BASELINES.md).
 
 ## Steps to reproduce Table 2 energy results for ```Xception```
-Here, the reported energy faults, initial data and ground truths are stored in the corresponding directories. Please run the following command to run Unicorn and baselines one by one.
+Here, the reported energy faults, initial data and ground truths are stored in the corresponding directories. Please run Unicorn on one energy fault with following command. This would require ~3 minutes to run.
+```
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -i 0
+```
+Once the above example is successfully completed, the complete experiment on all 29 of the energy faults can be run with the following commands
+
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b cbi
