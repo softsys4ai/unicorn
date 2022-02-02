@@ -1,5 +1,5 @@
 # Artifact evaluation (EuroSys 2022)
-This artifact is applying for **Available, Functional and Reproducible** badges.
+This artifact is applying for **Available, Functional, and Reproducible** badges.
 
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
 
@@ -8,12 +8,12 @@ For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.m
 EuroSys 2022 Title: Reasoning about Configurable System Performance through the lens of Causality
 Md Shahriar Iqbal, Rahul Krishna, Mohammad Ali Javidian, Baishakhi Ray, and Pooyan Jamshidi
 ``` 
-Unicorn is a performance analysis, debugging and optimization tool designed for highly configurable systems with causal reasoning and inference. Users or developers can query Unicorn to resolve a performance issue or for performance improvement.
+Unicorn is a performance analysis, debugging, and optimization tool designed for highly configurable systems with causal reasoning and inference. Users or developers can query Unicorn to resolve a performance issue or improve performance.
 
 ## Overview
 ![overview](https://user-images.githubusercontent.com/12802456/151218680-5456bcdc-27c0-4736-b54c-7483bc394b8c.png)
 ## Abstract
-Modern computer systems are highly configurable, with the total variability space sometimes larger than the number of atoms in the universe. Understanding and reasoning about the performance behavior of highly configurable systems, due to a vast variability space, is challenging. State-of-the-art methods for performance modeling and analyses rely on predictive machine learning models, therefore, they become (i) unreliable in unseen environments (e.g., different hardware, workloads), and (ii) produce incorrect explanations. To this end, we propose a new method, called Unicorn, which (i) captures intricate interactions between configuration options across the software-hardware stack and (ii) describes how such interactions impact performance variations via causal inference. We evaluated Unicorn on six highly configurable systems, including three on-device machine learning systems, a video encoder, a database management system, and a data analytics pipeline. The experimental results indicate that Unicorn outperforms state-of-the-art performance optimization and debugging methods. Furthermore, unlike the existing methods, the learned causal performance models reliably predict performance for new environments.
+Modern computer systems are highly configurable, with the total variability space sometimes larger than the number of atoms in the universe. Understanding and reasoning about the performance behavior of highly configurable systems due to a vast variability space is challenging. State-of-the-art methods for performance modeling and analyses rely on predictive machine learning models; therefore, they become (i) unreliable in unseen environments (e.g., different hardware, workloads) and (ii) produce incorrect explanations. To this end, we propose a new method, called Unicorn, which (i) captures intricate interactions between configuration options across the software-hardware stack and (ii) describes how such interactions impact performance variations via causal inference. We evaluated Unicorn on six highly configurable systems, including three on-device machine learning systems, a video encoder, a database management system, and a data analytics pipeline. The experimental results indicate that Unicorn outperforms state-of-the-art performance optimization and debugging methods. Furthermore, unlike the existing methods, the learned causal performance models reliably predict performance for new environments.
 
 ## Artifact evaluation (EuroSys 2022)
 Please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md) for artifact evaluation. All tests should be run from the ```unicorn``` directory using ```python 3.6.9```. 
@@ -22,10 +22,10 @@ Please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./
 # How to use Unicorn
 Unicorn is used for performing tasks such as performance optimization and performance debugging in offline and online modes. 
 
-- **Offline mode:** In the offline mode, Unicorn can be run on any device that uses previously measured configurations. 
-- **Offline mode:** In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required as it requires setting a device to a new configuration before measurement. 
+- **Offline mode:** Unicorn can be run on any device that uses previously measured configurations in offline mode. 
+- **Offline mode:** In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required to set a device to a new configuration before measurement. 
 
-In both offline and online modes, Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```). Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
+Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```) in both offline and online modes. Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
 
 __Note: In this artifact, we will be using offline mode. Contact [Md Shahriar Iqbal](mailto:miqbal@email.sc.edu?subject=Testing%20UNICORN%20in%20online%20mode) for instructions if you are running UNICORN in online mode.__
 
@@ -35,7 +35,7 @@ To get started, you'll need to have `docker` and `docker-compose`.
 On desktop systems like Docker Desktop for Mac and Windows, Docker Compose is included as part of those desktop installs.
 You can get them here: <https://docs.docker.com/desktop/mac/install/>.
 
-**NOTE: We'll be using `docker-compose` and all `docker-compose` commands must be run from withtin the root folder of the repository.**
+**NOTE: We'll be using `docker-compose`, and all `docker-compose` commands must be run from withtin the repository's root folder.**
 
 1. First clone this repository, and `cd` into the repository:
 
@@ -85,31 +85,31 @@ You can get them here: <https://docs.docker.com/desktop/mac/install/>.
 
 
 ## Debugging
-Unicorn supports debugging and fixing single-objective and multi-objective performance faults in offline and online modes. It also supports root cause analysis of these fixes using metrics such as accuracy, precision, recall and gain. 
+Unicorn supports debugging and fixing single-objective and multi-objective performance faults in offline and online modes. It also supports root cause analysis of these fixes using metrics such as accuracy, precision, recall, and gain. 
 
 ### Single-objective debugging
-To debug single-objective faults in the using Unicorn please use the following command:
+To debug single-objective faults in using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 
 #### Example
-To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o inference_time -s Image -k TX2 -m offline
 ```
-To debug single-objective ```energy``` faults for ```Xception``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
+To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
 ```
-docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o total_energy_consumption -s Image -k Xavier -m offline
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o total_energy_consumption -s NLP -k Xavier -m online
 ```
 
 ### Multi-objective debugging
-To debug multi-objective faults using Unicorn please use the following command:
+To debug multi-objective faults using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
-To debug multi-objective ```latency``` and ```energy``` faults for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+To debug multi-objective ```latency``` and ```energy``` faults for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o inference_time -o total_energy_consumption -s Speech  -k TX2 -m offline
 ```
@@ -118,47 +118,47 @@ docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o inference_ti
 Unicorn supports single-objective and multi-objective optimization in offline and online modes.
 
 ### Single-objective optimization
-To run single-objective optimization using Unicorn please use the following command:
+To run single-objective optimization using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o objective -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
-To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+To run single-objective ```latency``` optimization for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o inference_time -s Image -k TX2 -m offline
 ```
-To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
+To run single-objective ```energy``` optimization for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o total_energy_consumption -s NLP -k Xavier -m online
 ```
 
 ### Multi-objective debugging
-To run multi-objective optimization in the using Unicorn please use the following command:
+To run multi-objective optimization in the using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o objective1 -o objective2 -s softwaresystem -k hardwaresystem -m mode
 ```
 #### Example
-To run multi-objective ```latency``` and ```energy``` optimization for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+To run multi-objective ```latency``` and ```energy``` optimization for ```Deepspeech``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py  -o inference_time -o total_energy_consumption -s Deepspeech  -k TX2 -m offline
 ```
 
 ## Transferability
-Unicorn supports both single and multi-objective transferability in online and offline modes. However, the current version is not tested for multi-objective transferability. To determine single-objective transferability of Unicorn please use the following command:
+Unicorn supports both single and multi-objective transferability in online and offline modes. However, the current version is not tested for multi-objective transferability. To determine the single-objective transferability of Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o objective -s softwaresystem -k hardwaresystem -m offline
 ```
 #### Example
-To run single-objective ```latency``` transferability for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn please use the following command:
+To run single-objective ```latency``` transferability for ```Xception``` in ```JETSON TX2``` in the ```offline``` mode using Unicorn, please use the following command:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o inference_time -s Image -k TX2 -m offline
 ```
-To run single-objective ```energy``` transferability for ```Xception``` from ```JETSON Xavier``` to ```JETSON TX2```in the ```offline``` mode using Unicorn please use the following command:
+To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn, please use the following command:
 ```
-docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s Image -k Xavier -m offline
+docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
 ```
 ## Data generation
-To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the first command to start the app in the ```localhost```. Once the app is up and running please use the second command to start measuring consfigurations.
+To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the first command to start the app in the ```localhost```. Once the app is up and running, please use the second command to start measuring configurations.
 
 
 ```
@@ -166,12 +166,12 @@ docker-compose exec unicorn python ./services/run_service.py softwaresystem
 docker-compose exec unicorn python ./services/run_params.py softwaresystem
 ```
 #### Example
-To initialize a flask app with ```Xception``` software system please use:
+To initialize a flask app with ```Xception``` software system, please use:
 ```
 docker-compose exec unicorn python ./services/run_service.py Image
 ```
 
-Once the flask app is running and modelserver is ready then please use the following command to collect performance measurements for different configurations:
+Once the flask app is running and the modelserver is ready, then please use the following command to collect performance measurements for different configurations:
 ```
 docker-compose exec unicorn python ./services/run_params.py Image
 ```
