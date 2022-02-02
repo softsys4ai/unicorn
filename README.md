@@ -98,9 +98,9 @@ To debug single-objective ```latency``` faults for ```Xception``` in ```JETSON T
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o inference_time -s Image -k TX2 -m offline
 ```
-To debug single-objective ```energy``` faults for ```Bert``` in ```JETSON Xavier``` in the ```online``` mode using Unicorn please use the following command:
+To debug single-objective ```energy``` faults for ```Xception``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
 ```
-docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o total_energy_consumption -s NLP -k Xavier -m online
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py  -o total_energy_consumption -s Image -k Xavier -m offline
 ```
 
 ### Multi-objective debugging
@@ -153,9 +153,9 @@ To run single-objective ```latency``` transferability for ```Xception``` in ```J
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o inference_time -s Image -k TX2 -m offline
 ```
-To run single-objective ```energy``` transferability for ```Bert``` in ```JETSON Xavier``` in the ```offline``` mode using Unicorn please use the following command:
+To run single-objective ```energy``` transferability for ```Xception``` from ```JETSON Xavier``` to ```JETSON TX2```in the ```offline``` mode using Unicorn please use the following command:
 ```
-docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s NLP -k Xavier -m offline
+docker-compose exec unicorn python ./tests/run_unicorn_transferability.py  -o total_energy_consumption -s Image -k Xavier -m offline
 ```
 ## Data generation
 To run experiments on ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices for a particular software a flask app is required to be launched. Please use the first command to start the app in the ```localhost```. Once the app is up and running please use the second command to start measuring consfigurations.

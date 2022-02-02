@@ -106,7 +106,7 @@ query = 0.8
 The fault must be in the appropriate bug directory to run Unicorn for this fault with the current version. Therefore, we put the fault in ```./data/bug/single/Xavier/Image/Xavier_Image_total_energy_consumption.csv``` in the beginning. Unicorn needs to be passed  the ```index``` of the bug (row number) before running. To see what arguments are needed to run debugging with Unicorn please use the following:
 
 ```
-python3 ./tests/run_unicorn_debug.py -h
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -h
 Usage: %python3 run_unicorn_debug.py -o [objectives] -d [init_data] -s [software] -k [hardware] -m [mode] -i [bug_index]
     
 
@@ -121,7 +121,7 @@ Options:
 ```
 Here, objective type is ```total_energy_consumption```, software is ```Image```, hardware is ```Xavier```, mode is ```offline```, and bug_index is ```0```. Therefore, we need to use the following command.
 ```
-python3 ./test/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -i 0
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -i 0
 ``` 
 Let us look into different steps involved in Unicorn for resolving the fault. 
 

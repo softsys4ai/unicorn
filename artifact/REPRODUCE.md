@@ -76,41 +76,43 @@ We reproduce results for the following three key claims reported in our paper:
 
 For each of the above claims, we will compare our results with the baselines reported in the paper. Instructions to run the baselines can be found in [baselines](./BASELINES.md).
 
-## Steps to reproduce Table 2 results for ```Xception```
-Here, the reported energy latency faults, initial data and ground truths are stored in the corresponding directories. Please run the following command to run Unicorn and baselines one by one.
+## Steps to reproduce Table 2 energy results for ```Xception```
+Here, the reported energy faults, initial data and ground truths are stored in the corresponding directories. Please run the following command to run Unicorn and baselines one by one.
 ```
-python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline
-python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b cbi
-python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b encore
-python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b bugdoc
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b cbi
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b encore
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b bugdoc
 ```
-## Steps to reproduce Figure 16 (a) and 16 (b) results 
+## Steps to reproduce Figure 16 (a) results 
 Please use the following commands to reproduce this step:
 ```
-python3 ./tests/run_unicorn_optimization.py -o inference_time -s Image -k TX2 -m offline
-python3 ./tests/run_baseline_optimization.py -o inference_time -s Image -k TX2 -m offline -b smac
+docker-compose exec unicorn python ./tests/run_unicorn_optimization.py -o inference_time -s Image -k TX2 -m offline
+docker-compose exec unicorn python ./tests/run_baseline_optimization.py -o inference_time -s Image -k TX2 -m offline -b smac
 ```
 
 ## Steps to reproduce Figure 18 results 
 Please use the following commands to reproduce this step:
 ```
-python3 ./tests/run_unicorn_transferability.py -o inference_time -s Image -k Xavier -m offline
+docker-compose exec unicorn python ./tests/run_unicorn_transferability.py -o inference_time -s Image -k Xavier -m offline
 ```
 
 ## Additional Experiments
-Please use the following commands if you want to run additional experiments using Unicorn:
+We believe the above experiments are sufficient to support outr claims. However, use the following commands if you want to run additional experiments using Unicorn for reproducibility.
 
+## Steps to reproduce Table 2 latency results for ```Xception```
 For debugging ```latency``` faults in ```NVIDIA Jetson TX2``` please use the following commands:
 ```
-python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline
-python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b cbi
-python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b encore
-python3 ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b bugdoc
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b cbi
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b encore
+docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b bugdoc
 ``` 
+## Steps to reproduce Figure 16 (b) results 
 For ```energy``` optimization in ```NVIDIA Jetson TX2``` please use the following commands.
 ```
-python3 ./tests/run_unicorn_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline
-python3 ./tests/run_baseline_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline -b smac
+docker-compose exec unicorn python ./tests/run_unicorn_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline
+docker-compose exec unicorn python ./tests/run_baseline_optimization.py -o total_energy_consumption -s Image -k TX2 -m offline -b smac
 ```
 ## Trial run
 A trial run for the reproducibility steps can be found in this [video]
