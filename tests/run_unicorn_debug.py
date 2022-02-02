@@ -125,6 +125,9 @@ if __name__ == "__main__":
             bug_id = int(options.bug_index)
         else:
             bug = bug_df.loc[bug_id]
+        # update df after a bug is resolved
+        df = pd.read_csv(init_dir)
+        df = df[columns]
         bug_exists = True
         print("--------------------------------------------------")
         print("BUG ID: ", bug_id)

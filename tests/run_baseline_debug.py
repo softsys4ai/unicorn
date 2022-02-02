@@ -66,6 +66,12 @@ if __name__ == "__main__":
                                options.software, options.hardware + "_" + options.software + "_" + "baseline.csv")
     sampled_raw_dir = os.path.join(os.getcwd(), cfg["sampled_dir"], options.hardware,
                                options.software, options.hardware + "_" + options.software + "_" + "sampled.csv")
+    measurement_dir = os.path.join(os.getcwd(), cfg["debug_dir"], "single", options.hardware, options.software, "config_measurement.csv")
+    m_columns = columns + ["bug_id", "baseline"]
+    # get measurment file
+    dfm = pd.read_csv(measurement_dir)
+    dfm = dfm[m_columns]
+    
     # get bug data
     bug_df = pd.read_csv(bug_dir)
     # get init data
@@ -73,22 +79,26 @@ if __name__ == "__main__":
     sampled_df = pd.read_csv(sampled_dir)
     df = pd.concat([df, sampled_df], axis=0)
     # baseline debugging
-    for _, bug in bug_df.iterrows():
+    for bug_id in range(len(bug_df)):
+        bug = bug_df.loc[bug_id]
         DB = DebuggingBaselines()
         if options.baseline == "cbi":
             DB.cbi(cfg, df, options.obj,
-                   bug, options.software, options.hardware)
+                   bug, options.software, options.hardware,
+                   bug_id, dfm, measurement_dir)
         elif options.baseline == "encore":
             DB.encore(cfg, df, options.obj,
-                      bug, options.software, options.hardware)
+                      bug, options.software, options.hardware,
+                      bug_id, dfm, measurement_dir)
         elif options.baseline == "dd":
             DB.dd(cfg, df, options.obj,
                   bug, df.columns, options.software,
-                  options.hardware)
+                  options.hardware, bug_id)
         elif options.baseline == "bugdoc":
             bdf = pd.read_csv(sampled_raw_dir)
             bdf = bdf[columns]
             DB.bugdoc(cfg, bdf, options.obj,
-                      bug, options.software, options.hardware)
+                      bug, options.software, options.hardware,
+                      bug_id, dfm, measurement_dir)
         else:
             print("[ERROR]: baseline not implemented")

@@ -77,7 +77,8 @@ class DebuggingBaselines:
 
     def cbi(self, cfg, data,
             objective, bug, soft,
-            hw):
+            hw, bug_id, dfm,
+            measurement_dir):
         """This function is used to run CBI"""
         if not data.empty:
             print ("[STATUS]: Starting CBI")
@@ -98,10 +99,16 @@ class DebuggingBaselines:
             else:
                 importance = self.measure_cbi_importance(cfg, data,
                                                      objective[0], bug[objective[0]])
-                fix, fix_val = self.detect_cbi_fix(importance, columns)
+            fix = self.detect_cbi_fix(importance, columns)
+            
+            cdf = dfm[dfm["baseline"] == "cbi"]
+            cdf = cdf[cdf["bug_id"] == bug_id]
+            fix_val = cdf[objective[0]]
+            
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("Recommended Fix")
             print (fix)
+            print ("Recommended Fix value", fix_val)
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("Bug")
@@ -160,7 +167,7 @@ class DebuggingBaselines:
 
     def dd(self, cfg, data,
            objective, bug, baseline_columns,
-           soft, hw):
+           soft, hw, bug_id):
         """This function is used to implement dd"""
 
         if not data.empty:
@@ -189,7 +196,7 @@ class DebuggingBaselines:
             fix = self.debug(possible_fix, bug_conf, threshold)
             if not fix:
                 fix = possible_fix
-            print (fix)
+            
 
             
     def compute_entropy(self, antecedents, df):
@@ -219,7 +226,7 @@ class DebuggingBaselines:
 
     def encore(self, cfg, data,
               objective, bug, soft,
-              hw):
+              hw, bug_id, dfm, measurement_dir):
         """This function is used to implement encore"""
         from mlxtend.frequent_patterns import apriori, association_rules
         if not data.empty:
@@ -260,9 +267,13 @@ class DebuggingBaselines:
             # convert the fix to a dataframe
             fix = [dict_col[col] for col in columns]
             fix = pd.Series(fix, index = columns)
+            cdf = dfm[dfm["baseline"] == "encore"]
+            cdf = cdf[cdf["bug_id"] == bug_id]
+            fix_val = cdf[objective[0]]
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("Recommended Fix")
             print (fix)
+            print("Recommended Fix value", fix_val)
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("Bug")
@@ -271,6 +282,7 @@ class DebuggingBaselines:
         else:
             print ("[ERROR]: no data found")
             return
+    
     def get_rules(self, tree, feature_names, class_names):
         tree_ = tree.tree_
         feature_name = [feature_names[i] if i != _tree.TREE_UNDEFINED else "undefined!" for i in tree_.feature]
@@ -403,7 +415,7 @@ class DebuggingBaselines:
                        
     def bugdoc(self, cfg, df, 
                objective, bug, soft, 
-               hw):
+               hw, bug_id, dfm, measurement_dir):
         """This function is used to implement bugdoc"""
         if not df.empty:
             print ("[STATUS]: Starting BugDoc")
@@ -438,8 +450,7 @@ class DebuggingBaselines:
                 print ("Rule")
                 print (rule)
                 if "class: 1" in rule:
-                    cur_conf = {}
-                    
+                    cur_conf = {}                   
                     cur = rule.split("then")[0]
                     cur = cur.split("if ")[1]
                     cur = cur.split(" and ")
@@ -451,7 +462,6 @@ class DebuggingBaselines:
                 print ("++++++++++++++++++++++++++++++++")        
            
             for i in range(len(config)):
-                print (i)
                 for col in columns: 
                    if col not in config[i].keys():
                        config[i][col]=bug[col]
@@ -461,14 +471,20 @@ class DebuggingBaselines:
                 fix = [fix[col] for col in columns]
                 fix = pd.Series(fix, index = columns)              
                 recommended_fixes.append(fix)
-                                  
-            for fix in recommended_fixes:
+            
+            cdf = dfm[dfm["baseline"] == "bugdoc"]
+            cdf = cdf[cdf["bug_id"] == bug_id]
+            fix_val = cdf[objective[0]].values.tolist()
+                       
+            for ifix in range(len(recommended_fixes)):
+                
 
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print ("BUGDOC")
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print("Recommended Fix")
-                print (fix)
+                print (recommended_fixes[ifix])
+                print ("Recommended Fix Value", fix_val[ifix])
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print("Bug")
