@@ -179,6 +179,15 @@ Instructions to run the debugging and optimizations baselines used in Unicorn is
 
 Instructions to use Unicorn with a different dataset are described in [others](./artifact/OTHERS.md).
 
+## Docker teardown
+
+After experimentation, consider stoping and removing any docker related caches.
+
+```sh
+echo "Stops any running docker compose services, and removes related caches
+docker-compose rm -fsv
+```
+
 ## How to cite
 If you use Unicorn in your research or the dataset in this repository please cite the following:
 ```
