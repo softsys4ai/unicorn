@@ -234,7 +234,7 @@ class DebuggingBaselines:
 
             columns = data.columns
             if len(objective) > 1:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0. * bug[objective[0]]]
+                no_bug_subset_df = data.loc[data[objective[0]] < 0.7* bug[objective[0]]]
                 no_bug_subset_df = data.loc[data[objective[1]] < 0.7 * bug[objective[1]]]
             else:
                 no_bug_subset_df = data.loc[data[objective[0]] < 0.7 * bug[objective[0]]]
