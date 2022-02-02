@@ -19,7 +19,7 @@ Modern computer systems are highly configurable, with the total variability spac
 Unicorn is used for performing tasks such as performance optimization and performance debugging in offline and online modes. 
 
 - **Offline mode:** Unicorn can be run on any device that uses previously measured configurations in offline mode. 
-- **Offline mode:** In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required to set a device to a new configuration before measurement. 
+- **Online mode:** In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required to set a device to a new configuration before measurement. 
 
 Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```) in both offline and online modes. Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
 
@@ -179,6 +179,15 @@ Instructions to run the debugging and optimizations baselines used in Unicorn is
 
 Instructions to use Unicorn with a different dataset are described in [others](./artifact/OTHERS.md).
 
+## Docker teardown
+
+After experimentation, consider stoping and removing any docker related caches.
+
+```sh
+echo "Stops any running docker compose services, and removes related caches"
+docker-compose rm -fsv
+```
+
 ## How to cite
 If you use Unicorn in your research or the dataset in this repository please cite the following:
 ```
@@ -195,6 +204,7 @@ Please please feel free to contact via email if you find any issues or have any 
 |Name|Email|     
 |---------------|------------------|      
 |Md Shahriar Iqbal|miqbal@email.sc.edu|     
+|Rahul Krishna|i.m.ralk@gmail.com|     
 
 
 ## 📘&nbsp; License
