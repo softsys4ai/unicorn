@@ -23,7 +23,7 @@ class DebuggingBaselines:
         Importance = {}
 
         adjustment = 4
-        threshold = 0.6 * bug_val
+        threshold = 0.7 * bug_val
         for col in data.columns:
             if col != objective:
                 # compute F (P_true)
@@ -144,7 +144,7 @@ class DebuggingBaselines:
                     cur_conf[i] = 0
                 else:
                     cur_conf[i] = 1
-            measurement = random.uniform(0.5 * threshold, 1.5*threshold)
+            
             if measurement < threshold:
                 possible_fix = [i for i in range(len(cur_conf)) if cur_conf[i]!=bug_conf[i]]
                 self.debug(left, bug_conf, threshold)
@@ -167,11 +167,11 @@ class DebuggingBaselines:
             print ("[STATUS]: Starting Delta Debugging")
 
             if len(objective) > 1:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
-                no_bug_subset_df = no_bug_subset_df.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
+                no_bug_subset_df = data.loc[data[objective[0]] < 0.7 * bug[objective[0]]]
+                no_bug_subset_df = no_bug_subset_df.loc[data[objective[0]] < 0.7 * bug[objective[0]]]
             else:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
-                threshold = 0.6 * bug[objective[0]]
+                no_bug_subset_df = data.loc[data[objective[0]] < 0.7 * bug[objective[0]]]
+                threshold = 0.5 * bug[objective[0]]
             # randomly select a fix
             pass_conf = no_bug_subset_df.sample(n=1)
             pass_conf = pass_conf.values.tolist()
@@ -227,10 +227,10 @@ class DebuggingBaselines:
 
             columns = data.columns
             if len(objective) > 1:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0.5 * bug[objective[0]]]
-                no_bug_subset_df = data.loc[data[objective[1]] < 0.5 * bug[objective[1]]]
+                no_bug_subset_df = data.loc[data[objective[0]] < 0. * bug[objective[0]]]
+                no_bug_subset_df = data.loc[data[objective[1]] < 0.7 * bug[objective[1]]]
             else:
-                no_bug_subset_df = data.loc[data[objective[0]] < 0.6 * bug[objective[0]]]
+                no_bug_subset_df = data.loc[data[objective[0]] < 0.7 * bug[objective[0]]]
             no_bug_subset_df = no_bug_subset_df.drop(columns=['inference_time', 'total_energy_consumption'])
             no_bug_df = no_bug_subset_df
 
@@ -412,7 +412,7 @@ class DebuggingBaselines:
                 maximum_obj_0 = df[objective[0]].max()
                 maximum_obj_1 = df[objective[1]].max()
             else:
-                threshold = 0.6 * bug[objective[0]]
+                threshold = 0.6* bug[objective[0]]
                 obj = df[objective[0]].values.tolist()
                 y = [0 for i in obj]
                 for i in range(len(obj)):
@@ -465,6 +465,8 @@ class DebuggingBaselines:
             for fix in recommended_fixes:
 
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+                print ("BUGDOC")
+                print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print("Recommended Fix")
                 print (fix)
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
@@ -472,5 +474,5 @@ class DebuggingBaselines:
                 print("Bug")
                 print (bug)
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
-            
+            print ("Number of Samples required:", len(df))            
 

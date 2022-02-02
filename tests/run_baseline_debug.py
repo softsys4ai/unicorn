@@ -64,7 +64,8 @@ if __name__ == "__main__":
                                options.hardware, options.software, options.hardware + "_" + options.software + "_" + options.obj[0] + ".csv")
     sampled_dir = os.path.join(os.getcwd(), cfg["sampled_dir"], options.hardware,
                                options.software, options.hardware + "_" + options.software + "_" + "baseline.csv")
-
+    sampled_raw_dir = os.path.join(os.getcwd(), cfg["sampled_dir"], options.hardware,
+                               options.software, options.hardware + "_" + options.software + "_" + "sampled.csv")
     # get bug data
     bug_df = pd.read_csv(bug_dir)
     # get init data
@@ -85,7 +86,7 @@ if __name__ == "__main__":
                   bug, df.columns, options.software,
                   options.hardware)
         elif options.baseline == "bugdoc":
-            bdf = pd.read_csv(init_dir)
+            bdf = pd.read_csv(sampled_raw_dir)
             bdf = bdf[columns]
             DB.bugdoc(cfg, bdf, options.obj,
                       bug, options.software, options.hardware)
