@@ -19,7 +19,7 @@ Modern computer systems are highly configurable, with the total variability spac
 Unicorn is used for performing tasks such as performance optimization and performance debugging in offline and online modes. 
 
 - **Offline mode:** Unicorn can be run on any device that uses previously measured configurations in offline mode. 
-- **Offline mode:** In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required to set a device to a new configuration before measurement. 
+- **Online mode:** In the online mode, the measurements are performed from ```NVIDIA Jetson Xavier```, ```NVIDIA Jetson TX2```, and ```NVIDIA Jetson TX1``` devices directly while the experiments are running. To collect measurements from these devices ```sudo``` privilege is required to set a device to a new configuration before measurement. 
 
 Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```) in both offline and online modes. Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
 
