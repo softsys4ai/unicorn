@@ -1,7 +1,0 @@
-# This is Git's per-user configuration file.
-[user]
-# Please adapt and uncomment the following lines:
-	name = Rahul Krishna
-	email = rkrsn@ibm.com
-[credential]
-	helper = "!f() { /root/.vscode-server/bin/899d46d82c4c95423fb7e10e68eba52050e30ba3/node /tmp/vscode-remote-containers-e720eedc89088870d8f63580af46aa2036b09268.js $*; }; f"
