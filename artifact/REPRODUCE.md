@@ -76,34 +76,36 @@ We reproduce results for the following three key claims reported in our paper:
 
 For each of the above claims, we will compare our results with the baselines reported in the paper. Instructions to run the baselines can be found in [baselines](./BASELINES.md).
 
-## Steps to reproduce Table 2 energy results for ```Xception```
-Here, the reported energy faults, initial data and ground truths are stored in the corresponding directories. Please run Unicorn on one energy fault with following command. This would require ~3 minutes to run.
-```
-docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -i 0
-```
-Once the above example is successfully completed, the complete experiment on all 29 of the energy faults can be run with the following commands
+## Steps to reproduce Table 2 energy results for ```Xception``` (Experiment time ~90mins)
+Here, the reported energy faults, initial data and ground truths are stored in the corresponding directories. The complete experiment on all 29 of the energy faults can be run with the following commands:
 
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b cbi
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b encore
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m offline -b bugdoc
+docker-compose exec unicorn python ./tests/run_debug_metrics.py -o total_energy_consumption -s Image -k Xavier -e debug
 ```
-## Steps to reproduce Figure 16 (a) results 
+Debugging output will be saved to the ```./data/measurement/output/debug_exp.csv``` and the final script will generate plots for gain and number of samples required to achieve that gain that will be saved as ```./data/measurement/output/debug_gain.pdf``` and  ```./data/measurement/output/debug_num_samples.pdf```, respectively.
+
+## Steps to reproduce Figure 16 (a) results (Experiment time ~90mins)
 Please use the following commands to reproduce this step:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_optimization.py -o inference_time -s Image -k TX2 -m offline
 docker-compose exec unicorn python ./tests/run_baseline_optimization.py -o inference_time -s Image -k TX2 -m offline -b smac
 ```
+Once the experiments are over, the output for Unicorn and SMAC will be directly saved to ```./data/measurement/output/unicorn_opt.pdf``` and ```./data/measurement/output/smac_opt.pdf```, respectively.
 
-## Steps to reproduce Figure 18 results 
+## Steps to reproduce Figure 18 results (Experiment time ~8mins)
 Please use the following commands to reproduce this step:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_transferability.py -o inference_time -s Image -k Xavier -m offline
+docker-compose exec unicorn python ./tests/run_debug_metrics.py -o inference_time -s Image -k TX2 -e transfer
 ```
+Transfer output will be saved to the ```./data/measurement/output/transfer_exp.csv``` and the final script will generate plots for gain and number of samples required to achieve that gain that will be saved as ```./data/measurement/output/transfer_gain.pdf``` and  ```./data/measurement/output/transfer_num_samples.pdf```, respectively.
 
-## Additional Experiments
-We believe the above experiments are sufficient to support outr claims. However, use the following commands if you want to run additional experiments using Unicorn for reproducibility.
+## Optional (Additional) Experiments
+We believe the above experiments are sufficient to support our claims. However, if you want to run additional experiments using Unicorn please use the following commands.
 
 ## Steps to reproduce Table 2 latency results for ```Xception```
 For debugging ```latency``` faults in ```NVIDIA Jetson TX2``` please use the following commands:
