@@ -111,9 +111,6 @@ We believe the above experiments are sufficient to support our claims. However, 
 For debugging ```latency``` faults in ```NVIDIA Jetson TX2``` please use the following commands:
 ```
 docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline
-docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b cbi
-docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b encore
-docker-compose exec unicorn python ./tests/run_unicorn_debug.py -o inference_time -s Image -k TX2 -m offline -b bugdoc
 ``` 
 ## Steps to reproduce Figure 16 (b) results 
 For ```energy``` optimization in ```NVIDIA Jetson TX2``` please use the following commands.
