@@ -176,12 +176,13 @@ if __name__ == "__main__":
                                                       ][str(bug_id)][str(num_samples)]["measurement"]
                 if curm < (1 - query) * bug[options.obj[0]]:
                     bug_exists = False
+                    gain = ((bug[options.obj[0]]-curm)/bug[options.obj[0]])*100
                     print("Resolved BUG_ID", bug_id)
 
                     print("----------------Recommended Fix-------------------")
                     print("----------------Unicorn + 25-------------------")
                     print(config)
-                    print ("Gain", (bug[options.obj[0]]-curm)/bug[options.obj[0]])
+                    print ("Gain", gain)
                     print ("Number of samples", num_samples)
                     print("--------------------------------------------------")
                     
@@ -233,6 +234,7 @@ if __name__ == "__main__":
     result_df = output.copy()
     result_df["method"]="Unicorn +25"
     result_df["num_samples"]=num_samples
+    result_df["gain"]=gain
     # Unicorn rerun
     for bug_id in range(len(bug_df)):
         # initialize dataframe after each run
@@ -279,12 +281,13 @@ if __name__ == "__main__":
                                                       ][str(bug_id)][str(num_samples)]["measurement"]
                 if curm < (1 - query) * bug[options.obj[0]]:
                     bug_exists = False
+                    gain = ((bug[options.obj[0]]-curm)/bug[options.obj[0]])*100
                     print("Resolved BUG_ID", bug_id)
 
                     print("----------------Recommended Fix-------------------")
                     print("----------------Unicorn Rerun-------------------")
                     print(config)
-                    print ("Gain", (bug[options.obj[0]]-curm)/bug[options.obj[0]])
+                    print ("Gain", gain)
                     print ("Number of samples", num_samples)
                     print("--------------------------------------------------")
                     
@@ -336,6 +339,7 @@ if __name__ == "__main__":
     
     output["method"]="Unicorn (Rerun)"
     output["num_samples"]=num_samples
+    output["gain"]=gain
     result_df = pd.concat([result_df,output],axis=0)
     measurement_dir = os.path.join(os.getcwd(),"data","measurement","output","transfer_exp.csv")
     result_df.to_csv(measurement_dir,index=False)

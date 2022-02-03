@@ -79,6 +79,7 @@ if __name__ == "__main__":
                                 options.hardware, options.software, options.hardware + "_" + options.software + "_" + "initial.csv")
         bug_dir = os.path.join(os.getcwd(), cfg["bug_dir"], "multi", options.hardware,
                                options.software, options.hardware + "_" + options.software + "_" + "multi.csv")
+        
         with open(os.path.join(os.getcwd(), cfg["debug_dir"], "multi", options.hardware,
                   options.software, "measurement.json")) as mfl:
             m = json.load(mfl)
@@ -118,14 +119,19 @@ if __name__ == "__main__":
     bug_exists = True
     if options.bug_index:
         bug_df = bug_df.iloc[int(options.bug_index):int(options.bug_index) + 1]
-
+    
+    result_columns = conf_opt + obj_columns
+    measurement_dir = os.path.join(os.getcwd(),"data","measurement","output","debug_exp.csv")    
+ 
     for bug_id in range(len(bug_df)):
+        result_df = pd.DataFrame(columns=result_columns)
         if options.bug_index:
             bug = bug_df.loc[int(options.bug_index)]
             bug_id = int(options.bug_index)
         else:
             bug = bug_df.loc[bug_id]
         # update df after a bug is resolved
+        
         df = pd.read_csv(init_dir)
         df = df[columns]
         # initialize causal model object
@@ -141,13 +147,15 @@ if __name__ == "__main__":
 
         g.add_edges_from(di_edges + bi_edges)
         bug_exists = True
-       
+        
         print("--------------------------------------------------")
         print("BUG ID: ", bug_id)
         print("--------------------------------------------------")
         it = 0
+        
         previous_config = bug[conf_opt].copy()
-
+        
+        
         while bug_exists:
             # identify causal paths
 
@@ -199,7 +207,21 @@ if __name__ == "__main__":
                         print(bug[conf_opt])
                         print("Bug Objective Value", int(bug[options.obj[0]]))
                         print("--------------------------------------------------")
-
+                        config = config.tolist()
+                        config.extend([curm])
+                        config = pd.DataFrame([config])
+                        config.columns = result_columns
+                        result_df = pd.concat([result_df, config], axis=0)
+                        result_df = result_df[result_columns]
+                        result_df["bug_id"] = bug_id
+                        result_df["method"] = "Unicorn"
+                        result_df["num_samples"]=it
+                        result_df["gain"]= ((bug[options.obj[0]]-curm)/bug[options.obj[0]])*100
+                        if options.bug_index is None:
+                            if bug_id == 0:
+                                result_df.to_csv(measurement_dir,index=False)
+                            else:
+                                result_df.to_csv(measurement_dir,index=False, header=False,mode="a")
                     else:
                         curc = m[options.hardware][options.software][options.obj[0]][str(
                             bug_id)][str(it)]["conf"]
@@ -238,3 +260,4 @@ if __name__ == "__main__":
             else:
                 print("[ERROR]: no config recommended")
                 bug_exists = False
+        
