@@ -1,3 +1,4 @@
+import os
 import sys
 import math
 import yaml
@@ -89,7 +90,7 @@ class DebuggingBaselines:
             columns.extend(soft_configs)
             columns.extend(hw_configs)
             columns.extend(kernel_configs)
-
+            
             # measure importance
             if len(objective) > 1:
                 importance_1 = self.measure_cbi_importance(cfg, data,
@@ -103,8 +104,14 @@ class DebuggingBaselines:
             
             cdf = dfm[dfm["baseline"] == "cbi"]
             cdf = cdf[cdf["bug_id"] == bug_id]
-            fix_val = cdf[objective[0]]
+            cdf["method"] = "cbi"
+            cdf["num_samples"] = len(data)
+            cdf=cdf.drop(columns=['baseline'])
             
+            cur_measurement_dir = os.path.join(os.getcwd(),"data","measurement","output","debug_exp.csv")    
+            fix_val = cdf[objective[0]]
+            cdf["gain"]=((bug[objective[0]]-fix_val)/bug[objective[0]])*100
+            cdf.to_csv(cur_measurement_dir,index=False, header=False,mode="a")
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("Recommended Fix")
             print (fix)
@@ -270,6 +277,14 @@ class DebuggingBaselines:
             cdf = dfm[dfm["baseline"] == "encore"]
             cdf = cdf[cdf["bug_id"] == bug_id]
             fix_val = cdf[objective[0]]
+            cdf["method"] = "encore"
+            cdf["num_samples"] = len(data)
+            cdf=cdf.drop(columns=['baseline'])
+            
+            cur_measurement_dir = os.path.join(os.getcwd(),"data","measurement","output","debug_exp.csv")    
+            fix_val = cdf[objective[0]]
+            cdf["gain"]=((bug[objective[0]]-fix_val)/bug[objective[0]])*100
+            cdf.to_csv(cur_measurement_dir,index=False, header=False,mode="a")
             print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("Recommended Fix")
             print (fix)
@@ -440,15 +455,15 @@ class DebuggingBaselines:
             decision_tree = DecisionTreeClassifier(random_state=0, max_depth=5)
             decision_tree = decision_tree.fit(X, y)
             r = export_text(decision_tree, feature_names=columns)
-            print ("Rules", r)
+            #print ("Rules", r)
             # get debug rules
             rules = self.get_rules(decision_tree,columns,[0,1])
             # process rules to extract
             config = []
             for rule in rules:
                 print ("++++++++++++++++++++++++++++++++")
-                print ("Rule")
-                print (rule)
+                #print ("Rule")
+                #print (rule)
                 if "class: 1" in rule:
                     cur_conf = {}                   
                     cur = rule.split("then")[0]
@@ -475,7 +490,20 @@ class DebuggingBaselines:
             cdf = dfm[dfm["baseline"] == "bugdoc"]
             cdf = cdf[cdf["bug_id"] == bug_id]
             fix_val = cdf[objective[0]].values.tolist()
-                       
+            cdf["method"] = "bugdoc"
+            cdf["num_samples"] = len(df)
+            cdf=cdf.drop(columns=['baseline'])     
+            cur_measurement_dir = os.path.join(os.getcwd(),"data","measurement","output","debug_exp.csv")    
+            fix_val = cdf[objective[0]]
+            
+            cur_fix_val = fix_val.values.tolist().copy()
+            
+            gain = [((bug[objective[0]]-cur_fix_val[i])/bug[objective[0]])*100 for i in range(len(cur_fix_val))]
+            cdf["gain"] = gain
+            
+            cdf.to_csv(cur_measurement_dir,index=False, header=False,mode="a")
+            
+            
             for ifix in range(len(recommended_fixes)):
                 
 
@@ -484,11 +512,12 @@ class DebuggingBaselines:
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print("Recommended Fix")
                 print (recommended_fixes[ifix])
-                print ("Recommended Fix Value", fix_val[ifix])
+                print ("Recommended Fix Value", cur_fix_val[ifix])
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
                 print("Bug")
                 print (bug)
                 print ("++++++++++++++++++++++++++++++++++++++++++++++++++")
-            print ("Number of Samples required:", len(df))            
-
+            print ("Number of Samples required:", len(df))   
+                  
+            

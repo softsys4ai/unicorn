@@ -6,8 +6,6 @@ from optparse import OptionParser
 
 sys.path.append('/root')
 
-from src.causal_model import CausalModel
-from src.generate_params import GenerateParams
 from src.debugging_baselines import DebuggingBaselines
 
 

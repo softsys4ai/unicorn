@@ -5,9 +5,6 @@ import pandas as pd
 from optparse import OptionParser
 
 sys.path.append('/root')
-
-from src.causal_model import CausalModel
-from src.generate_params import GenerateParams
 from src.optimization_baselines import OptimizationBaselines
 
 def config_option_parser():
