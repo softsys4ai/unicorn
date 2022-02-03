@@ -232,6 +232,7 @@ if __name__ == "__main__":
     # put output to a dataframe
     result_df = output.copy()
     result_df["method"]="Unicorn +25"
+    result_df["num_samples"]=num_samples
     # Unicorn rerun
     for bug_id in range(len(bug_df)):
         # initialize dataframe after each run
@@ -334,7 +335,8 @@ if __name__ == "__main__":
     end = time.time() - start
     
     output["method"]="Unicorn (Rerun)"
+    output["num_samples"]=num_samples
     result_df = pd.concat([result_df,output],axis=0)
     measurement_dir = os.path.join(os.getcwd(),"data","measurement","output","transfer_exp.csv")
-    result_df.to_csv()
+    result_df.to_csv(measurement_dir,index=False)
     print ("Total Experiment time", end)
