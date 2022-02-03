@@ -1,5 +1,6 @@
 import yaml
 import os
+import sys
 from operator import itemgetter
 import random
 from bayes_opt import BayesianOptimization
@@ -38,16 +39,8 @@ class OptimizationBaselines:
            value = configs[i]['target']
            for col in columns:
                 min_distance = 20000000000000000
-                vals = self.cfg["option_values"][self.hw][col]               
+                vals = self.cfg["option_values"][self.hw][col]                 
                 cur_val = cur[col]
-                
-                for val in vals:
-                    if abs(val-cur_val) < min_distance:
-                        
-
-                print (vals)
-                cur_val = cur[col]
-                print (cur_val)
                 for val in vals:
                     if abs(val-cur_val) < min_distance:
                         print (min_distance)
@@ -56,7 +49,25 @@ class OptimizationBaselines:
                
         return configs  
               
-           
+    def plot_line(self, df, objective):
+        """This function is used to plot a line plot 
+        """
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        df["iteration"] = [i for i in range(len(df))]
+        min_val = []
+        minimum = sys.maxsize
+        for val in df[objective].values.tolist():           
+            if val < minimum:
+                minimum = val    
+            min_val.append(minimum)
+        df["min_val"] = min_val
+        
+        sns.lineplot(data=df, x="iteration", y="min_val")
+        plt.xlabel("Iteration")
+        plt.ylabel("Minimum Objective Value") 
+        plt.savefig(os.path.join(os.getcwd(),"data","measurement","output","smac_opt.pdf"))
+       
     def smac(self, objective, soft, 
              hw):
         """This function is used to implement smac"""
@@ -104,9 +115,10 @@ class OptimizationBaselines:
         df = pd.DataFrame(dfl)
         columns.append(self.objective) 
         df.columns = columns
-        df["Iteration"] = [i for i in range(len(df))]
+        
         print ("Optimal value obtained by SMAC: ", df[self.objective].min())
-              
+
+        self.plot_line(df, self.objective)              
 
        
 

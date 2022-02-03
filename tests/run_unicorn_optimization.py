@@ -3,6 +3,7 @@ import sys
 import pandas as pd
 import json
 import yaml
+import time
 from ananke.graphs import ADMG
 from networkx import DiGraph
 from optparse import OptionParser
@@ -53,6 +54,25 @@ def run_unicorn_loop(CM, df,
     G = ADMG(columns, di_edges=di_edges, bi_edges=bi_edges)
     return G, di_edges, bi_edges
 
+def plot_line(df, objective):
+    """This function is used to plot a line plot 
+    """
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    df["iteration"] = [i for i in range(len(df))]
+    min_val = []
+    minimum = sys.maxsize
+    for val in df[objective].values.tolist():           
+        if val < minimum:
+            minimum = val    
+        min_val.append(minimum)
+    df["min_val"] = min_val
+        
+    sns.lineplot(data=df, x="iteration", y="min_val")
+    plt.xlabel("Iteration")
+    plt.ylabel("Minimum Objective Value") 
+    plt.ylabel("Minimum Objective Value") 
+    plt.savefig(os.path.join(os.getcwd(),"data","measurement","output","unicorn_opt.pdf"))
 
 if __name__ == "__main__":
 
@@ -82,7 +102,7 @@ if __name__ == "__main__":
 
         init_dir = os.path.join(os.getcwd(), cfg["init_dir"], "single",
                                 options.hardware, options.software, options.hardware + "_" + options.software + "_" + "initial.csv")
-
+    
     # get init data
     df = pd.read_csv(init_dir)
     df = df[columns]
@@ -105,7 +125,8 @@ if __name__ == "__main__":
     ref_index = df[[options.obj[0]]].idxmin()
     ref_df = df.loc[ref_index]
     ref = ref_df.iloc[0]
-    for it in range(68):
+    start = time.time()
+    for it in range(80):
         # identify causal paths
         previous_config = ref[conf_opt].copy()
         paths = CM.get_causal_paths(columns, di_edges, bi_edges,
@@ -172,6 +193,12 @@ if __name__ == "__main__":
                 print("[ERROR]: invalid mode")
         else:
             print("[ERROR]: no config recommended")
+    end =time.time()-start
+    print ("Time", end)
     print("---------------------------------------------------------------")
     print("Optimal value obtained by Unicorn is:", df[options.obj[0]].min())
+    
     print("---------------------------------------------------------------")
+    plot_line(df, options.obj[0])
+
+    
