@@ -128,7 +128,20 @@ if __name__ == "__main__":
         # update df after a bug is resolved
         df = pd.read_csv(init_dir)
         df = df[columns]
+        # initialize causal model object
+        CM = CausalModel(columns)
+        g = DiGraph()
+        g.add_nodes_from(columns)
+        # edge constraints
+        tabu_edges = CM.get_tabu_edges(columns, conf_opt, options.obj)
+
+        G, di_edges, bi_edges = run_unicorn_loop(CM, df,
+                                             tabu_edges, columns, options,
+                                             NUM_PATHS)
+
+        g.add_edges_from(di_edges + bi_edges)
         bug_exists = True
+       
         print("--------------------------------------------------")
         print("BUG ID: ", bug_id)
         print("--------------------------------------------------")
@@ -202,6 +215,7 @@ if __name__ == "__main__":
                         config.columns = columns
                         df = pd.concat([df, config], axis=0)
                         df = df[columns]
+                        
                         # previous_config
                         previous_config = config.squeeze()[conf_opt]
                         # update initial
