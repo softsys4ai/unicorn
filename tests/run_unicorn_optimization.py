@@ -126,7 +126,10 @@ if __name__ == "__main__":
     ref_df = df.loc[ref_index]
     ref = ref_df.iloc[0]
     start = time.time()
-    for it in range(80):
+    for it in range(70):
+        print ("========================================================")
+        print (it)
+        print ("========================================================")
         # identify causal paths
         previous_config = ref[conf_opt].copy()
         paths = CM.get_causal_paths(columns, di_edges, bi_edges,
