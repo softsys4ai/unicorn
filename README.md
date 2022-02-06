@@ -8,7 +8,7 @@ For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.m
 EuroSys 2022 Title: Reasoning about Configurable System Performance through the lens of Causality
 Md Shahriar Iqbal, Rahul Krishna, Mohammad Ali Javidian, Baishakhi Ray, and Pooyan Jamshidi
 ``` 
-Unicorn is a performance analysis, debugging, and optimization tool designed for highly configurable systems with causal reasoning and inference. Users or developers can query Unicorn to resolve a performance issue or improve performance.
+Unicorn is a performance analysis, debugging, and optimization tool designed for highly configurable systems with causal reasoning and inference. Users or developers can query Unicorn to resolve a performance issue or optimize performance.
 
 ## Overview
 ![overview](https://user-images.githubusercontent.com/12802456/151218680-5456bcdc-27c0-4736-b54c-7483bc394b8c.png)
@@ -191,10 +191,10 @@ docker-compose rm -fsv
 ## How to cite
 If you use Unicorn in your research or the dataset in this repository please cite the following:
 ```
-@article{iqbal2022unicorn,
+@inproceedings{iqbal2022unicorn,
   title={Unicorn: Reasoning about Configurable System Performance through the lens of Causality},
   author={Iqbal, Md Shahriar and Krishna, Rahul and Javidian, Mohammad Ali and Ray, Baishakhi and Jamshidi, Pooyan},
-  journal={arXiv preprint arXiv:2201.08413},
+  booktitle={EuroSys '22: Proceedings of the Seventeen European Conference on Computer Systems},
   year={2022}
 }
 ```
@@ -205,7 +205,7 @@ Please please feel free to contact via email if you find any issues or have any 
 |---------------|------------------|      
 |Md Shahriar Iqbal|miqbal@email.sc.edu|     
 |Rahul Krishna|i.m.ralk@gmail.com|     
-
+|Pooyan Jamshidi|pjamshid@cse.sc.edu|     
 
 ## 📘&nbsp; License
 Unicorn is released under the terms of the [MIT License](./LICENSE).
