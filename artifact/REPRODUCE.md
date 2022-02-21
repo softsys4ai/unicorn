@@ -104,6 +104,35 @@ docker-compose exec unicorn python ./tests/run_debug_metrics.py -o inference_tim
 ```
 Transfer output will be saved to the ```./data/measurement/output/transfer_exp.csv``` and the final script will generate plots for gain and number of samples required to achieve that gain that will be saved as ```./data/measurement/output/transfer_gain.pdf``` and  ```./data/measurement/output/transfer_num_samples.pdf```, respectively.
 
+## Steps to reproduce Table 2 energy results for ```Xception``` (Experiment time ~11.6 hours (0.4 hours/Bug)) in online mode
+
+Use the following commands to access the Xavier device:
+```
+ssh nvidia@10.173.131.123
+```
+Use the following credentials for the device:
+```
+user: nvidia
+password: nvidia
+```
+
+Once logged in into the device please use the following commands to run the experiments:
+```
+cd unicorn
+python3 ./services/run_services.py Image
+``` 
+Please wait until the status shows the flask app is running on http://127.0.0.1/5000
+
+Now run the following two commands to run the debugging experiment and plot the results:
+```
+python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m online
+docker-compose exec unicorn python ./tests/run_debug_metrics.py -o total_energy_consumption -s Image -k Xavier -e debug
+```
+To avoid running 11.6 Hours (approx.) experiments, each bug can be run by passing the bug_id. There are 29 energy bugs of Image on Xavier. So, bug_id 0 - 28 can be passed. For example, to debug bug_id = 0, please use the following command:
+```
+python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m online -i 0
+```
+This will take roughly 0.4 hours/bug. If you wish to run optimization and transfer learning experiments in the online mode, please let us know. We need to allow access to ```Nvidia Jetson TX2``` device for that purpose.
 ## Optional (Additional) Experiments
 We believe the above experiments are sufficient to support our claims. However, if you want to run additional experiments using Unicorn please use the following commands.
 
