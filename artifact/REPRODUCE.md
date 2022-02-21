@@ -104,9 +104,18 @@ docker-compose exec unicorn python ./tests/run_debug_metrics.py -o inference_tim
 ```
 Transfer output will be saved to the ```./data/measurement/output/transfer_exp.csv``` and the final script will generate plots for gain and number of samples required to achieve that gain that will be saved as ```./data/measurement/output/transfer_gain.pdf``` and  ```./data/measurement/output/transfer_num_samples.pdf```, respectively.
 
+
+
+## Video run of the example in the online mode
+An example run of Unicorn for an ```energy``` fault in the online mode is shown here. 
+
+
+https://user-images.githubusercontent.com/12802456/154901154-59c63033-722d-427b-bab1-42da7ab0c0a1.mp4
+
+
 ## Steps to reproduce Table 2 energy results for ```Xception``` (Experiment time ~11.6 hours (0.4 hours/Bug)) in online mode
 
-Use the following commands to access the Xavier device:
+Fro two terminals please use the following commands to access the ```Nvidia Jetson Xavier``` device:
 ```
 ssh nvidia@10.173.131.123
 ```
@@ -116,14 +125,14 @@ user: nvidia
 password: nvidia
 ```
 
-Once logged in into the device please use the following commands to run the experiments:
+Once logged in into the device please use the following commands to run the experiments from one terminal:
 ```
 cd unicorn
 python3 ./services/run_services.py Image
 ``` 
 Please wait until the status shows the flask app is running on http://127.0.0.1/5000
 
-Now run the following two commands to run the debugging experiment and plot the results:
+Now run the following two commands to run the debugging experiment and plot the results from the other terminal:
 ```
 sudo su
 python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m online
