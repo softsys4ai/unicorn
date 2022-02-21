@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import yaml
+import copy
 import random
 import subprocess
 import itertools 
@@ -16,42 +17,61 @@ random.seed(288)
 class GenerateParams(object):
     """This class is used to generate parameters for running inference
     """
-    def __init__(self,  software, cfg, 
+    def __init__(self, cfg, options, 
+                 config, dev_trg, count, 
                  mode):
-        print("[STATUS]: Initializing GenerateParams Class")
-        self.perf_obj = Perf()       
+           
         self.cfg = cfg
         # constants
         self.ENABLE = "1"
         self.DISABLE = "0"
-        self.NUM_TEST = 2
+        self.NUM_TEST = 3
         
+        self.options = options
+        self.perf_obj = Perf(cfg, self.options)  
+        if config is not None:
+            self.recommended_config = config    
+            self.dev_trg = dev_trg 
+            self.count = count 
         # determine current system
         self.sys_name = self.get_sys_name()
-        self.software = software
-        self.output_file = os.path.join(os.getcwd(), cfg["output_dir"])
-        self.file_name_output = self.output_file + str(software) + ".csv"
-        
+        self.big_cores = self.cfg["systems"][self.sys_name]["cpu"]["cores"]
+        self.output_file = os.path.join(os.getcwd(), self.cfg["output_dir"])
+        self.file_name_output = self.output_file + str(self.options.software) + ".csv"
+        self.core_status_cols= ["core0_status", "core1_status", "core2_status", "core3_status"]
         # columns of dataframe
-        self.columns =  self.cfg["hardware_columns"][self.sys_name]
-        self.columns.extend (self.cfg["software_columns"][self.software])
-        self.columns =  self.cfg["kernel_columns"]     
-        self.columns.extend (self.cfg["measurement_columns"])
+        self.columns =  (self.cfg["software_columns"][self.options.software])
+        self.columns.extend(self.cfg["hardware_columns"][self.sys_name])        
+        self.columns.extend(self.cfg["kernel_columns"])     
+        
         # run     
         if mode == "measurement":
             self.initialize()
             self.run_experiment() 
+        elif mode == "unicorn":
+            self.params = []
+            for col in self.columns:
+               self.params.append(int(config[col]))
+            self.r_columns = copy.deepcopy(self.columns)
+            self.r_columns.extend(self.core_status_cols)
+            self.process_cores()
+            self.params = [self.params]            
+        else:
+            print("[ERROR]: mode not supported")
                 
     def initialize(self):
         # get list of big cores 
-        self.big_cores = self.cfg["systems"][self.sys_name]["cpu"]["cores"]
+        
         try:
             if self.sys_name == "TX1":
-                from Src.TX1.Params import params
+                from TX1.params import params
                 self.params = params
             elif self.sys_name == "TX2":       
-                from Src.TX2.Params import configs
-                self.params = configs      
+                from TX2.params import configs
+                self.params = configs
+            elif self.sys_name == "Xavier":       
+                from Xavier.params import configs
+                self.params = configs 
             else:              
                 return
               
@@ -72,44 +92,35 @@ class GenerateParams(object):
             self.generate_params_combination()
             self.save_sampled_params()
     
-    def run_cauper_experiment(self, cur_conf):
+    def run_unicorn_experiment(self):
         """This function is used to run experiments for cauper"""
         # set config   
-        
-        cur_conf_name = "{0}{1}".format("Config",conf)        
-        ConfigParams(self.cfg, cur_conf.values.tolist(), self.sys_name, 
-                      self.big_cores, self.columns)
+        cur_conf = self.params[0]
+        ConfigParams(self.cfg, cur_conf, self.sys_name, 
+                     self.big_cores, self.r_columns)
         for iteration in range(self.NUM_TEST):
-                    os.system('perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/CAUPER/Src/ComputePerformance.py')
-                    perf_output = self.perf_obj.parse_perf()    
-                    with open ('measurement','r') as f:
-                        data = json.load(f)
-                    cur = list(cur_conf[:])
-                    cur.append(data['cur_inference'])
-                    cur.append(data['cur_total_power'])
-                    cur.append(data['cur_gpu_power'])
-                    cur.append(data['cur_cpu_power'])
-                    cur.append(data['cur_total_temp'])
-                    cur.append(data['cur_gpu_temp'])
-                    cur.append(data['cur_cpu_temp'])
-                    df = pd.DataFrame(np.array(cur).reshape(1, len(self.columns)))
-                    df.columns = self.columns[:]
-                    df = self.df.join(perf_output)
-        return df 
+            os.system('/usr/src/linux-headers-4.9.108-tegra/tools/perf/perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/unicorn/src/compute_performance.py')
+            curc, curm= self.perf_obj.parse_perf(self.dev_trg, self.count)    
+        # reset default configuration
+        subprocess.call(["sudo",os.path.join(os.getcwd(),"utils/jetson_clocks.sh")])   
          
+        return curc, curm
+                            
     def run_experiment(self):
         """This function is used to run experiments"""
-        # set config   
+        # set config
+          
         for conf in range(0, len(self.params)):                             
             cur_conf = self.params[conf]
             cur_conf_name = "{0}{1}".format("Config",conf)        
             ConfigParams(self.cfg, cur_conf, self.sys_name, 
                          self.big_cores, self.columns)
             for iteration in range(self.NUM_TEST):
-                    os.system('perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/CAUPER/Src/ComputePerformance.py')
+                    os.system('/usr/src/linux-headers-4.9.108-tegra/tools/perf/perf stat -e cycles,instructions,context-switches,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,migrations,minor-faults,major-faults,branch-loads,branch-load-misses,emulation-faults,alignment-faults,branch-misses,raw_syscalls:sys_enter,raw_syscalls:sys_exit,block:*,sched:*,irq:*,ext4:* -o cur python3 /home/nvidia/unicorn/src/compute_performance.py')
                     perf_output = self.perf_obj.parse_perf()    
                     with open ('measurement','r') as f:
                         data = json.load(f)
+                    
                     cur = list(cur_conf[:])
                     cur.append(data['cur_inference'])
                     cur.append(data['cur_total_power'])
@@ -118,7 +129,9 @@ class GenerateParams(object):
                     cur.append(data['cur_total_temp'])
                     cur.append(data['cur_gpu_temp'])
                     cur.append(data['cur_cpu_temp'])
+       
                     self.df = pd.DataFrame(np.array(cur).reshape(1, len(self.columns)))
+                    self.columns.extend (self.cfg["measurement_columns"])
                     self.df.columns = self.columns[:]
                     self.df = self.df.join(perf_output)
                     if not os.path.isfile(self.file_name_output):
@@ -188,21 +201,34 @@ class GenerateParams(object):
         except AttributeError:
             print("[ERROR]: emc frequency file does not exist")
     
+    def process_cores(self):
+        num_cores = self.params[self.r_columns.index("num_cores")]
+        if num_cores == 1 : 
+            self.params.extend([1,0,0,0])
+        elif num_cores == 2 : 
+            self.params.extend([1,1,0,0])
+        elif num_cores == 3 : 
+            self.params.extend([1,1,1,0])
+        elif num_cores == 4 : 
+            self.params.extend([1,1,1,1])
+        else: 
+           print (["ERROR: num cores not supported"])
+    
     def get_software_config_options(self):
         """This function is used to generate software config options"""
-        if self.software == "Image": 
+        if self.options.software == "Image": 
             # memory growth, clear session
             software_var = [(-1, 0.5, 0.9)] 
-        elif self.software == "NLP": 
+        elif self.options.software == "NLP": 
             # memory growth, clear session
             software_var = [(-1, 0.5, 0.9)] 
-        elif self.software == "Speech": 
+        elif self.options.software == "Speech": 
             # memory growth, clear session
             software_var = [(-1, 0.5, 0.9)] 
-        elif self.software == "x264": 
+        elif self.options.software == "x264": 
             # preset, bit rate, filter
             software_var =[(),(),()] 
-        elif self.software == "SQLite": 
+        elif self.options.software == "SQLite": 
             # journal, synchronous, cache size, page size
             software_var = [(),(),()] 
         else: 

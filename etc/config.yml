@@ -1,7 +1,7 @@
 sys_id_dict:
   '24': TX2
   '33': TX1
-  '67': Xavier
+  '25': Xavier
 sys_id_file: "/sys/module/tegra_fuse/parameters/tegra_chip_id"
 systems:
   TX1:
@@ -68,8 +68,8 @@ systems:
         available: "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies"
     gpu:
       frequency:
-        available: "/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/available_frequencies"
-        current: "/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/cur_freq"
+        available: "/sys/devices/17000000.gv11b/devfreq/17000000.gv11b/available_frequencies"
+        current: "/sys/devices/17000000.gv11b/devfreq/17000000.gv11b/cur_freq"
       status: "/sys/kernel/debug/bpmp/debug/clk/gpu/state"
     emc:
       frequency:
@@ -82,9 +82,9 @@ systems:
       gpu: "/sys/devices/virtual/thermal/thermal_zone2/temp"
       cpu: "/sys/devices/virtual/thermal/thermal_zone1/temp"
     power:
-      total: "/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power0_input"
-      gpu: "/sys/bus/i2c/drivers/ina3221x/0-0040/iio:device0/in_power0_input"
-      cpu: "/sys/bus/i2c/drivers/ina3221x/0-0041/iio:device1/in_power1_input"
+      total: "/sys/bus/i2c/drivers/ina3221x/1-0040/iio:device0/in_power2_input"
+      gpu: "/sys/bus/i2c/drivers/ina3221x/1-0040/iio:device0/in_power0_input"
+      cpu: "/sys/bus/i2c/drivers/ina3221x/1-0040/iio:device0/in_power1_input"
 hardware_columns:
   TX2:
   - core_freq

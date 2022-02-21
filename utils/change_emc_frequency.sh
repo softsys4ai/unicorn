@@ -12,10 +12,15 @@ then
     echo $freq > $update_file
     echo 1 > $override_file
     
-
+elif [ $system = 'Xavier' ]
+then
+    update_file="/sys/kernel/debug/bpmp/debug/clk/emc/rate"
+    override_file="/sys/kernel/debug/bpmp/debug/clk/emc/mrq_rate_locked"
+    echo $freq > $update_file
+    echo 1 > $override_file
+    
 else
     echo "$system"
-    echo "hardware not supported"
     exit 1
 fi
 

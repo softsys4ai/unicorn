@@ -8,7 +8,7 @@ from ananke.graphs import ADMG
 from networkx import DiGraph
 from optparse import OptionParser
 
-
+sys.path.append(os.getcwd())
 sys.path.append('/root')
 
 from src.causal_model import CausalModel

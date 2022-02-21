@@ -9,21 +9,26 @@ import json
 import requests
 import numpy as np
 
+
+try:
+    with open(os.path.join(os.getcwd(),"etc/config.yml")) as f:
+        cfg = yaml.load(f, Loader=yaml.FullLoader)
+except:
+    print ("[ERROR]: cfg not loaded")
+
 class ComputePerformance(object):
     """This function is used to compute cpu, gpu and total power and measure inference time"""
     def __init__(self):
         print ("[STATUS]: Initializing Compute Performance Class")
         self.cur_sys = self.get_sys_name()
-        with open(os.path.join(os.getcwd(),"etc/config.yml")) as file:
-            self.cfg = yaml.load(file, Loader=yaml.FullLoader)
-        self.url = 'http://localhost:5000/api'
+        self.url = 'http://127.0.0.1:5000/api'
         self.total_power = list()
         self.gpu_power = list()
         self.cpu_power = list()
         self.total_temp = list()
         self.gpu_temp = list()
         self.cpu_temp = list()
-        
+        self.fname = os.path.join(os.getcwd(),"data","measurement","current","measurement.json")
         # create scheduler
         job_defaults = {"coalesce":False,
                          "max_instances":2
@@ -33,8 +38,11 @@ class ComputePerformance(object):
         self.sched.start()
         self.sched.add_job(self.compute_power,"interval",seconds=0.5)
         self.sched.add_job(self.compute_temp,"interval",seconds=0.5)        
-        # start        
-        self.inference_time=self.compute_inference_time()
+        # start
+        try:        
+            self.inference_time=self.compute_inference_time()
+        except:
+            self.handle_connection_error()
         # end
         self.sched.shutdown()
         self.store_output_metrics()
@@ -44,16 +52,16 @@ class ComputePerformance(object):
         @returns: 
             sys_name: TX1/TX2/TK1
         """
-        sys_id=subprocess.getstatusoutput("cat {}".format(str(self.cfg["sys_id_file"])))[1]
-        sys_name=self.cfg["sys_id_dict"][sys_id]
+        sys_id=subprocess.getstatusoutput("cat {}".format(str(cfg["sys_id_file"])))[1]
+        sys_name=cfg["sys_id_dict"][sys_id]
         return sys_name         
     
     def compute_power(self):
         """This function is used to read power consumption using from INA monitor 
         """
-        tot=self.cfg["systems"][self.cur_sys]["power"]["total"]
-        gpu=self.cfg["systems"][self.cur_sys]["power"]["gpu"]
-        cpu=self.cfg["systems"][self.cur_sys]["power"]["cpu"]
+        tot=cfg["systems"][self.cur_sys]["power"]["total"]
+        gpu=cfg["systems"][self.cur_sys]["power"]["gpu"]
+        cpu=cfg["systems"][self.cur_sys]["power"]["cpu"]
         try:
             
             self.total_power.append(subprocess.getstatusoutput("cat {0}".format(tot))[1])
@@ -65,9 +73,9 @@ class ComputePerformance(object):
     def compute_temp(self):
         """This function is used to read power consumption using from INA monitor 
         """
-        tot=self.cfg["systems"][self.cur_sys]["temperature"]["total"]
-        gpu=self.cfg["systems"][self.cur_sys]["temperature"]["gpu"]
-        cpu=self.cfg["systems"][self.cur_sys]["temperature"]["cpu"]
+        tot=cfg["systems"][self.cur_sys]["temperature"]["total"]
+        gpu=cfg["systems"][self.cur_sys]["temperature"]["gpu"]
+        cpu=cfg["systems"][self.cur_sys]["temperature"]["cpu"]
         #try:
             
         self.total_temp.append(subprocess.getstatusoutput("cat {0}".format(tot))[1])
@@ -80,10 +88,10 @@ class ComputePerformance(object):
     def compute_inference_time(self):
         """This function is used to compute inference time
         """
-        
+        print ()
         r=requests.post(self.url,json={'connect':'yes',})             
         duration= json.loads(r.json())     
-        return duration["time"]         
+        return duration["time"]        
         
     
     def store_output_metrics(self):
@@ -117,9 +125,18 @@ class ComputePerformance(object):
                 'cur_total_temp' : float(self.total_temp),
                 'cur_gpu_temp' : float(self.gpu_temp),
                 'cur_cpu_temp' : float(self.cpu_temp)}
-        with open('measurement','w') as f:
+        with open(self.fname,'w') as f:
             json.dump(output, f)
-
+    
+    def handle_connection_error(self):
+        """This function is used to handle connection error"""
+        output={'error_status' : True } 
+        with open(self.fname,'w') as f:
+            json.dump(output, f)
+            print ("[ERROR]: exiting due to connection error")
+            import traceback
+            traceback.print_exc()
+            sys.exit(1)
 if __name__=="__main__":
     ComputePerformance()
                

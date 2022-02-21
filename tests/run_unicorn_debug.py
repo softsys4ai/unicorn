@@ -6,7 +6,7 @@ import pandas as pd
 from ananke.graphs import ADMG
 from networkx import DiGraph
 from optparse import OptionParser
-
+sys.path.append(os.getcwd())
 sys.path.append('/root')
 
 from src.causal_model import CausalModel
@@ -245,14 +245,58 @@ if __name__ == "__main__":
                                          columns, options, NUM_PATHS)
 
                 elif options.mode == "online":
-                    gprm = GenerateParams(cfg, options.software, "unicorn")
-                    m_config = gprm.run_unicorn_experiment(config)
-                    if m_config[m_config.obj[0]] < (1 - query) * bug_val:
+                    
+                    gprm = GenerateParams(cfg, options, config, 
+                                          bug_id, it, "unicorn")
+                    curc, curm = gprm.run_unicorn_experiment()
+                    if curm < (1 - query) * bug[options.obj[0]]:
                         bug_exists = False
+                        print("--------------------------------------------------")
+                        print("+++++++++++++++Recommended Fix++++++++++++++++++++")
+                        print(config)
+                        print("Unicorn Fix Value", curm)
+                        print("Number of Samples Required", str(it))
+                        print("--------------------------------------------------")
+
+                        print("--------------------------------------------------")
+                        print("+++++++++++++++++++++Bug++++++++++++++++++++++++++")
+                        print(bug[conf_opt])
+                        print("Bug Objective Value", int(bug[options.obj[0]]))
+                        print("--------------------------------------------------")
+                        config = config.tolist()
+                        config.extend([curm])
+                        config = pd.DataFrame([config])
+                        config.columns = result_columns
+                        result_df = pd.concat([result_df, config], axis=0)
+                        result_df = result_df[result_columns]
+                        result_df["bug_id"] = bug_id
+                        result_df["method"] = "Unicorn"
+                        result_df["num_samples"]=it
+                        result_df["gain"]= ((bug[options.obj[0]]-curm)/bug[options.obj[0]])*100
+                        if options.bug_index is None:
+                            if bug_id == 0:
+                                result_df.to_csv(measurement_dir,index=False)
+                            else:
+                                result_df.to_csv(measurement_dir,index=False, header=False,mode="a")
 
                     else:
                         # run loop
-                        df = pd.concat([df, output], axis=0)
+                        print("--------------------------------------------------")
+                        print("+++++++++++++++++++++Bug++++++++++++++++++++++++++")
+                        print("Recommended Config Objective Value", curm)
+                        print("--------------------------------------------------")
+                        it += 1
+                        config = config.tolist()
+                        config.extend(curc)
+                        config.extend([curm])
+                        config = pd.DataFrame([config])
+                        config.columns = columns
+                        df = pd.concat([df, config], axis=0)
+                        df = df[columns]
+                        
+                        # previous_config
+                        previous_config = config.squeeze()[conf_opt]
+                        
                         run_unicorn_loop(CM, df, tabu_edges,
                                          columns, options, NUM_PATHS)
                 else:

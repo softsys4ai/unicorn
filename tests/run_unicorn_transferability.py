@@ -8,6 +8,7 @@ from networkx import DiGraph
 from optparse import OptionParser
 import time
 
+sys.path.append(os.getcwd())
 sys.path.append('/root')
 
 from src.causal_model import CausalModel

@@ -2,6 +2,9 @@ import sys
 import os
 import socket 
 from datetime import datetime
+sys.path.append(os.getcwd())
+sys.path.append('/root')
+
 from src.set_workload import SetWorkload
 
 def process_input():

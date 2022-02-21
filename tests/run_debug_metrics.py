@@ -6,7 +6,7 @@ import pandas as pd
 from optparse import OptionParser
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+sys.path.append(os.getcwd())
 sys.path.append('/root')
 
 

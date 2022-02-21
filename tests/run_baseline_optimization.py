@@ -3,7 +3,7 @@ import sys
 import yaml
 import pandas as pd
 from optparse import OptionParser
-
+sys.path.append(os.getcwd())
 sys.path.append('/root')
 from src.optimization_baselines import OptimizationBaselines
 
