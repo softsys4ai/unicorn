@@ -125,6 +125,7 @@ Please wait until the status shows the flask app is running on http://127.0.0.1/
 
 Now run the following two commands to run the debugging experiment and plot the results:
 ```
+sudo su
 python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m online
 python3 ./tests/run_debug_metrics.py -o total_energy_consumption -s Image -k Xavier -e debug
 ```
