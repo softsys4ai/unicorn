@@ -126,7 +126,7 @@ Please wait until the status shows the flask app is running on http://127.0.0.1/
 Now run the following two commands to run the debugging experiment and plot the results:
 ```
 python3 ./tests/run_unicorn_debug.py -o total_energy_consumption -s Image -k Xavier -m online
-docker-compose exec unicorn python ./tests/run_debug_metrics.py -o total_energy_consumption -s Image -k Xavier -e debug
+python3 ./tests/run_debug_metrics.py -o total_energy_consumption -s Image -k Xavier -e debug
 ```
 To avoid running 11.6 Hours (approx.) experiments, each bug can be run by passing the bug_id. There are 29 energy bugs of Image on Xavier. So, bug_id 0 - 28 can be passed. For example, to debug bug_id = 0, please use the following command:
 ```
