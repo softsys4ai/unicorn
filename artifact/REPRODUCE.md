@@ -76,6 +76,7 @@ We reproduce results for the following three key claims reported in our paper:
 
 For each of the above claims, we will compare our results with the baselines reported in the paper. Instructions to run the baselines can be found in [baselines](./BASELINES.md).
 
+# Offline mode experiments
 ## Steps to reproduce Table 2 energy results for ```Xception``` (Experiment time ~90mins)
 Here, the reported energy faults, initial data and ground truths are stored in the corresponding directories. The complete experiment on all 29 of the energy faults can be run with the following commands:
 
@@ -105,6 +106,7 @@ docker-compose exec unicorn python ./tests/run_debug_metrics.py -o inference_tim
 Transfer output will be saved to the ```./data/measurement/output/transfer_exp.csv``` and the final script will generate plots for gain and number of samples required to achieve that gain that will be saved as ```./data/measurement/output/transfer_gain.pdf``` and  ```./data/measurement/output/transfer_num_samples.pdf```, respectively.
 
 
+# Online mode experiments
 
 ## Video run of the example in the online mode
 An example run of Unicorn for an ```energy``` fault in the online mode is shown here. 
@@ -113,7 +115,7 @@ An example run of Unicorn for an ```energy``` fault in the online mode is shown 
 https://user-images.githubusercontent.com/12802456/155047680-a40a2f42-7553-448b-b7c1-559509c152b8.mp4
 
 
-## Steps to reproduce Table 2 energy results for ```Xception``` (Experiment time ~11.6 hours (0.4 hours/Bug)) in online mode
+## Steps to reproduce Table 2 energy results for ```Xception``` (Experiment time ~11.6 hours (0.4 hours/Bug))
 
 Fro two terminals please use the following commands to access the ```Nvidia Jetson Xavier``` device:
 ```
