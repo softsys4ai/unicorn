@@ -110,7 +110,7 @@ Transfer output will be saved to the ```./data/measurement/output/transfer_exp.c
 An example run of Unicorn for an ```energy``` fault in the online mode is shown here. 
 
 
-https://user-images.githubusercontent.com/12802456/154901154-59c63033-722d-427b-bab1-42da7ab0c0a1.mp4
+https://user-images.githubusercontent.com/12802456/155047680-a40a2f42-7553-448b-b7c1-559509c152b8.mp4
 
 
 ## Steps to reproduce Table 2 energy results for ```Xception``` (Experiment time ~11.6 hours (0.4 hours/Bug)) in online mode
@@ -118,6 +118,7 @@ https://user-images.githubusercontent.com/12802456/154901154-59c63033-722d-427b-
 Fro two terminals please use the following commands to access the ```Nvidia Jetson Xavier``` device:
 ```
 git clone https://github.com/softsys4ai/unicorn.git
+chmod 400 ~/unicorn/etc/key
 ssh -i ~/unicorn/etc/key nvidia@34.125.174.0
 ssh -p 2200 nvidia@localhost
 ```
