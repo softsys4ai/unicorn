@@ -117,7 +117,9 @@ https://user-images.githubusercontent.com/12802456/154901154-59c63033-722d-427b-
 
 Fro two terminals please use the following commands to access the ```Nvidia Jetson Xavier``` device:
 ```
-ssh nvidia@10.173.131.123
+git clone https://github.com/softsys4ai/unicorn.git
+ssh -i ~/unicorn/etc/key nvidia@34.125.174.0
+ssh -p 2200 nvidia@localhost
 ```
 Use the following credentials for the device:
 ```
