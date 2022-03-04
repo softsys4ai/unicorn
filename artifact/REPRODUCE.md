@@ -121,7 +121,7 @@ Fro two terminals please use the following commands to access the ```Nvidia Jets
 ```
 git clone https://github.com/softsys4ai/unicorn.git
 chmod 400 ~/unicorn/etc/key
-ssh -i ~/unicorn/etc/key nvidia@34.125.174.0
+ssh -i ~/unicorn/etc/key nvidia@34.125.91.37
 ssh -p 2200 nvidia@localhost
 ```
 Use the following credentials for the device:
