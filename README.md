@@ -23,8 +23,6 @@ Unicorn is used for performing tasks such as performance optimization and perfor
 
 Unicorn can be used for debugging and optimization for objectives such as latency (```inference_time```) and energy (```total_energy_consumption```) in both offline and online modes. Unicorn has been implemented on six software systems such as DEEPSTREAM (```Deepstream```), XCEPTION (```Image```), BERT (```NLP```), DEEPSPEECH (```Speech```), X264 (```x264```), and SQLITE (```sqlite```). 
 
-__Note: In this artifact, we will be using offline mode. Contact [Md Shahriar Iqbal](mailto:miqbal@email.sc.edu?subject=Testing%20UNICORN%20in%20online%20mode) for instructions if you are running UNICORN in online mode.__
-
 ## Setup
 
 To get started, you'll need to have `docker` and `docker-compose`.
