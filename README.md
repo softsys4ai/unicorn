@@ -1,4 +1,4 @@
-# Artifact evaluation (EuroSys 2022)
+# Artifact evaluation (EuroSys 2022) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360540.svg)](https://doi.org/10.5281/zenodo.6360540)
 This artifact is applying for **Available, Functional, and Reproducible** badges.
 
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
