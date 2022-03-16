@@ -1,7 +1,13 @@
 # Artifact evaluation (EuroSys 2022) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360540.svg)](https://doi.org/10.5281/zenodo.6360540)
 This artifact was awarded the [Available, Functional, and Reproducible Badges](https://sysartifacts.github.io/eurosys2022/badges).
 
-Please see the [artifact evaluation reviews](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation) as well as [communications in the evaluation process](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation-Comments).
+We benefited a lot by learning from previous rejections of our work and therefore, to help other researchers in the Systems community, we release all review process for the Unicorn paper and its associated artifact: 
+* [EuroSys'22 reviews and rebuttal](https://github.com/softsys4ai/unicorn/wiki/Paper-Reviews-and-Rebuttal) 
+* [artifact evaluation reviews](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation) 
+* [communications with reviewers in the artifact evaluation process](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation-Comments)
+* [FSE'21 reviews and rebuttal]()
+* [EuroSys'21 reviews and rebuttal]()
+
 
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
 
