@@ -1,5 +1,6 @@
 # Artifact evaluation (EuroSys 2022) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360540.svg)](https://doi.org/10.5281/zenodo.6360540)
-This artifact is applying for **Available, Functional, and Reproducible** badges.
+This artifact was awarded the following badges: [Available, Functional, and Reproducible](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation).
+Please see the [artifact evaluation reviews](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation) as well as [communications in the evaluation process](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation-Comments).
 
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
 
