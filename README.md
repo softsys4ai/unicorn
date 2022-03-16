@@ -2,7 +2,7 @@
 This artifact was awarded the [Available, Functional, and Reproducible Badges](https://sysartifacts.github.io/eurosys2022/badges).
 
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
-
+<!-- 
 # Reviews and Rebuttal: EuroSys'22 (accepted), FSE'21 (Rejected), EuroSys'21 (Rejected)
 We benefited a lot by learning from previous rejections of our work and therefore, to help other researchers in the Systems community, we release all review process for the Unicorn paper and its associated artifact: 
 * [Paper reviews and rebuttal at EuroSys'22](https://github.com/softsys4ai/unicorn/wiki/Paper-Reviews-and-Rebuttal) 
@@ -10,7 +10,7 @@ We benefited a lot by learning from previous rejections of our work and therefor
 * [Communications with reviewers in the artifact evaluation process at EuroSys'22](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation-Comments)
 * [Reviews and rebuttal at FSE'21]()
 * [Reviews and rebuttal at EuroSys'21]()
-
+ -->
 
 # Unicorn ([paper](https://arxiv.org/pdf/2201.08413.pdf))
 ```
