@@ -4,13 +4,13 @@ This artifact was awarded the [Available, Functional, and Reproducible Badges](h
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
 
 # Reviews and Rebuttal
+**EuroSys'21 (first submission, rejected) -> FSE'21 (second submission, rejected) -> EuroSys'22 (thisr submission, accepted)**
 We benefited a lot by learning from previous rejections of this work, and therefore, to help other researchers in the Systems community, we release all reviews and rebuttal for the Unicorn paper and its associated artifact: 
-EuroSys'21 (first submission, rejected) -> FSE'21 (second submission, rejected) -> EuroSys'22 (thisr submission, accepted)
-* [Paper reviews and rebuttal at EuroSys'22](https://github.com/softsys4ai/unicorn/wiki/Paper-Reviews-and-Rebuttal) 
-* [Artifact evaluation reviews at EuroSys'22](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation) 
-* [Communications with reviewers in the artifact evaluation process at EuroSys'22](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation-Comments)
-* [Reviews and rebuttal at FSE'21]()
-* [Reviews and rebuttal at EuroSys'21]()
+* [EuroSys'22 reviews and rebuttal](https://github.com/softsys4ai/unicorn/wiki/Paper-Reviews-and-Rebuttal) 
+* [EuroSys'22 artifact evaluation reviews](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation) 
+* [EuroSys'22 communications with artifact reviewers](https://github.com/softsys4ai/unicorn/wiki/EuroSys-Artifact-Evaluation-Comments)
+* [EuroSys'21 reviews and rebuttal](https://github.com/softsys4ai/unicorn/wiki/EuroSys'21-Reviews-and-Rebuttal)
+* [FSE'21 reviews and rebuttal](https://github.com/softsys4ai/unicorn/wiki/FSE'21-Reviews-and-Rebuttal)
 
 
 # Unicorn ([paper](https://arxiv.org/pdf/2201.08413.pdf))
