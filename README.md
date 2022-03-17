@@ -1,4 +1,5 @@
-# Artifact evaluation (EuroSys 2022) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360540.svg)](https://doi.org/10.5281/zenodo.6360540)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6360540.svg)](https://doi.org/10.5281/zenodo.6360540)
+# Artifact evaluation (EuroSys 2022)
 This artifact was awarded the [Available, Functional, and Reproducible Badges](https://sysartifacts.github.io/eurosys2022/badges).
 
 For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
