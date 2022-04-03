@@ -2,7 +2,7 @@
 # Artifact evaluation (EuroSys 2022)
 This artifact was awarded the [Available, Functional, and Reproducible Badges](https://github.com/softsys4ai/unicorn/wiki/EuroSys'22-Artifact-Evaluation).
 
-For detailed instructions, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
+For detailed instructions to reproduce our results, please use [functionality](./artifact/FUNCTIONALITY.md) and [reproducibility](./artifact/REPRODUCE.md). 
 
 # Reviews and Rebuttal
 **EuroSys'21 (first submission, rejected) -> FSE'21 (second submission, rejected) -> EuroSys'22 (third submission, accepted)**
