@@ -15,8 +15,8 @@ We benefited a lot by learning from previous rejections of this work, and theref
 * [EuroSys'21 reviews and rebuttal](https://github.com/softsys4ai/unicorn/wiki/EuroSys'21-Reviews-and-Rebuttal)
 
 # Unicorn
--> [paper](https://dl.acm.org/doi/abs/10.1145/3492321.3519575)
-->[EuroSys'22 presentation](https://speakerdeck.com/pjamshidi/unicorn-reasoning-about-configurable-system-performance-through-the-lens-of-causality))
+* [paper](https://dl.acm.org/doi/abs/10.1145/3492321.3519575)
+* [EuroSys'22 presentation](https://speakerdeck.com/pjamshidi/unicorn-reasoning-about-configurable-system-performance-through-the-lens-of-causality)
 
 ```
 EuroSys 2022 Title: Reasoning about Configurable System Performance through the lens of Causality
